@@ -7,7 +7,7 @@ function App() {
         ¡Tailwind está vivo! 🎲
       </h1>
     </div>
-   
+
   )
 }
 
