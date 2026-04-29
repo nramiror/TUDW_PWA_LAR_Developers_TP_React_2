@@ -14,7 +14,7 @@ const LanguageToggle = () => {
       <button
         onClick={() => changeLanguage('es')}
         className={`px-4 py-1.5 text-xs font-bold font-instrument rounded-full transition-all duration-300 cursor-pointer ${
-          currentLanguage.startsWith('es') ? 'bg-primary text-secondary shadow-md' : 'text-secondary/40 hover:text-secondary'
+          currentLanguage.startsWith('es') ? 'bg-secondary text-white shadow-md' : 'text-secondary/40 hover:text-secondary'
         }`}
       >
         ES
@@ -23,7 +23,7 @@ const LanguageToggle = () => {
       <button
         onClick={() => changeLanguage('en')}
         className={`px-4 py-1.5 text-xs font-bold font-instrument rounded-full transition-all duration-300 cursor-pointer ${
-          currentLanguage.startsWith('en') ? 'bg-primary text-secondary shadow-md' : 'text-secondary/40 hover:text-secondary'
+          currentLanguage.startsWith('en') ? 'bg-secondary text-white shadow-md' : 'text-secondary/40 hover:text-secondary'
         }`}
       >
         EN
