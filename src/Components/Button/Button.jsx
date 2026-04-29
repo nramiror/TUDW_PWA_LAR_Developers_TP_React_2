@@ -1,28 +1,19 @@
-import React, { useState } from 'react';
+const Button = ({ text = "Botón", variant = "primary", disabled = false, onClick, type = "button", className = "" }) => {
 
-const Button = ({ text = "Button", variant = "primary", disabled = false, onClick }) => {
-    const [isPressed, setIsPressed] = useState(false);
+    const baseStyles = "px-8 py-2.5 rounded-border font-instrument font-bold transition-all duration-300 active:scale-95 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 text-center";
 
-    const baseClasses = "font-bold rounded-[20px] px-8 py-2.5 transition-all duration-200 focus:outline-none active:scale-95 font-['Comfortaa'] text-sm tracking-wide";
-
-    let variantClasses = "";
-
-    if (disabled) {
-        variantClasses = "bg-gray-200 text-gray-400 cursor-not-allowed border-transparent";
-    } else if (variant === "primary") {
-        variantClasses = isPressed ? "bg-[#1E3A5F] text-[#6AA6CE]" : "bg-[#6AA6CE] text-[#1E3A5F] hover:opacity-90 shadow-sm";
-    } else if (variant === "secondary") {
-        variantClasses = isPressed ? "bg-white text-[#6AA6CE]": "bg-[#1E3A5F] text-white hover:bg-opacity-90 shadow-sm";
-    }
+    const variants = {
+        primary: "bg-primary text-secondary hover:brightness-110 shadow-sm",
+        secondary: "bg-secondary text-white hover:bg-opacity-90 shadow-sm",
+        outline: "border-2 border-primary text-secondary hover:bg-primary/5"
+    };
 
     return (
         <button
+            type={type}
             disabled={disabled}
             onClick={onClick}
-            onMouseDown={() => !disabled && setIsPressed(true)}
-            onMouseUp={() => setIsPressed(false)}
-            onMouseLeave={() => setIsPressed(false)}
-            className={`${baseClasses} ${variantClasses}`}
+            className={`${baseStyles} ${variants[variant]} ${className}`}
         >
             {text}
         </button>
