@@ -1,4 +1,4 @@
-import Toogle from '../Toggle/Toggle';
+import LenguageToggle from '../LenguageToggle/LenguageToggle';
 
 const Header = () => {
   return (
@@ -26,7 +26,7 @@ const Header = () => {
           
         </nav>
 
-        <Toogle />
+        <LanguageToggle />
 
       </div>
 
