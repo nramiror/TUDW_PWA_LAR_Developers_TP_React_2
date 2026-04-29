@@ -5,6 +5,11 @@ const LanguageToggle = () => {
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
+    try {
+      localStorage.setItem('language', lng);
+    } catch (error) {
+      console.warn('No se pudo guardar el idioma seleccionado en localStorage:', error);
+    }
   };
 
   const currentLanguage = i18n.language;
