@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Instrument+Sans:wght@400..700&display=swap');
+
+@theme {
+    --color-primary: #6AA6CE;
+    --color-secondary: #1E3A5F;
+    --color-brand-bg: #F7FAFC;
+    --color-brand-light: #E8F4F9;
+    --color-title: #3A8FB7;
+
+    --font-instrument: "Instrument Sans", sans-serif;
+    --font-comfortaa: "Comfortaa", cursive;
+
+    --radius-border: 32px;
+}
+
+@layer base {
+    body {
+        background-color: var(--color-brand-bg);
+        color: var(--color-secondary);
+        font-family: var(--font-comfortaa);
+        margin: 0;
+        -webkit-font-smoothing: antialiased;
+    }
+}
