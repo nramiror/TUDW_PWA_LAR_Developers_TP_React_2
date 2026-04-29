@@ -20,7 +20,7 @@ const Header = () => {
       <div className="flex items-center gap-6">
         
         {/* Nav de Favoritos */}
-        <nav className="hidden sm:block">
+        <nav >
           
         </nav>
 
