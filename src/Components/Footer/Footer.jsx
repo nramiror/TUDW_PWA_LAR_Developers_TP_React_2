@@ -29,14 +29,9 @@ function Footer() {
 	return (
 		<footer className="relative border-t border-[#829AB1]/50 bg-[linear-gradient(to_left,#E2F3FF_0%,#FFFFFF_100%)] px-4 py-1 text-slate-700 shadow-[0_-1px_12px_rgba(15,23,42,0.04)]">
 				<div className="mx-auto max-w-7xl px-2 text-center">
-					<div
-						className="inline-block leading-tight text-slate-800"
-						style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 400 }}
-					>
-						<p className="text-[14px] font-normal">
-							Copyright © 2026 ReactGames LAR Developers
-						</p>
-						<p className="text-[14px] font-normal">Av. Siempre Viva 742</p>
+					<div className="inline-block leading-tight text-sm font-normal">
+						<p className="text-sm">Copyright © 2026 ReactGames LAR Developers</p>
+						<p className="text-sm">Av. Siempre Viva 742</p>
 					</div>
 				</div>
 
@@ -48,7 +43,8 @@ function Footer() {
 							target="_blank"
 							rel="noreferrer"
 							aria-label={label}
-							className="inline-flex items-center justify-center text-[#1E3A5F] transition hover:-translate-y-0.5 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+							className="inline-flex items-center justify-center transition hover:-translate-y-0.5 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+							style={{ color: 'var(--color-secondary)' }}
 							style={{ width: `${innerSize + 6}px`, height: `${innerSize + 6}px` }}
 						>
 							<svg
