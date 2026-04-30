@@ -1,4 +1,4 @@
-import LenguageToggle from '../LenguageToggle/LenguageToggle';
+import LanguageToggle from '../LanguageToggle/LanguageToggle';
 
 const Header = () => {
   return (

@@ -12,7 +12,7 @@ const LanguageToggle = () => {
     }
   };
 
-  const currentLanguage = i18n.language;
+  const currentLanguage = i18n.language ?? 'es';
 
   return (
     <div className="flex items-center bg-white/50 backdrop-blur-sm rounded-full p-1 border border-primary/20 shadow-sm">
