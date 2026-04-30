@@ -2,7 +2,9 @@ import { Link } from 'react-router-dom';
 
 const FavIcon = ({ variant = "nav", isFavorite = false, onClick, to, ariaLabel = "Favoritos" }) => {
   const navStyles = "bg-secondary text-white border-secondary hover:bg-white hover:text-secondary";
-  const cardStyles = "bg-white text-secondary border-primary/20 hover:border-primary";
+  const cardStyles = isFavorite
+    ? "bg-secondary text-white border-secondary shadow-md"
+    : "bg-white text-secondary border-primary/20 hover:border-primary";
   const baseCircle = "inline-flex items-center justify-center w-10 h-10 rounded-full border shadow-sm transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2";
   const isNavVariant = variant === 'nav';
   const isFilled = isNavVariant || isFavorite;
@@ -31,7 +33,13 @@ const FavIcon = ({ variant = "nav", isFavorite = false, onClick, to, ariaLabel =
   }
 
   return (
-    <button type="button" onClick={onClick} aria-label={ariaLabel} className={sharedClasses}>
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={ariaLabel}
+      aria-pressed={isNavVariant ? undefined : isFavorite}
+      className={sharedClasses}
+    >
       {icon}
     </button>
   );
