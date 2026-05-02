@@ -28,11 +28,21 @@ const matchesInitialLetters = (game, query) => {
 };
 
 export const getBoardGames = async (page = 1, search = "", limit = 5) => {
-  const res = await fetch(`${BASE_URL}?page=${page}&limit=${limit}`);
+  const normalizedSearch = search.trim();
+  const params = new URLSearchParams({
+    page: String(page),
+    limit: String(limit),
+  });
+
+  if (normalizedSearch) {
+    params.set('search', normalizedSearch);
+  }
+
+  const res = await fetch(`${BASE_URL}?${params.toString()}`);
   const games = await res.json();
 
   return games
-    .filter((game) => matchesInitialLetters(game, search))
+    .filter((game) => matchesInitialLetters(game, normalizedSearch))
     .map(normalizeGame);
 };
 
