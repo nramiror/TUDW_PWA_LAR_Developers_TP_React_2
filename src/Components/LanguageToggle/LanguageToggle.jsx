@@ -1,15 +1,22 @@
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
+import { useLocalStorage } from '../../customHooks/useLocalStorage';
 
 const LanguageToggle = () => {
   const { i18n } = useTranslation();
+  const [preferredLanguage, setPreferredLanguage] = useLocalStorage('language', 'es');
+
+  useEffect(() => {
+    if (!preferredLanguage || i18n.language?.startsWith(preferredLanguage)) {
+      return;
+    }
+
+    i18n.changeLanguage(preferredLanguage);
+  }, [preferredLanguage, i18n]);
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    try {
-      localStorage.setItem('language', lng);
-    } catch (error) {
-      console.warn('No se pudo guardar el idioma seleccionado en localStorage:', error);
-    }
+    setPreferredLanguage(lng);
   };
 
   const currentLanguage = i18n.language ?? 'es';

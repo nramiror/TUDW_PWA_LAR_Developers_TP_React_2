@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import Alert from '../../Components/Alert/Alert';
 import Loader from '../../Components/Loader/Loader';
 import List from '../../Components/List/List';
@@ -6,7 +6,13 @@ import Title from '../../Components/Title/Title';
 import { useInfiniteScroll } from '../../customHooks/useInfiniteScroll';
 import { getBoardGames } from '../../services/boardgames';
 
-const Home = ({ searchQuery = '', onViewDetails, onToggleFavorite }) => {
+const Home = ({
+  searchQuery = '',
+  onViewDetails,
+  onToggleFavorite,
+  favoriteIds = [],
+  onSyncFavoriteGames,
+}) => {
   const {
     items: games,
     loading,
@@ -20,7 +26,21 @@ const Home = ({ searchQuery = '', onViewDetails, onToggleFavorite }) => {
     setSearch(searchQuery);
   }, [searchQuery, setSearch]);
 
-  const showMessage = games.length === 0 && !loading;
+  useEffect(() => {
+    onSyncFavoriteGames?.(games);
+  }, [games, onSyncFavoriteGames]);
+
+  const favoriteIdSet = useMemo(
+    () => new Set(favoriteIds.map((id) => String(id))),
+    [favoriteIds],
+  );
+
+  const gamesWithFavorites = useMemo(
+    () => games.map((game) => ({ ...game, isFavorite: favoriteIdSet.has(String(game.id)) })),
+    [games, favoriteIdSet],
+  );
+
+  const showMessage = gamesWithFavorites.length === 0 && !loading;
   const alertMessage = (
     <Alert
       type="info"
@@ -49,9 +69,14 @@ const Home = ({ searchQuery = '', onViewDetails, onToggleFavorite }) => {
         </div>
       ) : (
         <List
-          items={games}
+          items={gamesWithFavorites}
           onViewDetails={onViewDetails}
-          onToggleFavorite={onToggleFavorite}
+          onToggleFavorite={(gameId) => {
+            const selectedGame = gamesWithFavorites.find((game) => String(game.id) === String(gameId));
+            if (selectedGame) {
+              onToggleFavorite?.(selectedGame);
+            }
+          }}
           className="w-full"
         />
       )}
