@@ -58,7 +58,7 @@ const Home = ({ searchQuery = '', onViewDetails, onToggleFavorite }) => {
 
       {loading && games.length > 0 ? (
         <div className="w-full">
-          <Loader/>
+          <Loader message='Cargando juegos...'/>
         </div>
       ) : null}
 
