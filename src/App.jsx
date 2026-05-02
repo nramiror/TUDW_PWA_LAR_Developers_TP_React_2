@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="flex min-h-screen flex-col bg-gray-100">
       <Header />
-      <main className="flex flex-1 items-center justify-center">
+      <main className="flex flex-1 items-center justify-center pt-20">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/favorites" element={<Favorites />} />
