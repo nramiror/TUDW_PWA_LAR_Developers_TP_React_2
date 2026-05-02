@@ -1,6 +1,6 @@
 
 import { useCallback, useMemo, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Footer from './Components/Footer/Footer';
 import Header from './Components/Header/Header';
 import Home from './Pages/Home/Home';
@@ -11,6 +11,7 @@ import { useLocalStorage } from './customHooks/useLocalStorage';
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [favoriteGames, setFavoriteGames] = useLocalStorage('favoriteGames', []);
+  const navigate = useNavigate();
 
   const favoriteIdSet = useMemo(
     () => new Set(favoriteGames.map((game) => String(game.id))),
@@ -18,6 +19,19 @@ function App() {
   );
 
   const favoriteIds = useMemo(() => Array.from(favoriteIdSet), [favoriteIdSet]);
+
+  const handleViewDetails = useCallback((gameOrId) => {
+    if (gameOrId === undefined || gameOrId === null) {
+      return;
+    }
+
+    if (typeof gameOrId === 'object') {
+      navigate(`/item/${gameOrId.id}`, { state: { item: gameOrId } });
+      return;
+    }
+
+    navigate(`/item/${gameOrId}`);
+  }, [navigate]);
 
   const handleToggleFavorite = useCallback((game) => {
     if (!game || game.id === undefined || game.id === null) {
@@ -87,6 +101,7 @@ function App() {
               <Home
                 searchQuery={searchQuery}
                 favoriteIds={favoriteIds}
+                onViewDetails={handleViewDetails}
                 onToggleFavorite={handleToggleFavorite}
                 onSyncFavoriteGames={syncFavoriteGames}
               />
@@ -97,6 +112,7 @@ function App() {
             element={(
               <Favorites
                 games={favoritesWithFlag}
+                onViewDetails={handleViewDetails}
                 onToggleFavorite={(gameId) => {
                   const game = favoriteGames.find((fav) => String(fav.id) === String(gameId));
                   if (game) {

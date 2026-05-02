@@ -24,7 +24,7 @@ function List({
             name={item.name}
             category={item.category}
             isFavorite={item.isFavorite}
-            onViewDetails={() => onViewDetails?.(item.id)}
+            onViewDetails={() => onViewDetails?.(item)}
             onToggleFavorite={() => onToggleFavorite?.(item.id)}
           />
         </li>
