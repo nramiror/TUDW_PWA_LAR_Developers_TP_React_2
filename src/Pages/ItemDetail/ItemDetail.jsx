@@ -53,13 +53,17 @@ const formatFieldValue = (value) => {
 const ItemDetail = () => {
   const { id } = useParams();
   const location = useLocation();
-  const [item, setItem] = useState(location.state?.item ?? null);
-  const [loading, setLoading] = useState(!location.state?.item);
+  const initialItem = location.state?.item && String(location.state.item.id) === String(id)
+    ? location.state.item
+    : null;
+  const [item, setItem] = useState(initialItem);
+  const [loading, setLoading] = useState(!initialItem);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (location.state?.item) {
-      setItem(location.state.item);
+    const stateItem = location.state?.item;
+    if (stateItem && String(stateItem.id) === String(id)) {
+      setItem(stateItem);
       setLoading(false);
       setError('');
       return;

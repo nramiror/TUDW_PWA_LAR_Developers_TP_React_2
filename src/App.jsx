@@ -6,6 +6,7 @@ import Header from './Components/Header/Header';
 import Home from './Pages/Home/Home';
 import Favorites from './Pages/Favorites/Favorites';
 import ItemDetail from './Pages/ItemDetail/ItemDetail';
+import NotFound from './Pages/NotFound/NotFound';
 import { useLocalStorage } from './customHooks/useLocalStorage';
 
 function App() {
@@ -123,6 +124,7 @@ function App() {
             )}
           />
           <Route path="/item/:id" element={<ItemDetail />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
 
