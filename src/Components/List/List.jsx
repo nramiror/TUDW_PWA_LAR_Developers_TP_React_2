@@ -16,9 +16,9 @@ function List({
   }
 
   return (
-    <ul className={`grid grid-cols-[repeat(auto-fit,200px)] justify-start gap-x-4 gap-y-4 ${className}`}>
+    <ul className={`grid grid-cols-[repeat(auto-fit,200px)] justify-center gap-x-4 gap-y-4 ${className}`}>
       {items.map((item) => (
-        <li key={item.id} className="flex justify-start">
+        <li key={item.id} className="flex justify-center">
           <Card
             image={item.image}
             name={item.name}
