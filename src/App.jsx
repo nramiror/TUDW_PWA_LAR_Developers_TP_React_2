@@ -123,7 +123,6 @@ function App() {
             )}
           />
           <Route path="/item/:id" element={<ItemDetail />} />
-          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
 
