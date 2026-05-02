@@ -79,7 +79,7 @@ function App() {
   return (
     <div className="flex min-h-screen flex-col bg-gray-100">
       <Header onSearchChange={setSearchQuery} />
-      <main className="flex flex-1 items-center justify-center pt-20">
+      <main className="flex w-full flex-1 items-start justify-center pt-20">
         <Routes>
           <Route
             path="/"
