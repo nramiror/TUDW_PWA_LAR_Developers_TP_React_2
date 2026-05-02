@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const useLocalStorage = (key, initialValue) => {
+  const lastSerializedValueRef = useRef(null);
+
   const [storedValue, setStoredValue] = useState(() => {
     if (typeof window === 'undefined') {
       return typeof initialValue === 'function' ? initialValue() : initialValue;
@@ -29,7 +31,19 @@ export const useLocalStorage = (key, initialValue) => {
     }
 
     try {
-      window.localStorage.setItem(key, JSON.stringify(storedValue));
+      const serializedValue = JSON.stringify(storedValue);
+      const currentStoredValue = window.localStorage.getItem(key);
+
+      if (
+        serializedValue === lastSerializedValueRef.current
+        || serializedValue === currentStoredValue
+      ) {
+        lastSerializedValueRef.current = serializedValue;
+        return;
+      }
+
+      window.localStorage.setItem(key, serializedValue);
+      lastSerializedValueRef.current = serializedValue;
     } catch (error) {
       console.warn(`No se pudo guardar localStorage para la clave "${key}":`, error);
     }

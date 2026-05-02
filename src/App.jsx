@@ -17,6 +17,8 @@ function App() {
     [favoriteGames],
   );
 
+  const favoriteIds = useMemo(() => Array.from(favoriteIdSet), [favoriteIdSet]);
+
   const handleToggleFavorite = useCallback((game) => {
     if (!game || game.id === undefined || game.id === null) {
       return;
@@ -41,15 +43,28 @@ function App() {
     }
 
     setFavoriteGames((prevFavorites) => {
+      const visibleGamesById = new Map(
+        visibleGames.map((game) => [String(game.id), game]),
+      );
+
       let changed = false;
       const nextFavorites = prevFavorites.map((fav) => {
-        const updated = visibleGames.find((game) => String(game.id) === String(fav.id));
+        const updated = visibleGamesById.get(String(fav.id));
         if (!updated) {
           return fav;
         }
 
+        const mergedFavorite = { ...fav, ...updated, id: String(updated.id), isFavorite: true };
+        const mergedKeys = Object.keys(mergedFavorite);
+        const hasDifferences = mergedKeys.length !== Object.keys(fav).length
+          || mergedKeys.some((key) => !Object.is(mergedFavorite[key], fav[key]));
+
+        if (!hasDifferences) {
+          return fav;
+        }
+
         changed = true;
-        return { ...fav, ...updated, id: String(updated.id), isFavorite: true };
+        return mergedFavorite;
       });
 
       return changed ? nextFavorites : prevFavorites;
@@ -71,7 +86,7 @@ function App() {
             element={(
               <Home
                 searchQuery={searchQuery}
-                favoriteIds={Array.from(favoriteIdSet)}
+                favoriteIds={favoriteIds}
                 onToggleFavorite={handleToggleFavorite}
                 onSyncFavoriteGames={syncFavoriteGames}
               />
