@@ -47,9 +47,6 @@ const matchesInitialLetters = (game, query) => {
 };
 
 export const getBoardGames = async (page = 1, search = "", limit = 5) => {
-<<<<<<< HEAD
-  const games = await fetchJson(`${BASE_URL}?page=${page}&limit=${limit}`);
-=======
   const normalizedSearch = search.trim();
   const params = new URLSearchParams({
     page: String(page),
@@ -62,7 +59,6 @@ export const getBoardGames = async (page = 1, search = "", limit = 5) => {
 
   const res = await fetch(`${BASE_URL}?${params.toString()}`);
   const games = await res.json();
->>>>>>> a39d393a0f9e8313a03063a9a46510d6b256b935
 
   return games
     .filter((game) => matchesInitialLetters(game, normalizedSearch))
