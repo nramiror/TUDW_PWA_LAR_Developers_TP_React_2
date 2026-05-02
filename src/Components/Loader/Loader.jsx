@@ -1,4 +1,4 @@
-function Loader({ message = 'Cargando juegos...', fullScreen = false }) {
+function Loader({ message = '', fullScreen = false }) {
 	return (
 		<div
 			role="status"
