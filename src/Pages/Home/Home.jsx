@@ -1,22 +1,31 @@
-import { useState } from 'react';
-import Card from '../../Components/Card/Card';
+import List from '../../Components/List/List';
+import Alert from '../../Components/Alert/Alert';
+import Title from '../../Components/Title/Title';
 
-const Home = () => {
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  const handleViewDetails = () => {
-    alert('Ver detalles de la card de prueba');
-  };
-
-  const handleToggleFavorite = () => {
-    setIsFavorite((currentValue) => !currentValue);
-  };
-
+const Home = ({ games = [], onViewDetails, onToggleFavorite }) => {
   return (
-    <div className="flex w-full flex-col items-center gap-6 px-6 py-10">
-      <div className="text-center">
-        <h1 className="font-instrument text-3xl font-bold text-title">Home</h1>
+    <div className="mx-auto flex w-full max-w-7xl flex-col items-start gap-6 px-16 pb-10 pt-0">
+      <div className="w-full text-left">
+        <Title level={2} className="text-left">
+          Bienvenido/a a ReactGames
+        </Title>
+        <p className="mt-2 font-comfortaa text-sm text-secondary">
+          El lugar indicado para elegir tu próximo juego de mesa
+        </p>
+      </div>
+
+      {games.length === 0 ? (
+        <div className="w-full">
+          <Alert type="info" message="Todavía no hay juegos para mostrar." />
         </div>
+      ) : (
+        <List
+          items={games}
+          onViewDetails={onViewDetails}
+          onToggleFavorite={onToggleFavorite}
+          className="w-full"
+        />
+      )}
     </div>
   );
 };
