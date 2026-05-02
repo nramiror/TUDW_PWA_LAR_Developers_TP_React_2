@@ -21,7 +21,7 @@ function List({
         <li key={item.id} className="flex justify-start">
           <Card
             image={item.image}
-            title={item.title}
+            name={item.name}
             category={item.category}
             isFavorite={item.isFavorite}
             onViewDetails={() => onViewDetails?.(item.id)}

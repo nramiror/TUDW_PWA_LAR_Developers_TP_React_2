@@ -2,8 +2,8 @@ import FavIcon from '../FavIcon/FavIcon';
 import Title from '../Title/Title';
 
 function Card({
-  image,
-  title,
+  image,  
+  name,
   category,
   onViewDetails,
   onToggleFavorite,
@@ -28,7 +28,7 @@ function Card({
         {image ? (
           <img
             src={image}
-            alt={title || 'Juego de mesa'}
+            alt={name || 'Juego de mesa'}
             className="h-full w-full object-cover transition group-hover:scale-105"
           />
         ) : (
@@ -42,7 +42,7 @@ function Card({
       <div className="flex flex-1 flex-col gap-1 p-2.5">
         {/* Title */}
         <Title level={5} className="text-sm font-semibold line-clamp-2">
-          {title || 'Título del juego'}
+          {name || 'Nombre del juego'}
         </Title>
 
         {/* Category */}
