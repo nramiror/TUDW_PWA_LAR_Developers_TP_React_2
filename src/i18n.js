@@ -19,8 +19,17 @@ const getInitialLanguage = () => {
   if (typeof window === 'undefined') {
     return defaultLanguage;
   }
+
   try {
-    const storedLanguage = window.localStorage.getItem('language');
+    const storedValue = window.localStorage.getItem('language');
+    const storedLanguage = storedValue ? (() => {
+      try {
+        return JSON.parse(storedValue);
+      } catch {
+        return storedValue;
+      }
+    })() : null;
+
     if (supportedLanguages.includes(storedLanguage)) {
       return storedLanguage;
     }
