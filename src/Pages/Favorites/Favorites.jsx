@@ -4,7 +4,7 @@ import Title from '../../Components/Title/Title';
 
 const Favorites = ({ games = [], onViewDetails, onToggleFavorite }) => {
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col items-start gap-6 px-16 pb-10 pt-0">
+    <div className="mx-auto flex w-full max-w-7xl flex-col items-start gap-6 px-24 pb-10 pt-8 min-h-screen">
       <div className="w-full text-left">
         <Title level={2} className="text-left">
           Favoritos
