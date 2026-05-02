@@ -1,37 +1,60 @@
-const BASE_URL = "https://69f34338bd2396bf530fa33e.mockapi.io/api/v1";
+const BASE_URL = "https://69f34338bd2396bf530fa33e.mockapi.io/api/v1/boardgames";
 
-export const getBoardGames = async (page = 1) => {
-  const res = await fetch(
-    `${BASE_URL}?page=${page}&limit=5`
+const normalizeCategory = (category) => {
+  if (Array.isArray(category)) {
+    return category.join(', ');
+  }
+
+  return category ?? '';
+};
+
+const normalizeGame = (game) => ({
+  ...game,
+  title: game.title ?? game.name ?? '',
+  category: normalizeCategory(game.category),
+});
+
+const matchesInitialLetters = (game, query) => {
+  const normalizedQuery = query.trim().toLowerCase();
+
+  if (!normalizedQuery) {
+    return true;
+  }
+
+  return (
+    game.name?.toLowerCase().startsWith(normalizedQuery) ||
+    normalizeCategory(game.category).toLowerCase().startsWith(normalizedQuery)
   );
-  return res.json();
+};
+
+export const getBoardGames = async (page = 1, search = "", limit = 5) => {
+  const res = await fetch(`${BASE_URL}?page=${page}&limit=${limit}`);
+  const games = await res.json();
+
+  return games
+    .filter((game) => matchesInitialLetters(game, search))
+    .map(normalizeGame);
 };
 
 export const getBoardGameById = async (id) => {
   const res = await fetch(`${BASE_URL}/${id}`);
-  return res.json();
+  const game = await res.json();
+
+  return normalizeGame(game);
 };
 export const getBoardGameName = async (query) => {
   const res = await fetch(`${BASE_URL}?search=${query}`);
-  return res.json();
+  const games = await res.json();
+
+  return games.map(normalizeGame);
 };
 
 export const searchByInitialLetters = async (query) => {
   const res = await fetch(`${BASE_URL}?search=${query}`);
   const games = await res.json();
-  
-  return games.filter(game => 
-    game.name?.toLowerCase().startsWith(query.toLowerCase()) ||
-    game.category?.toLowerCase().startsWith(query.toLowerCase())
-  );
+
+  return games
+    .filter((game) => matchesInitialLetters(game, query))
+    .map(normalizeGame);
 };
 
-export const searchByInitialLettersWithPagination = async (query, page = 1, limit = 5) => {
-  const res = await fetch(`${BASE_URL}?page=${page}&limit=${limit}&search=${query}`);
-  const games = await res.json();
-  
-  return games.filter(game =>
-    game.name?.toLowerCase().startsWith(query.toLowerCase()) ||
-    game.category?.toLowerCase().startsWith(query.toLowerCase())
-  );
-};
