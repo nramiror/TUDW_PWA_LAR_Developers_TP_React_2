@@ -18,11 +18,11 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const {
     favoriteIds,
-    favoritesWithFlag,
+    filteredFavoritesWithFlag,
     handleToggleFavorite,
     handleToggleFavoriteById,
     syncFavoriteGames,
-  } = useFavoriteGames();
+  } = useFavoriteGames(searchQuery);
   const {
     currentLanguage,
     changeLanguage,
@@ -68,7 +68,7 @@ function App() {
             path="/favorites"
             element={(
               <Favorites
-                games={favoritesWithFlag}
+                games={filteredFavoritesWithFlag}
                 onViewDetails={handleViewDetails}
                 onToggleFavorite={handleToggleFavoriteById}
               />
