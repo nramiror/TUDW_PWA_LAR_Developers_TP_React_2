@@ -48,5 +48,21 @@
 		"noResultsForSearch": "No encontramos juegos que empiecen con \"{{search}}\".",
 		"noGames": "Todavía no hay juegos para mostrar.",
 		"loading": "Cargando juegos..."
+	},
+	"itemDetail": {
+		"labels": {
+			"name": "Nombre",
+			"category": "Categoría",
+			"description": "Descripción",
+			"image": "Imagen"
+		},
+		"values": {
+			"yes": "Sí",
+			"no": "No",
+			"noData": "Sin dato"
+		},
+		"loading": "Cargando detalle...",
+		"errorFetch": "No pudimos cargar el detalle del juego.",
+		"errorNotFound": "No encontramos el juego solicitado."
 	}
 }
