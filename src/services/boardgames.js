@@ -57,8 +57,7 @@ export const getBoardGames = async (page = 1, search = "", limit = 5) => {
     params.set('search', normalizedSearch);
   }
 
-  const res = await fetch(`${BASE_URL}?${params.toString()}`);
-  const games = await res.json();
+  const games = await fetchJson(`${BASE_URL}?${params.toString()}`);
 
   return games
     .filter((game) => matchesInitialLetters(game, normalizedSearch))
