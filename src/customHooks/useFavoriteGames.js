@@ -1,7 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import { useLocalStorage } from './useLocalStorage';
+import { matchesInitialLetters } from '../services/boardgames';
 
-export const useFavoriteGames = () => {
+export const useFavoriteGames = (searchQuery = '') => {
   const [favoriteGames, setFavoriteGames] = useLocalStorage('favoriteGames', []);
 
   const favoriteIdSet = useMemo(
@@ -68,6 +69,11 @@ export const useFavoriteGames = () => {
     [favoriteGames],
   );
 
+  const filteredFavoritesWithFlag = useMemo(
+    () => favoritesWithFlag.filter((game) => matchesInitialLetters(game, searchQuery)),
+    [favoritesWithFlag, searchQuery]
+  );
+
   const handleToggleFavoriteById = useCallback((gameId) => {
     const game = favoriteGames.find((fav) => String(fav.id) === String(gameId));
     if (game) {
@@ -79,6 +85,7 @@ export const useFavoriteGames = () => {
     favoriteGames,
     favoriteIds,
     favoritesWithFlag,
+    filteredFavoritesWithFlag,
     handleToggleFavorite,
     handleToggleFavoriteById,
     syncFavoriteGames,

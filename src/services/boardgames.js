@@ -33,7 +33,7 @@ const normalizeGame = (game) => ({
   category: normalizeCategory(game.category),
 });
 
-const matchesInitialLetters = (game, query) => {
+export const matchesInitialLetters = (game, query) => {
   const normalizedQuery = query.trim().toLowerCase();
 
   if (!normalizedQuery) {
@@ -46,7 +46,7 @@ const matchesInitialLetters = (game, query) => {
   );
 };
 
-export const getBoardGames = async (page = 1, search = "", limit = 5) => {
+export const getBoardGames = async (page = 1, search = "", limit = 5, signal) => {
   const normalizedSearch = search.trim();
   const params = new URLSearchParams({
     page: String(page),
@@ -57,7 +57,8 @@ export const getBoardGames = async (page = 1, search = "", limit = 5) => {
     params.set('search', normalizedSearch);
   }
 
-  const games = await fetchJson(`${BASE_URL}?${params.toString()}`);
+  const res = await fetch(`${BASE_URL}?${params.toString()}`, signal ? { signal } : undefined);
+  const games = await res.json();
 
   return games
     .filter((game) => matchesInitialLetters(game, normalizedSearch))
@@ -74,12 +75,3 @@ export const getBoardGameName = async (query) => {
 
   return games.map(normalizeGame);
 };
-
-export const searchByInitialLetters = async (query) => {
-  const games = await fetchJson(`${BASE_URL}?search=${query}`);
-
-  return games
-    .filter((game) => matchesInitialLetters(game, query))
-    .map(normalizeGame);
-};
-

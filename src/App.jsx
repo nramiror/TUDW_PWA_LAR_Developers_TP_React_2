@@ -1,6 +1,6 @@
 
-import { useCallback, useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Footer from './Components/Footer/Footer';
 import Header from './Components/Header/Header';
@@ -15,16 +15,29 @@ function App() {
   const { t } = useTranslation();
   const {
     favoriteIds,
-    favoritesWithFlag,
+    filteredFavoritesWithFlag,
     handleToggleFavorite,
     handleToggleFavoriteById,
     syncFavoriteGames,
-  } = useFavoriteGames();
+  } = useFavoriteGames(searchQuery);
   const {
     currentLanguage,
     changeLanguage,
   } = useLanguagePreference();
+  const location = useLocation();
   const navigate = useNavigate();
+  const previousSearchQueryRef = useRef(searchQuery);
+
+  useEffect(() => {
+    const isDetailRoute = location.pathname.startsWith('/item/');
+    const searchChanged = previousSearchQueryRef.current !== searchQuery;
+
+    if (isDetailRoute && searchChanged) {
+      navigate('/', { replace: true });
+    }
+
+    previousSearchQueryRef.current = searchQuery;
+  }, [location.pathname, navigate, searchQuery]);
 
   const languageOptions = [
     { code: 'es', label: 'ES', ariaLabel: t('header.language.es') },
@@ -70,7 +83,7 @@ function App() {
             path="/favorites"
             element={(
               <Favorites
-                games={favoritesWithFlag}
+                games={filteredFavoritesWithFlag}
                 onViewDetails={handleViewDetails}
                 onToggleFavorite={handleToggleFavoriteById}
               />
