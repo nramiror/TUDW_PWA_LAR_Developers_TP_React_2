@@ -1,16 +1,17 @@
 import Card from '../Card/Card';
+import Alert from '../Alert/Alert';
 
 function List({
   items = [],
   onViewDetails,
   onToggleFavorite,
-  emptyMessage = 'No hay juegos para mostrar.',
+  emptyMessage = 'No hay juegos para mostrar.', //Cambiar para i18n, no se saca empty msj por compatibilidad
   className = '',
 }) {
   if (items.length === 0) {
     return (
-      <div className={`w-full rounded-lg border border-dashed border-primary/30 bg-white/70 px-6 py-10 text-center ${className}`}>
-        <p className="font-instrument text-sm text-secondary">{emptyMessage}</p>
+      <div className={`w-full ${className}`}>
+        <Alert type="info" message={emptyMessage} />
       </div>
     );
   }
