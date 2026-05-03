@@ -41,5 +41,12 @@
 		"title": "Favoritos",
 		"description": "Todos tus favoritos se encuentran en esta sección.",
 		"empty": "Aún no guardaste juegos en favoritos."
+	},
+	"home": {
+		"title": "Bienvenido/a a ReactGames",
+		"description": "El lugar indicado para elegir tu próximo juego de mesa",
+		"noResultsForSearch": "No encontramos juegos que empiecen con \"{{search}}\".",
+		"noGames": "Todavía no hay juegos para mostrar.",
+		"loading": "Cargando juegos..."
 	}
 }
