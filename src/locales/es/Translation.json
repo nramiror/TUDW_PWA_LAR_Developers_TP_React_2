@@ -36,5 +36,10 @@
 	},
 	"list": {
 		"empty": "No hay juegos para mostrar."
+	},
+	"favorites": {
+		"title": "Favoritos",
+		"description": "Todos tus favoritos se encuentran en esta sección.",
+		"empty": "Aún no guardaste juegos en favoritos."
 	}
 }

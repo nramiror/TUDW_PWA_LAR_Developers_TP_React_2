@@ -36,5 +36,10 @@
 	},
 	"list": {
 		"empty": "No games to show."
+	},
+	"favorites": {
+		"title": "Favorites",
+		"description": "All your favorite games are in this section.",
+		"empty": "You haven't saved any games to favorites yet."
 	}
 }
