@@ -46,7 +46,7 @@ const matchesInitialLetters = (game, query) => {
   );
 };
 
-export const getBoardGames = async (page = 1, search = "", limit = 5) => {
+export const getBoardGames = async (page = 1, search = "", limit = 5, signal) => {
   const normalizedSearch = search.trim();
   const params = new URLSearchParams({
     page: String(page),
@@ -57,7 +57,7 @@ export const getBoardGames = async (page = 1, search = "", limit = 5) => {
     params.set('search', normalizedSearch);
   }
 
-  const res = await fetch(`${BASE_URL}?${params.toString()}`);
+  const res = await fetch(`${BASE_URL}?${params.toString()}`, signal ? { signal } : undefined);
   const games = await res.json();
 
   return games
