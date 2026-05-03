@@ -1,1 +1,68 @@
-{}
+{
+	"header": {
+		"logoAriaLabel": "Go to home",
+		"logoAlt": "ReactGames logo",
+		"favoritesAriaLabel": "Go to favorites",
+		"search": {
+			"placeholder": "What do you want to play today?",
+			"ariaLabel": "Search games",
+			"clearAriaLabel": "Clear search"
+		},
+		"language": {
+			"es": "Switch language to Spanish",
+			"en": "Switch language to English"
+		}
+	},
+	"footer": {
+		"copyright": "Copyright © 2026 ReactGames LAR Developers",
+		"address": "742 Evergreen Terrace",
+		"socialAriaLabel": "Social media",
+		"social": {
+			"facebook": "Facebook",
+			"instagram": "Instagram",
+			"x": "X"
+		}
+	},
+	"card": {
+		"titleFallback": "Game name",
+		"imageAltFallback": "Board game",
+		"categoryLabel": "Category",
+		"noImage": "No image",
+		"noCategory": "No category",
+		"favorite": {
+			"add": "Add to favorites",
+			"remove": "Remove from favorites"
+		}
+	},
+	"list": {
+		"empty": "No games to show."
+	},
+	"favorites": {
+		"title": "Favorites",
+		"description": "All your favorite games are in this section.",
+		"empty": "You haven't saved any games to favorites yet."
+	},
+	"home": {
+		"title": "Welcome to ReactGames",
+		"description": "The right place to choose your next board game",
+		"noResultsForSearch": "We didn't find any games starting with \"{{search}}\".",
+		"noGames": "There are no games to show yet.",
+		"loading": "Loading games..."
+	},
+	"itemDetail": {
+		"labels": {
+			"name": "Name",
+			"category": "Category",
+			"description": "Description",
+			"image": "Image"
+		},
+		"values": {
+			"yes": "Yes",
+			"no": "No",
+			"noData": "No data"
+		},
+		"loading": "Loading details...",
+		"errorFetch": "We couldn't load the game details.",
+		"errorNotFound": "We couldn't find the requested game."
+	}
+}

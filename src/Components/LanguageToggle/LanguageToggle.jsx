@@ -1,3 +1,5 @@
+import Button from '../Button/Button';
+
 const LanguageToggle = ({ options = [], activeLanguage = '', onChangeLanguage }) => {
   const normalizedActiveLanguage = String(activeLanguage);
 
@@ -7,18 +9,20 @@ const LanguageToggle = ({ options = [], activeLanguage = '', onChangeLanguage })
         const isActive = normalizedActiveLanguage.startsWith(option.code);
 
         return (
-          <button
+          <Button
             key={option.code}
             type="button"
             onClick={() => onChangeLanguage(option.code)}
             aria-pressed={isActive}
-            aria-label={option.ariaLabel}
-            className={`px-4 py-1.5 text-xs font-bold font-instrument rounded-full transition-all duration-300 cursor-pointer ${
-              isActive ? 'bg-secondary text-white shadow-md' : 'text-secondary/40 hover:text-secondary'
+            ariaLabel={option.ariaLabel}
+            variant={isActive ? 'secondary' : 'ghost'}
+            size="sm"
+            className={`!rounded-full !px-4 !py-1.5 text-xs ${
+              isActive ? 'shadow-md' : 'text-secondary/40 hover:text-secondary'
             }`}
           >
             {option.label}
-          </button>
+          </Button>
         );
       })}
     </div>
