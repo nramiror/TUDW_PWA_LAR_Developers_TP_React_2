@@ -18,7 +18,7 @@ function Card({
   const resolvedVariant = isDetail ? 'detail' : variant;
   const isInteractive = typeof onViewDetails === 'function';
   const cardTitle = title || name || t('card.titleFallback');
-  const imageAlt = cardTitle || t('card.imageAltFallback');
+  const imageAlt = title || name || t('card.imageAltFallback');
   const categoryLabel = t('card.categoryLabel');
   const noImageLabel = t('card.noImage');
   const noCategoryLabel = t('card.noCategory');
