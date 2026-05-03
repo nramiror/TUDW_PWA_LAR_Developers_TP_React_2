@@ -104,7 +104,7 @@ const ItemDetail = () => {
     }
 
     return Object.entries(item)
-      .filter(([key]) => key !== 'id' && key !== 'image' && key !== 'isFavorite')
+      .filter(([key]) => key !== 'id' && key !== 'image' && key !== 'isFavorite' && key !== 'name')
       .map(([key, value]) => [formatFieldLabel(key), formatFieldValue(value)]);
   }, [item, t]);
 
