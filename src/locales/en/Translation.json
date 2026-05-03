@@ -1,1 +1,26 @@
-{}
+{
+	"header": {
+		"goHomeAria": "Go to home",
+		"logoAlt": "ReactGames logo",
+		"favoritesNavAria": "Favorites",
+		"goFavoritesAria": "Go to favorites"
+	},
+	"search": {
+		"placeholder": "What do you want to play today?",
+		"ariaLabel": "Search games",
+		"clearAriaLabel": "Clear search"
+	},
+	"home": {
+		"title": "Welcome to ReactGames",
+		"subtitle": "The right place to choose your next board game",
+		"noResults": "We couldn't find games that start with \"{{search}}\".",
+		"empty": "There are no games to show yet.",
+		"loading": "Loading games..."
+	},
+	"languageToggle": {
+		"es": "ES",
+		"en": "EN",
+		"esAria": "Change language to Spanish",
+		"enAria": "Change language to English"
+	}
+}
