@@ -22,5 +22,16 @@
 			"instagram": "Instagram",
 			"x": "X"
 		}
+	},
+	"card": {
+		"titleFallback": "Nombre del juego",
+		"imageAltFallback": "Juego de mesa",
+		"categoryLabel": "Categoría",
+		"noImage": "Sin imagen",
+		"noCategory": "Sin categoría",
+		"favorite": {
+			"add": "Agregar a favoritos",
+			"remove": "Quitar de favoritos"
+		}
 	}
 }

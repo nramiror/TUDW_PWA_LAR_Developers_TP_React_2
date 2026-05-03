@@ -22,5 +22,16 @@
 			"instagram": "Instagram",
 			"x": "X"
 		}
+	},
+	"card": {
+		"titleFallback": "Game name",
+		"imageAltFallback": "Board game",
+		"categoryLabel": "Category",
+		"noImage": "No image",
+		"noCategory": "No category",
+		"favorite": {
+			"add": "Add to favorites",
+			"remove": "Remove from favorites"
+		}
 	}
 }
