@@ -4,7 +4,7 @@ const typeStyles = {
 	info: 'border-blue-300 bg-blue-100 text-blue-800',
 };
 
-function Alert({ type = 'info', message = '', onClose }) {
+function Alert({ type = 'info', message = ''}) {
 	const alertStyle = typeStyles[type] || typeStyles.info;
 	const isError = type === 'error';
 
