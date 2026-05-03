@@ -7,6 +7,7 @@ import Header from './Components/Header/Header';
 import Home from './Pages/Home/Home';
 import Favorites from './Pages/Favorites/Favorites';
 import ItemDetail from './Pages/ItemDetail/ItemDetail';
+import NotFound from './Pages/NotFound/NotFound';
 import { useFavoriteGames } from './customHooks/useFavoriteGames';
 import { useLanguagePreference } from './customHooks/useLanguagePreference';
 
@@ -90,6 +91,8 @@ function App() {
             )}
           />
           <Route path="/item/:id" element={<ItemDetail />} />
+          <Route path="/not-found" element={<NotFound />} />
+
         </Routes>
       </main>
 
