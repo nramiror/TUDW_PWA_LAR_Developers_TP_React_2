@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import Alert from '../../Components/Alert/Alert';
 import Loader from '../../Components/Loader/Loader';
 import List from '../../Components/List/List';
@@ -22,6 +23,11 @@ const Home = ({
     setSearch,
   } = useInfiniteScroll(getBoardGames, { pageSize: 5 });
 
+  const { t } = useTranslation();
+  const homeTitle = t('home.title');
+  const homeDescription = t('home.description');
+  const loaderMessage = t('home.loading');
+
   useEffect(() => {
     setSearch(searchQuery);
   }, [searchQuery, setSearch]);
@@ -41,25 +47,19 @@ const Home = ({
   );
 
   const showMessage = gamesWithFavorites.length === 0 && !loading;
-  const alertMessage = (
-    <Alert
-      type="info"
-      message={
-        search
-          ? `No encontramos juegos que empiecen con "${search}".`
-          : 'Todavía no hay juegos para mostrar.'
-      }
-    />
-  );
+  const emptyMessage = search
+    ? t('home.noResultsForSearch', { search })
+    : t('home.noGames');
+  const alertMessage = <Alert type="info" message={emptyMessage} />;
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col items-start gap-6 px-4 pb-10 pt-8 sm:px-8 lg:px-24">
       <div className="w-full pl-3 text-left sm:pl-4">
         <Title level={2} className="text-left">
-          Bienvenido/a a ReactGames
+          {homeTitle}
         </Title>
         <p className="mt-2 font-comfortaa text-sm text-secondary">
-          El lugar indicado para elegir tu próximo juego de mesa
+          {homeDescription}
         </p>
       </div>
 
@@ -83,7 +83,7 @@ const Home = ({
 
       {loading && games.length > 0 ? (
         <div className="w-full">
-          <Loader message='Cargando juegos...'/>
+          <Loader message={loaderMessage}/>
         </div>
       ) : null}
 

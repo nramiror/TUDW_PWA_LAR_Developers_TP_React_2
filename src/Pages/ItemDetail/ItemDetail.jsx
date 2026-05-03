@@ -1,71 +1,70 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router-dom';
-import Title from '../../Components/Title/Title';
+import Card from '../../Components/Card/Card';
 import Loader from '../../Components/Loader/Loader';
 import Alert from '../../Components/Alert/Alert';
 import { getBoardGameById } from '../../services/boardgames';
 
-const formatFieldLabel = (key) => {
-  const normalizedKey = key.replace(/[_\s-]/g, '').toLowerCase();
-
-  const labelMap = {
-    name: 'Nombre',
-    category: 'Categoría',
-    description: 'Descripción',
-    minplayers: 'Jugadores mínimos',
-    maxplayers: 'Jugadores máximos',
-    playingtime: 'Duración',
-    minage: 'Edad mínima',
-    yearpublished: 'Año de publicación',
-    publisher: 'Editorial',
-    designer: 'Diseñador',
-    image: 'Imagen',
-  };
-
-  if (labelMap[normalizedKey]) {
-    return labelMap[normalizedKey];
-  }
-
-  const label = key
-    .replace(/([a-z])([A-Z])/g, '$1 $2')
-    .replace(/_/g, ' ')
-    .toLowerCase();
-
-  return label.charAt(0).toUpperCase() + label.slice(1);
-};
-
-const formatFieldValue = (value) => {
-  if (Array.isArray(value)) {
-    return value.join(', ');
-  }
-
-  if (value && typeof value === 'object') {
-    return JSON.stringify(value);
-  }
-
-  if (typeof value === 'boolean') {
-    return value ? 'Sí' : 'No';
-  }
-
-  return value === null || value === undefined || value === '' ? 'Sin dato' : String(value);
-};
-
 const ItemDetail = () => {
   const { id } = useParams();
   const location = useLocation();
+  const { t } = useTranslation();
   const initialItem = location.state?.item && String(location.state.item.id) === String(id)
     ? location.state.item
     : null;
   const [item, setItem] = useState(initialItem);
   const [loading, setLoading] = useState(!initialItem);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(false);
+
+  const formatFieldLabel = (key) => {
+    const normalizedKey = key.replace(/[_\s-]/g, '').toLowerCase();
+
+    const labelMap = {
+      name: t('itemDetail.labels.name'),
+      category: t('itemDetail.labels.category'),
+      description: t('itemDetail.labels.description'),
+      image: t('itemDetail.labels.image'),
+    };
+
+    if (labelMap[normalizedKey]) {
+      return labelMap[normalizedKey];
+    }
+
+    const label = key
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(/_/g, ' ')
+      .toLowerCase();
+
+    return label.charAt(0).toUpperCase() + label.slice(1);
+  };
+
+  const formatFieldValue = (value) => {
+    if (Array.isArray(value)) {
+      return value.join(', ');
+    }
+
+    if (value && typeof value === 'object') {
+      return JSON.stringify(value);
+    }
+
+    if (typeof value === 'boolean') {
+      return value ? t('itemDetail.values.yes') : t('itemDetail.values.no');
+    }
+
+    return value === null || value === undefined || value === '' ? t('itemDetail.values.noData') : String(value);
+  };
+
+  const loadingMessage = t('itemDetail.loading');
+  const errorMessage = t('itemDetail.errorFetch');
+  const notFoundMessage = t('itemDetail.errorNotFound');
 
   useEffect(() => {
     const stateItem = location.state?.item;
     if (stateItem && String(stateItem.id) === String(id)) {
       setItem(stateItem);
       setLoading(false);
-      setError('');
+      setError(false);
       return;
     }
 
@@ -73,7 +72,7 @@ const ItemDetail = () => {
 
     const loadItem = async () => {
       setLoading(true);
-      setError('');
+      setError(false);
 
       try {
         const game = await getBoardGameById(id);
@@ -83,7 +82,7 @@ const ItemDetail = () => {
         }
       } catch (fetchError) {
         if (isMounted) {
-          setError('No pudimos cargar el detalle del juego.');
+          setError(true);
         }
       } finally {
         if (isMounted) {
@@ -104,63 +103,46 @@ const ItemDetail = () => {
       return [];
     }
 
-    return Object.entries(item).filter(([key]) => key !== 'id' && key !== 'image' && key !== 'isFavorite');
-  }, [item]);
+    return Object.entries(item)
+      .filter(([key]) => key !== 'id' && key !== 'image' && key !== 'isFavorite' && key !== 'name')
+      .map(([key, value]) => [formatFieldLabel(key), formatFieldValue(value)]);
+  }, [item, t]);
 
   if (loading) {
     return (
       <div className="mx-auto flex w-full max-w-7xl justify-center px-4 pb-10 pt-8 sm:px-8 lg:px-24">
-        <Loader message="Cargando detalle..." />
+        <Loader message={loadingMessage} />
       </div>
     );
   }
 
   if (error || !item) {
+    const displayError = error ? errorMessage : notFoundMessage;
     return (
       <div className="mx-auto flex w-full max-w-7xl justify-center px-4 pb-10 pt-8 sm:px-8 lg:px-24">
-        <Alert type="error" message={error || 'No encontramos el juego solicitado.'} />
+        <Alert type="error" message={displayError} />
       </div>
     );
   }
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 pb-10 pt-8 sm:px-8 lg:px-24">
-      <div className="grid min-h-[calc(100vh-10rem)] grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
-        <section className="flex flex-col items-start justify-start gap-6">
-          <Title level={2} className="text-left">
-            {item.name || 'Detalle del juego'}
-          </Title>
-
-          <div className="w-full space-y-3 rounded-2xl border border-primary/15 bg-white/80 p-6 shadow-[0_12px_30px_rgba(30,58,95,0.08)] backdrop-blur-sm">
-            {detailEntries.map(([key, value]) => (
-              <div key={key} className="flex flex-col gap-1 border-b border-primary/10 pb-3 last:border-b-0 last:pb-0">
-                <span className="font-instrument text-xs font-semibold uppercase tracking-[0.14em] text-secondary/60">
-                  {formatFieldLabel(key)}
-                </span>
-                <span className="font-comfortaa text-sm text-secondary">
-                  {formatFieldValue(value)}
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="flex items-start justify-center lg:justify-center">
-          <div className="w-full max-w-[320px] overflow-hidden rounded-3xl border border-primary/15 bg-white shadow-[0_16px_40px_rgba(30,58,95,0.12)] aspect-[3/4]">
-            {item.image ? (
-              <img
-                src={item.image}
-                alt={item.name || 'Juego de mesa'}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="flex aspect-[3/4] w-full items-center justify-center bg-gradient-to-br from-brand-light to-brand-bg">
-                <span className="text-sm text-secondary/50">Sin imagen</span>
-              </div>
-            )}
-          </div>
-        </section>
+    <div className="relative mx-auto w-full max-w-7xl px-4 pb-10 pt-8 sm:px-8 lg:px-24">
+      <div className="relative z-10">
+        <Card
+          variant="detail"
+          image={item.image}
+          title={item.name || item.title || 'Detalle del juego'}
+          category={item.category}
+          detailEntries={detailEntries}
+        />
       </div>
+
+        <img
+          src="/DadosFondo.png"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute left-[-4rem] bottom-[-4rem] w-40 opacity-60 sm:left-[-5rem] sm:bottom-[-5rem] sm:w-56 lg:left-[-6rem] lg:bottom-[-10rem] lg:w-72 z-0"
+        />
     </div>
   );
 };

@@ -1,6 +1,12 @@
 import { useState } from 'react';
+import Button from '../Button/Button';
 
-const SearchBox = ({ onSearchChange }) => {
+const SearchBox = ({
+  onSearchChange,
+  placeholder = '¿Qué querés jugar hoy?',
+  ariaLabel = 'Buscar juegos',
+  clearAriaLabel = 'Limpiar búsqueda',
+}) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (event) => {
@@ -32,22 +38,24 @@ const SearchBox = ({ onSearchChange }) => {
 
       <input
         type="text"
-        placeholder="¿Qué querés jugar hoy?"
-        aria-label="Buscar juegos"
+        placeholder={placeholder}
+        aria-label={ariaLabel}
         value={inputValue}
         onChange={handleInputChange}
         className="relative z-0 w-full h-11 pl-12 pr-4 bg-white/60 backdrop-blur-sm border border-primary rounded-full font-instrument text-sm text-secondary placeholder:text-secondary/40 outline-none focus:border-primary focus:bg-white focus:shadow-md transition-all duration-300"
       />
 
       {inputValue && (
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="sm"
           onClick={() => { setInputValue(""); onSearchChange(""); }}
-          aria-label="Limpiar búsqueda"
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-secondary/40 hover:text-secondary cursor-pointer"
+          ariaLabel={clearAriaLabel}
+          className="absolute right-4 top-1/2 -translate-y-1/2 !p-0 !text-secondary/40 hover:!text-secondary"
         >
           <span className="material-symbols-rounded text-lg">close</span>
-        </button>
+        </Button>
       )}
     </form>
   );
