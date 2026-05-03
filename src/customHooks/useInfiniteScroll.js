@@ -35,12 +35,8 @@ export const useInfiniteScroll = (
       // Si esta no es la petición más reciente, ignorar resultado
       if (myRequestId !== requestIdRef.current) return;
 
-      // Detectar si hay más datos (si retorna menos de lo esperado)
-      if (data.length < pageSize) {
-        setHasMore(false);
-      } else {
-        setHasMore(true);
-      }
+      // Usar metadata explícita si existe; si no, mantener compatibilidad con arrays
+      setHasMore(nextHasMore);
 
       // Concatenar con datos anteriores o reemplazar si es primera página
       setItems(prev => (pageNum === 1 ? data : [...prev, ...data]));
