@@ -74,18 +74,18 @@ function Card({
     <div className="grid min-h-[300px] grid-cols-1 lg:grid-cols-[1.35fr_0.65fr]">
       <div className="flex flex-col justify-start gap-4 p-5 sm:p-6 lg:p-8">
         <div className="space-y-2">
-          <Title level={2} className="text-left">
+          <Title level={1} className="text-left">
             {cardTitle}
           </Title>
         </div>
 
-        <div className="space-y-4">
+        <div className="mt-6 space-y-4">
           {detailEntries.map(([key, value]) => (
             <div key={key} className="flex flex-col gap-1 border-b border-primary/10 pb-3 last:border-b-0 last:pb-0">
-              <span className="font-instrument text-xs font-semibold uppercase tracking-[0.14em] text-secondary/60">
+              <span className="font-instrument text-xl font-semibold uppercase tracking-[0.14em] text-secondary/60">
                 {key}
               </span>
-              <span className="font-comfortaa text-sm text-secondary">
+              <span className="font-comfortaa text-xl text-secondary">
                 {value}
               </span>
             </div>
