@@ -15,14 +15,14 @@ export const useInfiniteScroll = (
   const loadItems = useCallback(async (pageNum, searchQuery) => {
     setLoading(true);
     try {
-      const data = await fetchFunction(pageNum, searchQuery, pageSize);
+      const result = await fetchFunction(pageNum, searchQuery, pageSize);
+      const data = Array.isArray(result) ? result : result?.items ?? [];
+      const nextHasMore = Array.isArray(result)
+        ? data.length >= pageSize
+        : Boolean(result?.hasMore);
 
-      // Detectar si hay más datos (si retorna menos de lo esperado)
-      if (data.length < pageSize) {
-        setHasMore(false);
-      } else {
-        setHasMore(true);
-      }
+      // Usar metadata explícita si existe; si no, mantener compatibilidad con arrays
+      setHasMore(nextHasMore);
 
       // Concatenar con datos anteriores o reemplazar si es primera página
       setItems(prev => (pageNum === 1 ? data : [...prev, ...data]));
