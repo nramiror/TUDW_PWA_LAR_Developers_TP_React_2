@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import FavIcon from '../FavIcon/FavIcon';
 import Title from '../Title/Title';
 
@@ -13,9 +14,15 @@ function Card({
   isFavorite = false,
   isDetail = false,
 }) {
+  const { t } = useTranslation();
   const resolvedVariant = isDetail ? 'detail' : variant;
   const isInteractive = typeof onViewDetails === 'function';
-  const cardTitle = title || name || 'Nombre del juego'; //Cambiar para i18n
+  const cardTitle = title || name || t('card.titleFallback');
+  const imageAlt = title || name || t('card.imageAltFallback');
+  const categoryLabel = t('card.categoryLabel');
+  const noImageLabel = t('card.noImage');
+  const noCategoryLabel = t('card.noCategory');
+  const favoriteAriaLabel = isFavorite ? t('card.favorite.remove') : t('card.favorite.add');
 
   const cardClasses = [
     'flex h-full w-full flex-col overflow-hidden rounded-md border border-primary/20 bg-white max-w-[200px] mx-auto',
@@ -38,12 +45,12 @@ function Card({
         {image ? (
           <img
             src={image}
-            alt={cardTitle || 'Juego de mesa'}
+            alt={imageAlt}
             className="h-full w-full object-cover transition"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-light to-brand-bg">
-            <span className="text-sm text-secondary/50">Sin imagen</span> //Cambiar para i18n
+            <span className="text-sm text-secondary/50">{noImageLabel}</span>
           </div>
         )}
       </div>
@@ -55,7 +62,7 @@ function Card({
         </Title>
 
         <p className="font-instrument text-[11px] text-secondary">
-          <span className="font-semibold">Categoría:</span> {category || 'Sin categoría'} //Cambiar para i18n
+          <span className="font-semibold">{categoryLabel}:</span> {category || noCategoryLabel}
         </p>
 
         <div className="flex-1" />
@@ -91,12 +98,12 @@ function Card({
           {image ? (
             <img
               src={image}
-              alt={cardTitle || 'Juego de mesa'}
+              alt={imageAlt}
               className="h-full w-full object-cover"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-light to-brand-bg">
-              <span className="text-sm text-secondary/50">Sin imagen</span>
+              <span className="text-sm text-secondary/50">{noImageLabel}</span>
             </div>
           )}
         </div>
@@ -124,7 +131,7 @@ function Card({
                 variant="card"
                 isFavorite={isFavorite}
                 onClick={onToggleFavorite}
-                ariaLabel={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                ariaLabel={favoriteAriaLabel}
               />
             </div>
           ) : null}

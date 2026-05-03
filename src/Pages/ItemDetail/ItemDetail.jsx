@@ -1,64 +1,70 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router-dom';
 import Card from '../../Components/Card/Card';
 import Loader from '../../Components/Loader/Loader';
 import Alert from '../../Components/Alert/Alert';
 import { getBoardGameById } from '../../services/boardgames';
 
-const formatFieldLabel = (key) => {
-  const normalizedKey = key.replace(/[_\s-]/g, '').toLowerCase();
-
-  const labelMap = {
-    name: 'Nombre',
-    category: 'Categoría',
-    description: 'Descripción',
-    image: 'Imagen',
-  };
-
-  if (labelMap[normalizedKey]) {
-    return labelMap[normalizedKey];
-  }
-
-  const label = key
-    .replace(/([a-z])([A-Z])/g, '$1 $2')
-    .replace(/_/g, ' ')
-    .toLowerCase();
-
-  return label.charAt(0).toUpperCase() + label.slice(1);
-};
-
-const formatFieldValue = (value) => {
-  if (Array.isArray(value)) {
-    return value.join(', ');
-  }
-
-  if (value && typeof value === 'object') {
-    return JSON.stringify(value);
-  }
-
-  if (typeof value === 'boolean') {
-    return value ? 'Sí' : 'No';
-  }
-
-  return value === null || value === undefined || value === '' ? 'Sin dato' : String(value);
-};
-
 const ItemDetail = () => {
   const { id } = useParams();
   const location = useLocation();
+  const { t } = useTranslation();
   const initialItem = location.state?.item && String(location.state.item.id) === String(id)
     ? location.state.item
     : null;
   const [item, setItem] = useState(initialItem);
   const [loading, setLoading] = useState(!initialItem);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(false);
+
+  const formatFieldLabel = (key) => {
+    const normalizedKey = key.replace(/[_\s-]/g, '').toLowerCase();
+
+    const labelMap = {
+      name: t('itemDetail.labels.name'),
+      category: t('itemDetail.labels.category'),
+      description: t('itemDetail.labels.description'),
+      image: t('itemDetail.labels.image'),
+    };
+
+    if (labelMap[normalizedKey]) {
+      return labelMap[normalizedKey];
+    }
+
+    const label = key
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(/_/g, ' ')
+      .toLowerCase();
+
+    return label.charAt(0).toUpperCase() + label.slice(1);
+  };
+
+  const formatFieldValue = (value) => {
+    if (Array.isArray(value)) {
+      return value.join(', ');
+    }
+
+    if (value && typeof value === 'object') {
+      return JSON.stringify(value);
+    }
+
+    if (typeof value === 'boolean') {
+      return value ? t('itemDetail.values.yes') : t('itemDetail.values.no');
+    }
+
+    return value === null || value === undefined || value === '' ? t('itemDetail.values.noData') : String(value);
+  };
+
+  const loadingMessage = t('itemDetail.loading');
+  const errorMessage = t('itemDetail.errorFetch');
+  const notFoundMessage = t('itemDetail.errorNotFound');
 
   useEffect(() => {
     const stateItem = location.state?.item;
     if (stateItem && String(stateItem.id) === String(id)) {
       setItem(stateItem);
       setLoading(false);
-      setError('');
+      setError(false);
       return;
     }
 
@@ -66,7 +72,7 @@ const ItemDetail = () => {
 
     const loadItem = async () => {
       setLoading(true);
-      setError('');
+      setError(false);
 
       try {
         const game = await getBoardGameById(id);
@@ -76,7 +82,7 @@ const ItemDetail = () => {
         }
       } catch (fetchError) {
         if (isMounted) {
-          setError('No pudimos cargar el detalle del juego.');
+          setError(true);
         }
       } finally {
         if (isMounted) {
@@ -100,20 +106,21 @@ const ItemDetail = () => {
     return Object.entries(item)
       .filter(([key]) => key !== 'id' && key !== 'image' && key !== 'isFavorite')
       .map(([key, value]) => [formatFieldLabel(key), formatFieldValue(value)]);
-  }, [item]);
+  }, [item, t]);
 
   if (loading) {
     return (
       <div className="mx-auto flex w-full max-w-7xl justify-center px-4 pb-10 pt-8 sm:px-8 lg:px-24">
-        <Loader message="Cargando detalle..." />
+        <Loader message={loadingMessage} />
       </div>
     );
   }
 
   if (error || !item) {
+    const displayError = error ? errorMessage : notFoundMessage;
     return (
       <div className="mx-auto flex w-full max-w-7xl justify-center px-4 pb-10 pt-8 sm:px-8 lg:px-24">
-        <Alert type="error" message={error || 'No encontramos el juego solicitado.'} />
+        <Alert type="error" message={displayError} />
       </div>
     );
   }

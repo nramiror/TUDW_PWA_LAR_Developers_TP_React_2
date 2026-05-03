@@ -1,1 +1,68 @@
-{}
+{
+	"header": {
+		"logoAriaLabel": "Ir al inicio",
+		"logoAlt": "Logo de ReactGames",
+		"favoritesAriaLabel": "Ir a favoritos",
+		"search": {
+			"placeholder": "¿Qué querés jugar hoy?",
+			"ariaLabel": "Buscar juegos",
+			"clearAriaLabel": "Limpiar búsqueda"
+		},
+		"language": {
+			"es": "Cambiar idioma a Español",
+			"en": "Cambiar idioma a English"
+		}
+	},
+	"footer": {
+		"copyright": "Copyright © 2026 ReactGames LAR Developers",
+		"address": "Av. Siempre Viva 742",
+		"socialAriaLabel": "Redes sociales",
+		"social": {
+			"facebook": "Facebook",
+			"instagram": "Instagram",
+			"x": "X"
+		}
+	},
+	"card": {
+		"titleFallback": "Nombre del juego",
+		"imageAltFallback": "Juego de mesa",
+		"categoryLabel": "Categoría",
+		"noImage": "Sin imagen",
+		"noCategory": "Sin categoría",
+		"favorite": {
+			"add": "Agregar a favoritos",
+			"remove": "Quitar de favoritos"
+		}
+	},
+	"list": {
+		"empty": "No hay juegos para mostrar."
+	},
+	"favorites": {
+		"title": "Favoritos",
+		"description": "Todos tus favoritos se encuentran en esta sección.",
+		"empty": "Aún no guardaste juegos en favoritos."
+	},
+	"home": {
+		"title": "Bienvenido/a a ReactGames",
+		"description": "El lugar indicado para elegir tu próximo juego de mesa",
+		"noResultsForSearch": "No encontramos juegos que empiecen con \"{{search}}\".",
+		"noGames": "Todavía no hay juegos para mostrar.",
+		"loading": "Cargando juegos..."
+	},
+	"itemDetail": {
+		"labels": {
+			"name": "Nombre",
+			"category": "Categoría",
+			"description": "Descripción",
+			"image": "Imagen"
+		},
+		"values": {
+			"yes": "Sí",
+			"no": "No",
+			"noData": "Sin dato"
+		},
+		"loading": "Cargando detalle...",
+		"errorFetch": "No pudimos cargar el detalle del juego.",
+		"errorNotFound": "No encontramos el juego solicitado."
+	}
+}
