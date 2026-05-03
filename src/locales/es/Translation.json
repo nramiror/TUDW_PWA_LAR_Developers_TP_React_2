@@ -33,5 +33,8 @@
 			"add": "Agregar a favoritos",
 			"remove": "Quitar de favoritos"
 		}
+	},
+	"list": {
+		"empty": "No hay juegos para mostrar."
 	}
 }
