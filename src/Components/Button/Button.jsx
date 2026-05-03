@@ -14,7 +14,7 @@ const Button = ({
     ...restProps
 }) => {
     const baseStyles = [
-        'inline-flex items-center justify-center gap-2 rounded-[var(--radius-border)] font-instrument font-bold',
+        'inline-flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-border)] font-instrument font-bold',
         'transition-all duration-300 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2',
     ].join(' ');
