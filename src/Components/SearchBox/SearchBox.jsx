@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Button from '../Button/Button';
 
 const SearchBox = ({ onSearchChange }) => {
   const [inputValue, setInputValue] = useState("");
@@ -40,14 +41,16 @@ const SearchBox = ({ onSearchChange }) => {
       />
 
       {inputValue && (
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="sm"
           onClick={() => { setInputValue(""); onSearchChange(""); }}
-          aria-label="Limpiar búsqueda"
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-secondary/40 hover:text-secondary cursor-pointer"
+          ariaLabel="Limpiar búsqueda"
+          className="absolute right-4 top-1/2 -translate-y-1/2 !p-0 !text-secondary/40 hover:!text-secondary"
         >
           <span className="material-symbols-rounded text-lg">close</span>
-        </button>
+        </Button>
       )}
     </form>
   );
