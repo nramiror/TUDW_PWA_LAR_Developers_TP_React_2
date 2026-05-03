@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import Title from '../../Components/Title/Title';
+import Card from '../../Components/Card/Card';
 import Loader from '../../Components/Loader/Loader';
 import Alert from '../../Components/Alert/Alert';
 import { getBoardGameById } from '../../services/boardgames';
@@ -12,13 +12,6 @@ const formatFieldLabel = (key) => {
     name: 'Nombre',
     category: 'Categoría',
     description: 'Descripción',
-    minplayers: 'Jugadores mínimos',
-    maxplayers: 'Jugadores máximos',
-    playingtime: 'Duración',
-    minage: 'Edad mínima',
-    yearpublished: 'Año de publicación',
-    publisher: 'Editorial',
-    designer: 'Diseñador',
     image: 'Imagen',
   };
 
@@ -104,7 +97,9 @@ const ItemDetail = () => {
       return [];
     }
 
-    return Object.entries(item).filter(([key]) => key !== 'id' && key !== 'image' && key !== 'isFavorite');
+    return Object.entries(item)
+      .filter(([key]) => key !== 'id' && key !== 'image' && key !== 'isFavorite')
+      .map(([key, value]) => [formatFieldLabel(key), formatFieldValue(value)]);
   }, [item]);
 
   if (loading) {
@@ -124,43 +119,23 @@ const ItemDetail = () => {
   }
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 pb-10 pt-8 sm:px-8 lg:px-24">
-      <div className="grid min-h-[calc(100vh-10rem)] grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
-        <section className="flex flex-col items-start justify-start gap-6">
-          <Title level={2} className="text-left">
-            {item.name || 'Detalle del juego'}
-          </Title>
-
-          <div className="w-full space-y-3 rounded-2xl border border-primary/15 bg-white/80 p-6 shadow-[0_12px_30px_rgba(30,58,95,0.08)] backdrop-blur-sm">
-            {detailEntries.map(([key, value]) => (
-              <div key={key} className="flex flex-col gap-1 border-b border-primary/10 pb-3 last:border-b-0 last:pb-0">
-                <span className="font-instrument text-xs font-semibold uppercase tracking-[0.14em] text-secondary/60">
-                  {formatFieldLabel(key)}
-                </span>
-                <span className="font-comfortaa text-sm text-secondary">
-                  {formatFieldValue(value)}
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="flex items-start justify-center lg:justify-center">
-          <div className="w-full max-w-[320px] overflow-hidden rounded-3xl border border-primary/15 bg-white shadow-[0_16px_40px_rgba(30,58,95,0.12)] aspect-[3/4]">
-            {item.image ? (
-              <img
-                src={item.image}
-                alt={item.name || 'Juego de mesa'}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="flex aspect-[3/4] w-full items-center justify-center bg-gradient-to-br from-brand-light to-brand-bg">
-                <span className="text-sm text-secondary/50">Sin imagen</span>
-              </div>
-            )}
-          </div>
-        </section>
+    <div className="relative mx-auto w-full max-w-7xl px-4 pb-10 pt-8 sm:px-8 lg:px-24">
+      <div className="relative z-10">
+        <Card
+          variant="detail"
+          image={item.image}
+          title={item.name || item.title || 'Detalle del juego'}
+          category={item.category}
+          detailEntries={detailEntries}
+        />
       </div>
+
+        <img
+          src="/DadosFondo.png"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute left-[-4rem] bottom-[-4rem] w-40 opacity-60 sm:left-[-5rem] sm:bottom-[-5rem] sm:w-56 lg:left-[-6rem] lg:bottom-[-10rem] lg:w-72 z-0"
+        />
     </div>
   );
 };
