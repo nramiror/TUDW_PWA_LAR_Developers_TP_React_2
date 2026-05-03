@@ -29,7 +29,7 @@ const Header = ({ onSearchChange, languageOptions, activeLanguage, onChangeLangu
       </div>
 
       <div className="flex items-center gap-6">
-        <nav aria-label="Favoritos">
+        <nav aria-label={t('header.favoritesAriaLabel')}>
         <FavIcon variant="nav" to="/favorites" ariaLabel={t('header.favoritesAriaLabel')} /> 
         </nav>
 
