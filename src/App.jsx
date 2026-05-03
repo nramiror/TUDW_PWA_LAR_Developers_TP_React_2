@@ -7,6 +7,12 @@ import Home from './Pages/Home/Home';
 import Favorites from './Pages/Favorites/Favorites';
 import ItemDetail from './Pages/ItemDetail/ItemDetail';
 import { useFavoriteGames } from './customHooks/useFavoriteGames';
+import { useLanguagePreference } from './customHooks/useLanguagePreference';
+
+const languageOptions = [
+  { code: 'es', label: 'ES', ariaLabel: 'Cambiar idioma a Español' },
+  { code: 'en', label: 'EN', ariaLabel: 'Cambiar idioma a English' },
+];
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,6 +23,10 @@ function App() {
     handleToggleFavoriteById,
     syncFavoriteGames,
   } = useFavoriteGames();
+  const {
+    currentLanguage,
+    changeLanguage,
+  } = useLanguagePreference();
   const navigate = useNavigate();
 
   const handleViewDetails = useCallback((gameOrId) => {
@@ -34,7 +44,12 @@ function App() {
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-100">
-      <Header onSearchChange={setSearchQuery} />
+      <Header
+        onSearchChange={setSearchQuery}
+        languageOptions={languageOptions}
+        activeLanguage={currentLanguage}
+        onChangeLanguage={changeLanguage}
+      />
       <main className="flex w-full flex-1 items-start justify-center pt-20">
         <Routes>
           <Route

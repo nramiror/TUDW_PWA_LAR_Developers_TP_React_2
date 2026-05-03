@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocalStorage } from './useLocalStorage';
 
@@ -21,13 +21,8 @@ export const useLanguagePreference = () => {
     setPreferredLanguage(lng);
   }, [i18n, setPreferredLanguage]);
 
-  const isSpanish = useMemo(() => currentLanguage.startsWith('es'), [currentLanguage]);
-  const isEnglish = useMemo(() => currentLanguage.startsWith('en'), [currentLanguage]);
-
   return {
     currentLanguage,
-    isSpanish,
-    isEnglish,
     changeLanguage,
   };
 };
