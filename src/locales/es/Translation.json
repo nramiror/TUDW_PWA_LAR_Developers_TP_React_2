@@ -1,1 +1,26 @@
-{}
+{
+	"header": {
+		"logoAriaLabel": "Ir al inicio",
+		"logoAlt": "Logo de ReactGames",
+		"favoritesAriaLabel": "Ir a favoritos",
+		"search": {
+			"placeholder": "¿Qué querés jugar hoy?",
+			"ariaLabel": "Buscar juegos",
+			"clearAriaLabel": "Limpiar búsqueda"
+		},
+		"language": {
+			"es": "Cambiar idioma a Español",
+			"en": "Cambiar idioma a English"
+		}
+	},
+	"footer": {
+		"copyright": "Copyright © 2026 ReactGames LAR Developers",
+		"address": "Av. Siempre Viva 742",
+		"socialAriaLabel": "Redes sociales",
+		"social": {
+			"facebook": "Facebook",
+			"instagram": "Instagram",
+			"x": "X"
+		}
+	}
+}

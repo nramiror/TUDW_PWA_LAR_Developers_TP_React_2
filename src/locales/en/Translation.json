@@ -1,1 +1,26 @@
-{}
+{
+	"header": {
+		"logoAriaLabel": "Go to home",
+		"logoAlt": "ReactGames logo",
+		"favoritesAriaLabel": "Go to favorites",
+		"search": {
+			"placeholder": "What do you want to play today?",
+			"ariaLabel": "Search games",
+			"clearAriaLabel": "Clear search"
+		},
+		"language": {
+			"es": "Switch language to Spanish",
+			"en": "Switch language to English"
+		}
+	},
+	"footer": {
+		"copyright": "Copyright © 2026 ReactGames LAR Developers",
+		"address": "742 Evergreen Terrace",
+		"socialAriaLabel": "Social media",
+		"social": {
+			"facebook": "Facebook",
+			"instagram": "Instagram",
+			"x": "X"
+		}
+	}
+}
