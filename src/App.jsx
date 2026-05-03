@@ -6,7 +6,7 @@ import Header from './Components/Header/Header';
 import Home from './Pages/Home/Home';
 import Favorites from './Pages/Favorites/Favorites';
 import ItemDetail from './Pages/ItemDetail/ItemDetail';
-import { useFavoriteGames } from './customHooks/useLocalStorage';
+import { useFavoriteGames } from './customHooks/useFavoriteGames';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
