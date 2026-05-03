@@ -1,7 +1,7 @@
-import i18next from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import esTranslation from './locales/es/Translation.json';
-import enTranslation from './locales/en/Translation.json';
+import i18next from 'i18next'
+import { initReactI18next } from 'react-i18next'
+import esTranslation from './locales/es/Translation.json'
+import enTranslation from './locales/en/Translation.json'
 
 const resources = {
   es: {
@@ -19,8 +19,17 @@ const getInitialLanguage = () => {
   if (typeof window === 'undefined') {
     return defaultLanguage;
   }
+
   try {
-    const storedLanguage = window.localStorage.getItem('language');
+    const storedValue = window.localStorage.getItem('language');
+    const storedLanguage = storedValue ? (() => {
+      try {
+        return JSON.parse(storedValue);
+      } catch {
+        return storedValue;
+      }
+    })() : null;
+
     if (supportedLanguages.includes(storedLanguage)) {
       return storedLanguage;
     }
