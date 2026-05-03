@@ -2,7 +2,7 @@ import LanguageToggle from '../LanguageToggle/LanguageToggle';
 import FavIcon from '../FavIcon/FavIcon';
 import { Link } from 'react-router-dom';
 import SearchBox from '../SearchBox/SearchBox';
-const Header = ({ onSearchChange }) => {
+const Header = ({ onSearchChange, languageOptions, activeLanguage, onChangeLanguage }) => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full h-20 px-4 flex items-center justify-between border-b border-[#829AB1]/30 bg-[linear-gradient(to_left,#E2F3FF_0%,#FFFFFF_100%)] shadow-[0_1px_12px_rgba(15,23,42,0.06)] sm:px-8 lg:px-24">
       <div className="flex-shrink-0">
@@ -26,7 +26,11 @@ const Header = ({ onSearchChange }) => {
         <FavIcon variant="nav" to="/favorites" ariaLabel="Ir a favoritos" /> 
         </nav>
 
-        <LanguageToggle />
+        <LanguageToggle
+          options={languageOptions}
+          activeLanguage={activeLanguage}
+          onChangeLanguage={onChangeLanguage}
+        />
 
       </div>
 
