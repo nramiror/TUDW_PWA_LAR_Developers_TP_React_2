@@ -18,7 +18,6 @@ const NotFound = () => {
                     className="mx-auto mb-4 w-24 opacity-40 sm:w-[3.75rem] lg:w-20"
                 />
             </div>
-            
         </div>
     );
 }
