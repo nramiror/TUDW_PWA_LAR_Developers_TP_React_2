@@ -30,7 +30,7 @@ function App() {
   const previousSearchQueryRef = useRef(searchQuery);
 
   useEffect(() => {
-    const isDetailRoute = location.pathname.startsWith('/item/');
+    const isDetailRoute = location.pathname === '/boardgames';
     const searchChanged = previousSearchQueryRef.current !== searchQuery;
 
     if (isDetailRoute && searchChanged) {
@@ -51,11 +51,11 @@ function App() {
     }
 
     if (typeof gameOrId === 'object') {
-      navigate(`/item/${gameOrId.id}`, { state: { item: gameOrId } });
+      navigate(`/boardgames?id=${gameOrId.id}`, { state: { item: gameOrId } });
       return;
     }
 
-    navigate(`/item/${gameOrId}`);
+    navigate(`/boardgames?id=${gameOrId}`);
   }, [navigate]);
 
   return (
@@ -90,7 +90,7 @@ function App() {
               />
             )}
           />
-          <Route path="/item/:id" element={<ItemDetail />} />
+          <Route path="/boardgames" element={<ItemDetail />} />
           <Route path="/not-found" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
 
