@@ -1,15 +1,16 @@
 # Programación Web Avanzada (TUDW)
 
 - **Trabajo Práctico** REACT Parte II: Desarrollo de una Aplicación con Múltiples Páginas
+
 - **Integrantes:**
-	- Project Manager: Ramiro Navarrete — FAI-5522
-	- Developer: Linda Cristal Parra Sanhueza — FAI-5568
-	- Developer: Andrea Crespillo — FAI-5546
+- Project Manager: Ramiro Navarrete — FAI-5522
+- Developer: Linda Cristal Parra Sanhueza — FAI-5568
+- Developer: Andrea Crespillo — FAI-5546
 
 
 ## Descripción
 
-Aplicación web progresiva (PWA) desarrollada con React y Vite que permite buscar, explorar y marcar juegos de mesa como favoritos. Incluye soporte de idiomas (es/en), scroll infinito y detalle de ítems.
+Aplicación web desarrollada con React y Vite que permite buscar, explorar y marcar juegos de mesa como favoritos. Incluye soporte de idiomas (es/en), scroll infinito y detalle de ítems.
 
 ## Características principales
 
@@ -66,5 +67,5 @@ npm run build
 - Vite
 - i18next
 - ESLint
-- LocalStorage para favoritos
+- localStorage para favoritos
 
