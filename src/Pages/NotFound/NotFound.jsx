@@ -15,7 +15,7 @@ const NotFound = () => {
                     src="/LogoNotFound.png"
                     alt=""
                     aria-hidden="true"
-                    className="mx-auto mb-4 w-24 opacity-40 sm:w-15 lg:w-20"
+                    className="mx-auto mb-4 w-24 opacity-40 sm:w-[3.75rem] lg:w-20"
                 />
             </div>
             
