@@ -82,10 +82,10 @@ function Card({
         <div className="mt-6 space-y-4">
           {detailEntries.map(([key, value]) => (
             <div key={key} className="flex flex-col gap-1 border-b border-primary/10 pb-3 last:border-b-0 last:pb-0">
-              <span className="font-instrument text-xs font-semibold uppercase tracking-[0.14em] text-secondary/60">
+              <span className="font-instrument text-xl font-semibold uppercase tracking-[0.14em] text-secondary/60">
                 {key}
               </span>
-              <span className="font-comfortaa text-sm text-secondary">
+              <span className="font-comfortaa text-xl text-secondary">
                 {value}
               </span>
             </div>

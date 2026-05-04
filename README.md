@@ -2,7 +2,7 @@
 
 - **Trabajo Práctico** REACT Parte II: Desarrollo de una Aplicación con Múltiples Páginas
 
-- **Integrantes:**
+**Integrantes:**
 - Project Manager: Ramiro Navarrete — FAI-5522
 - Developer: Linda Cristal Parra Sanhueza — FAI-5568
 - Developer: Andrea Crespillo — FAI-5546
@@ -48,9 +48,11 @@ npm run build
 ```
 
 ## Capturas de pantalla
-
+Home.
 ![Home](public/Home.png)
+Favorites.
 ![Favorites](public/Fav.png)
+Detail.
 ![Detalle](public/ItemDetail.png)
 
 ## Estructura relevante del proyecto
@@ -66,6 +68,5 @@ npm run build
 - React
 - Vite
 - i18next
-- ESLint
 - localStorage para favoritos
 
