@@ -92,6 +92,7 @@ function App() {
           />
           <Route path="/item/:id" element={<ItemDetail />} />
           <Route path="/not-found" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
 
         </Routes>
       </main>
