@@ -148,12 +148,6 @@ const ItemDetail = () => {
         />
       </div>
 
-        <img
-          src="/DadosFondo.png"
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute left-[-4rem] bottom-[-4rem] w-40 opacity-60 sm:left-[-5rem] sm:bottom-[-5rem] sm:w-56 lg:left-[-6rem] lg:bottom-[-10rem] lg:w-72 z-0"
-        />
     </div>
   );
 };
