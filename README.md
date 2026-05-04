@@ -1,16 +1,70 @@
-# React + Vite
+# Programación Web Avanzada (TUDW)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- **Trabajo Práctico** REACT Parte II: Desarrollo de una Aplicación con Múltiples Páginas
+- **Integrantes:**
+	- Project Manager: Ramiro Navarrete — FAI-5522
+	- Developer: Linda Cristal Parra Sanhueza — FAI-5568
+	- Developer: Andrea Crespillo — FAI-5546
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Descripción
 
-## React Compiler
+Aplicación web progresiva (PWA) desarrollada con React y Vite que permite buscar, explorar y marcar juegos de mesa como favoritos. Incluye soporte de idiomas (es/en), scroll infinito y detalle de ítems.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Características principales
 
-## Expanding the ESLint configuration
+- Búsqueda de juegos
+- Listado con scroll infinito
+- Favoritos persistentes en `localStorage`
+- Vista detallada de un juego
+- Selector de idioma (es / en)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Instalación y ejecución (paso a paso)
+
+1. Clonar el repositorio:
+
+```
+git clone https://github.com/nramiror/TUDW_PWA_LAR_Developers_TP_React_2.git
+cd TUDW_PWA_LAR_Developers_TP_React_2
+```
+
+2. Instalar dependencias:
+
+```
+npm install
+```
+
+3. Ejecutar en modo desarrollo (Vite):
+
+```
+npm run dev
+```
+
+4. Construir versión de producción:
+
+```
+npm run build
+```
+
+## Capturas de pantalla
+
+![Home](public/Home.png)
+![Favorites](public/Fav.png)
+![Detalle](public/ItemDetail.png)
+
+## Estructura relevante del proyecto
+
+- `src/Pages/` : vistas principales (`Home`, `Favorites`, `ItemDetail`, `NotFound`)
+- `src/Components/` : componentes reutilizables (Header, Footer, List, SearchBox, etc.)
+- `src/services/boardgames.js` : llamadas a la API / lógica de datos
+- `src/customHooks/` : hooks personalizados (`useFavoriteGames`, `useInfiniteScroll`, etc.)
+
+
+## Tecnologías
+
+- React
+- Vite
+- i18next
+- ESLint
+- LocalStorage para favoritos
+
