@@ -27,7 +27,6 @@ dist-ssr
 .vercel
 .vercel/
 .vercelignore
-vercel.json
 .now
 .now/
 
