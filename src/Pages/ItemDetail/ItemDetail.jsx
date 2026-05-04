@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useParams } from 'react-router-dom';
 import Card from '../../Components/Card/Card';
 import Loader from '../../Components/Loader/Loader';
 import Alert from '../../Components/Alert/Alert';
@@ -17,8 +17,6 @@ const ItemDetail = () => {
   const [loading, setLoading] = useState(!initialItem);
   const [error, setError] = useState(false);
   const [fetchErrorMessage, setFetchErrorMessage] = useState('');
-  const navigate = useNavigate();
-
   const formatFieldLabel = (key) => {
     const normalizedKey = key.replace(/[_\s-]/g, '').toLowerCase();
 
@@ -120,12 +118,10 @@ const ItemDetail = () => {
   }
 
   if (error || !item) {
-    // If the fetch returned a 404 or no item was found, redirect to the Not Found page.
     const isNotFound = (!error && !item) || (fetchErrorMessage && fetchErrorMessage.includes('404'));
 
     if (isNotFound) {
-      navigate('/not-found', { replace: true });
-      return null;
+      return <Navigate replace to="/not-found" />;
     }
 
     const displayError = error ? errorMessage : notFoundMessage;

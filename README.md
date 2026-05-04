@@ -68,6 +68,5 @@ Detail.
 - React
 - Vite
 - i18next
-- ESLint
 - localStorage para favoritos
 
