@@ -66,10 +66,15 @@ export const getBoardGames = async (page = 1, search = "", limit = 5, signal) =>
 };
 
 export const getBoardGameById = async (id) => {
-  const game = await fetchJson(`${BASE_URL}/${id}`);
+  const games = await fetchJson(`${BASE_URL}?id=${id}`);
 
-  return normalizeGame(game);
+  if (Array.isArray(games) && games.length > 0) {
+    return normalizeGame(games[0]);
+  }
+
+  throw new Error(`Game with id ${id} not found`);
 };
+
 export const getBoardGameName = async (query) => {
   const games = await fetchJson(`${BASE_URL}?search=${query}`);
 
