@@ -31,9 +31,10 @@ function App() {
 
   useEffect(() => {
     const isDetailRoute = location.pathname === '/boardgames';
+    const isNotFoundRoute = location.pathname === '/not-found';
     const searchChanged = previousSearchQueryRef.current !== searchQuery;
 
-    if (isDetailRoute && searchChanged) {
+    if ((isDetailRoute || isNotFoundRoute) && searchChanged) {
       navigate('/', { replace: true });
     }
 
