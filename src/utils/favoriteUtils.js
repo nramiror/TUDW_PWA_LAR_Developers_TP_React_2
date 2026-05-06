@@ -1,4 +1,4 @@
-import { createIdSetFromObjects, setToArray } from './idUtils';
+import { createIdSetFromObjects } from './idUtils';
 
 /** Valida si un juego es válido */
 export const isValidGame = (game) => game && game.id !== undefined && game.id !== null;
