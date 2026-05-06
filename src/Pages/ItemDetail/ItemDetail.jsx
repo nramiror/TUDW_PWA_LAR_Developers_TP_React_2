@@ -124,13 +124,6 @@ const ItemDetail = () => {
     if (isNotFound) {
       return <Navigate replace to="/not-found" />;
     }
-
-    const displayError = error ? errorMessage : notFoundMessage;
-    return (
-      <div className="mx-auto flex w-full max-w-7xl justify-center px-4 pb-10 pt-8 sm:px-8 lg:px-24">
-        <Alert type="error" message={displayError} />
-      </div>
-    );
   }
 
   return (
