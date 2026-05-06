@@ -45,7 +45,7 @@ export const useInfiniteScroll = (
 
       // Concatenar con datos anteriores o reemplazar si es primera página
       setItems(prev => (pageNum === 1 ? data : [...prev, ...data]));
-      
+
       // Marcar que la primera carga está completa
       if (pageNum === 1) {
         isFirstLoadRef.current = false;
