@@ -1,5 +1,7 @@
+import { createIdSetFromArray } from './idUtils';
+
 /** Crea un Set de IDs de favoritos como strings */
-export const createFavoriteIdSet = (favoriteIds) => new Set(favoriteIds.map((id) => String(id)));
+export const createFavoriteIdSet = (favoriteIds) => createIdSetFromArray(favoriteIds);
 
 /** Enriquece los juegos con el flag de favorito */
 export const enrichGamesWithFavorites = (games, favoriteIdSet) =>
