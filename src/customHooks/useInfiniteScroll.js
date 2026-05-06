@@ -15,9 +15,7 @@ export const useInfiniteScroll = (
   const controllerRef = useRef(null);
   const isFirstLoadRef = useRef(true);
 
-  // Cargar datos
   const loadItems = useCallback(async (pageNum, searchQuery) => {
-    // Cancelar petición anterior
     if (controllerRef.current) {
       controllerRef.current.abort();
     }
@@ -25,7 +23,7 @@ export const useInfiniteScroll = (
     const controller = new AbortController();
     controllerRef.current = controller;
 
-    // Marcar requestId y capturar localmente para evitar respuestas obsoletas
+
     requestIdRef.current += 1;
     const myRequestId = requestIdRef.current;
 
@@ -33,41 +31,41 @@ export const useInfiniteScroll = (
     try {
       const data = await fetchFunction(pageNum, searchQuery, pageSize, controller.signal);
 
-      // Si esta no es la petición más reciente, ignorar resultado
+   
       if (myRequestId !== requestIdRef.current) return;
 
-      // Detectar si hay más datos (si retorna menos de lo esperado)
+  
       if (data.length < pageSize) {
         setHasMore(false);
       } else {
         setHasMore(true);
       }
 
-      // Concatenar con datos anteriores o reemplazar si es primera página
+
       setItems(prev => (pageNum === 1 ? data : [...prev, ...data]));
 
-      // Marcar que la primera carga está completa
+   
       if (pageNum === 1) {
         isFirstLoadRef.current = false;
       }
     } catch (error) {
-      // Ignorar aborts silenciosamente
+  
       if (error.name === 'AbortError') return;
 
       console.error('Error cargando datos:', error);
-      // Solo marcar hasMore=false si esta es la petición más reciente
+  
       if (myRequestId === requestIdRef.current) {
         setHasMore(false);
       }
     } finally {
-      // Solo actualizar loading si esta es la petición más reciente
+
       if (myRequestId === requestIdRef.current) {
         setLoading(false);
       }
     }
   }, [fetchFunction, pageSize]);
 
-  // Cargar primera página cuando cambia search
+
   useEffect(() => {
     isFirstLoadRef.current = true;
     setPage(1);
@@ -75,7 +73,6 @@ export const useInfiniteScroll = (
     loadItems(1, search);
   }, [search, loadItems]);
 
-  // IntersectionObserver para detectar fin de scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
       entries => {
@@ -93,7 +90,6 @@ export const useInfiniteScroll = (
     return () => observer.disconnect();
   }, [loading, hasMore]);
 
-  // Cargar cuando cambia la página
   useEffect(() => {
     if (page > 1) {
       loadItems(page, search);
