@@ -27,13 +27,27 @@ const socialLinks = [
 	},
 ];
 
-function Footer() {
+const footerStyles = {
+	footer: 'relative border-t border-secondary/50 bg-gradient-to-l from-secondary/10 to-background px-4 py-1 text-secondary shadow-[0_-1px_12px_rgba(15,23,42,0.04)]',
+	container: 'mx-auto max-w-7xl px-2 text-center',
+	content: 'inline-block leading-tight font-instrument text-sm font-normal',
+	nav: 'absolute right-6 top-1/2 flex -translate-y-1/2 transform items-center gap-4',
+	link: 'inline-flex items-center justify-center transition hover:-translate-y-0.5 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2',
+};
+
+function Footer({
+	footerClassName = footerStyles.footer,
+	containerClassName = footerStyles.container,
+	contentClassName = footerStyles.content,
+	navClassName = footerStyles.nav,
+	linkClassName = footerStyles.link,
+}) {
 	const { t } = useTranslation();
 
 	return (
-		<footer className="relative border-t border-secondary/50 bg-gradient-to-l from-secondary/10 to-background px-4 py-1 text-secondary shadow-[0_-1px_12px_rgba(15,23,42,0.04)]">
-			<div className="mx-auto max-w-7xl px-2 text-center">
-				<div className="inline-block leading-tight font-instrument text-sm font-normal">
+			<footer className={footerClassName}>
+			<div className={containerClassName}>
+				<div className={contentClassName}>
 					<p className="font-instrument text-sm">{t('footer.copyright')}</p>
 					<p className="font-instrument text-sm">{t('footer.address')}</p>
 				</div>
@@ -41,7 +55,7 @@ function Footer() {
 
 			<nav
 				aria-label={t('footer.socialAriaLabel')}
-				className="absolute right-6 top-1/2 flex -translate-y-1/2 transform items-center gap-4"
+				className={navClassName}
 			>
 				{socialLinks.map(({ labelKey, href, innerSize, svg }) => (
 					<a
@@ -50,7 +64,7 @@ function Footer() {
 						target="_blank"
 						rel="noopener noreferrer"
 						aria-label={t(`footer.social.${labelKey}`)}
-						className="inline-flex items-center justify-center transition hover:-translate-y-0.5 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+						className={linkClassName}
 						style={{ width: `${innerSize + 6}px`, height: `${innerSize + 6}px` }}
 					>
 						<svg
