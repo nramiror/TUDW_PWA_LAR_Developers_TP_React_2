@@ -1,4 +1,8 @@
-# Programación Web Avanzada (TUDW)
+![Logo REACT-GAMES](public/Logo.png)
+
+# REACT GAMES - Tu Ludoteca Digital
+
+## Programación Web Avanzada (TUDW)
 
 - **Trabajo Práctico** REACT Parte II: Desarrollo de una Aplicación con Múltiples Páginas
 
@@ -54,14 +58,25 @@ Favorites.
 ![Favorites](public/Fav.png)
 Detail.
 ![Detalle](public/ItemDetail.png)
+NotFound.
+![NotFound](public/NotFound.png)
 
 ## Estructura relevante del proyecto
 
-- `src/Pages/` : vistas principales (`Home`, `Favorites`, `ItemDetail`, `NotFound`)
-- `src/Components/` : componentes reutilizables (Header, Footer, List, SearchBox, etc.)
-- `src/services/boardgames.js` : llamadas a la API / lógica de datos
-- `src/customHooks/` : hooks personalizados (`useFavoriteGames`, `useInfiniteScroll`, etc.)
+**Archivos principales:**
+- `src/App.jsx` : componente raíz, maneja routing y estado global de la app
+- `src/main.jsx` : punto de entrada de la aplicación
+- `src/index.css` : estilos globales de la aplicación
+- `src/i18n.js` : configuración de internacionalización con i18next
 
+**Carpetas por funcionalidad:**
+- `src/Pages/` : vistas principales (`Home`, `Favorites`, `ItemDetail`, `NotFound`)
+- `src/Components/` : componentes reutilizables (Header, Footer, List, SearchBox, Card, Button, etc.)
+- `src/services/boardgames.js` : llamadas a la API simulada y lógica de datos
+- `src/customHooks/` : hooks personalizados (`useFavoriteGames`, `useInfiniteScroll`, `useLanguagePreference`, `useLocalStorage`)
+- `src/locales/` : archivos de traducción (español e inglés)
+  - `es/Translation.json` : textos en español
+  - `en/Translation.json` : textos en inglés
 
 ## Tecnologías
 
