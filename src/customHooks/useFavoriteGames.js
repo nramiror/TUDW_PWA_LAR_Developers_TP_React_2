@@ -1,33 +1,36 @@
 import { useCallback, useMemo } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 import { matchesInitialLetters } from '../services/boardgames';
+import { setToArray } from '../utils/idUtils';
+import {
+  isValidGame,
+  createFavoriteIdSet,
+  addFavoriteFlag,
+  filterGamesBySearch,
+  toggleGameInFavorites,
+  syncFavoritesWithVisible,
+  findFavoriteGameById,
+} from '../utils/favoriteUtils';
 
 export const useFavoriteGames = (searchQuery = '') => {
   const [favoriteGames, setFavoriteGames] = useLocalStorage('favoriteGames', []);
 
   const favoriteIdSet = useMemo(
-    () => new Set(favoriteGames.map((game) => String(game.id))),
+    () => createFavoriteIdSet(favoriteGames),
     [favoriteGames],
   );
 
-  const favoriteIds = useMemo(() => Array.from(favoriteIdSet), [favoriteIdSet]);
+  const favoriteIds = useMemo(
+    () => setToArray(favoriteIdSet),
+    [favoriteIdSet],
+  );
 
   const handleToggleFavorite = useCallback((game) => {
-    if (!game || game.id === undefined || game.id === null) {
+    if (!isValidGame(game)) {
       return;
     }
 
-    const gameId = String(game.id);
-
-    setFavoriteGames((prevFavorites) => {
-      const exists = prevFavorites.some((fav) => String(fav.id) === gameId);
-
-      if (exists) {
-        return prevFavorites.filter((fav) => String(fav.id) !== gameId);
-      }
-
-      return [...prevFavorites, { ...game, id: gameId, isFavorite: true }];
-    });
+    setFavoriteGames((prevFavorites) => toggleGameInFavorites(game, prevFavorites));
   }, [setFavoriteGames]);
 
   const syncFavoriteGames = useCallback((visibleGames) => {
@@ -35,47 +38,23 @@ export const useFavoriteGames = (searchQuery = '') => {
       return;
     }
 
-    setFavoriteGames((prevFavorites) => {
-      const visibleGamesById = new Map(
-        visibleGames.map((game) => [String(game.id), game]),
-      );
-
-      let changed = false;
-      const nextFavorites = prevFavorites.map((fav) => {
-        const updated = visibleGamesById.get(String(fav.id));
-        if (!updated) {
-          return fav;
-        }
-
-        const mergedFavorite = { ...fav, ...updated, id: String(updated.id), isFavorite: true };
-        const mergedKeys = Object.keys(mergedFavorite);
-        const hasDifferences = mergedKeys.length !== Object.keys(fav).length
-          || mergedKeys.some((key) => !Object.is(mergedFavorite[key], fav[key]));
-
-        if (!hasDifferences) {
-          return fav;
-        }
-
-        changed = true;
-        return mergedFavorite;
-      });
-
-      return changed ? nextFavorites : prevFavorites;
-    });
+    setFavoriteGames((prevFavorites) =>
+      syncFavoritesWithVisible(visibleGames, prevFavorites),
+    );
   }, [setFavoriteGames]);
 
   const favoritesWithFlag = useMemo(
-    () => favoriteGames.map((game) => ({ ...game, isFavorite: true })),
+    () => addFavoriteFlag(favoriteGames),
     [favoriteGames],
   );
 
   const filteredFavoritesWithFlag = useMemo(
-    () => favoritesWithFlag.filter((game) => matchesInitialLetters(game, searchQuery)),
-    [favoritesWithFlag, searchQuery]
+    () => filterGamesBySearch(favoritesWithFlag, searchQuery, matchesInitialLetters),
+    [favoritesWithFlag, searchQuery],
   );
 
   const handleToggleFavoriteById = useCallback((gameId) => {
-    const game = favoriteGames.find((fav) => String(fav.id) === String(gameId));
+    const game = findFavoriteGameById(favoriteGames, gameId);
     if (game) {
       handleToggleFavorite(game);
     }
