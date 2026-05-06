@@ -6,7 +6,17 @@ import Loader from '../../Components/Loader/Loader';
 import Alert from '../../Components/Alert/Alert';
 import { getBoardGameById } from '../../services/boardgames';
 
-const ItemDetail = () => {
+const defaultStyles = {
+  loaderWrapper: 'mx-auto flex w-full max-w-7xl justify-center px-4 pb-10 pt-8 sm:px-8 lg:px-24',
+  container: 'relative mx-auto w-full max-w-7xl px-4 pb-10 pt-8 sm:px-8 lg:px-24',
+  cardWrapper: 'relative z-10',
+};
+
+const ItemDetail = ({
+  containerClassName = defaultStyles.container,
+  loaderWrapperClassName = defaultStyles.loaderWrapper,
+  cardWrapperClassName = defaultStyles.cardWrapper,
+}) => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
   const location = useLocation();
@@ -112,7 +122,7 @@ const ItemDetail = () => {
 
   if (loading) {
     return (
-      <div className="mx-auto flex w-full max-w-7xl justify-center px-4 pb-10 pt-8 sm:px-8 lg:px-24">
+      <div className={loaderWrapperClassName}>
         <Loader message={loadingMessage} />
       </div>
     );
@@ -124,18 +134,11 @@ const ItemDetail = () => {
     if (isNotFound) {
       return <Navigate replace to="/not-found" />;
     }
-
-    const displayError = error ? errorMessage : notFoundMessage;
-    return (
-      <div className="mx-auto flex w-full max-w-7xl justify-center px-4 pb-10 pt-8 sm:px-8 lg:px-24">
-        <Alert type="error" message={displayError} />
-      </div>
-    );
   }
 
   return (
-    <div className="relative mx-auto w-full max-w-7xl px-4 pb-10 pt-8 sm:px-8 lg:px-24">
-      <div className="relative z-10">
+    <div className={containerClassName}>
+      <div className={cardWrapperClassName}>
         <Card
           variant="detail"
           image={item.image}

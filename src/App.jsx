@@ -10,6 +10,7 @@ import ItemDetail from './Pages/ItemDetail/ItemDetail';
 import NotFound from './Pages/NotFound/NotFound';
 import { useFavoriteGames } from './customHooks/useFavoriteGames';
 import { useLanguagePreference } from './customHooks/useLanguagePreference';
+import { handleSearchQueryChange, navigateToGameDetail } from './utils/searchNavigation';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -30,14 +31,12 @@ function App() {
   const previousSearchQueryRef = useRef(searchQuery);
 
   useEffect(() => {
-    const isDetailRoute = location.pathname === '/boardgames';
-    const isNotFoundRoute = location.pathname === '/not-found';
-    const searchChanged = previousSearchQueryRef.current !== searchQuery;
-
-    if ((isDetailRoute || isNotFoundRoute) && searchChanged) {
-      navigate('/', { replace: true });
-    }
-
+    handleSearchQueryChange(
+      location.pathname,
+      previousSearchQueryRef.current,
+      searchQuery,
+      navigate,
+    );
     previousSearchQueryRef.current = searchQuery;
   }, [location.pathname, navigate, searchQuery]);
 
@@ -46,18 +45,10 @@ function App() {
     { code: 'en', label: 'EN', ariaLabel: t('header.language.en') },
   ];
 
-  const handleViewDetails = useCallback((gameOrId) => {
-    if (gameOrId === undefined || gameOrId === null) {
-      return;
-    }
-
-    if (typeof gameOrId === 'object') {
-      navigate(`/boardgames?id=${gameOrId.id}`, { state: { item: gameOrId } });
-      return;
-    }
-
-    navigate(`/boardgames?id=${gameOrId}`);
-  }, [navigate]);
+  const handleViewDetails = useCallback(
+    (gameOrId) => navigateToGameDetail(gameOrId, navigate),
+    [navigate],
+  );
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-100">

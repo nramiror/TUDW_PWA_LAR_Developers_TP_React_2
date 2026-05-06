@@ -1,11 +1,17 @@
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import Alert from '../../Components/Alert/Alert';
 import Loader from '../../Components/Loader/Loader';
 import List from '../../Components/List/List';
 import Title from '../../Components/Title/Title';
 import { useInfiniteScroll } from '../../customHooks/useInfiniteScroll';
 import { getBoardGames } from '../../services/boardgames';
+import {
+  createFavoriteIdSet,
+  enrichGamesWithFavorites,
+  findGameById,
+  getEmptyStateMessage,
+  shouldShowLoader,
+} from '../../utils/homeUtils';
 
 const Home = ({
   searchQuery = '',
@@ -37,20 +43,16 @@ const Home = ({
   }, [games, onSyncFavoriteGames]);
 
   const favoriteIdSet = useMemo(
-    () => new Set(favoriteIds.map((id) => String(id))),
+    () => createFavoriteIdSet(favoriteIds),
     [favoriteIds],
   );
 
   const gamesWithFavorites = useMemo(
-    () => games.map((game) => ({ ...game, isFavorite: favoriteIdSet.has(String(game.id)) })),
+    () => enrichGamesWithFavorites(games, favoriteIdSet),
     [games, favoriteIdSet],
   );
 
-  const showMessage = gamesWithFavorites.length === 0 && !loading;
-  const emptyMessage = search
-    ? t('home.noResultsForSearch', { search })
-    : t('home.noGames');
-  const alertMessage = <Alert type="info" message={emptyMessage} />;
+  const emptyMessage = getEmptyStateMessage(!!search, search, t);
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col items-start gap-6 px-4 pb-10 pt-8 sm:px-8 lg:px-24">
@@ -63,29 +65,24 @@ const Home = ({
         </p>
       </div>
 
-      {showMessage ? (
-        <div className="w-full">
-          {alertMessage}
-        </div>
-      ) : (
-        <List
-          items={gamesWithFavorites}
-          onViewDetails={onViewDetails}
-          onToggleFavorite={(gameId) => {
-            const selectedGame = gamesWithFavorites.find((game) => String(game.id) === String(gameId));
-            if (selectedGame) {
-              onToggleFavorite?.(selectedGame);
-            }
-          }}
-          className="w-full"
-        />
-      )}
+      <List
+        items={gamesWithFavorites}
+        onViewDetails={onViewDetails}
+        onToggleFavorite={(gameId) => {
+          const selectedGame = findGameById(gamesWithFavorites, gameId);
+          if (selectedGame) {
+            onToggleFavorite?.(selectedGame);
+          }
+        }}
+        emptyMessage={emptyMessage}
+        className="w-full"
+      />
 
-      {loading && games.length > 0 ? (
+      {shouldShowLoader(loading, games) && (
         <div className="w-full">
-          <Loader message={loaderMessage}/>
+          <Loader message={loaderMessage} />
         </div>
-      ) : null}
+      )}
 
       <div ref={observerTarget} className="h-1 w-full" aria-hidden="true" />
     </div>
