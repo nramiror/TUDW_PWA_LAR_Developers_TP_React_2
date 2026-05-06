@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import Alert from '../../Components/Alert/Alert';
 import Loader from '../../Components/Loader/Loader';
 import List from '../../Components/List/List';
 import Title from '../../Components/Title/Title';
@@ -11,7 +10,6 @@ import {
   enrichGamesWithFavorites,
   findGameById,
   getEmptyStateMessage,
-  shouldShowEmptyMessage,
   shouldShowLoader,
 } from '../../utils/homeUtils';
 
@@ -54,9 +52,7 @@ const Home = ({
     [games, favoriteIdSet],
   );
 
-  const showMessage = shouldShowEmptyMessage(gamesWithFavorites, loading);
   const emptyMessage = getEmptyStateMessage(!!search, search, t);
-  const alertMessage = <Alert type="info" message={emptyMessage} />;
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col items-start gap-6 px-4 pb-10 pt-8 sm:px-8 lg:px-24">
@@ -69,23 +65,18 @@ const Home = ({
         </p>
       </div>
 
-      {showMessage ? (
-        <div className="w-full">
-          {alertMessage}
-        </div>
-      ) : (
-        <List
-          items={gamesWithFavorites}
-          onViewDetails={onViewDetails}
-          onToggleFavorite={(gameId) => {
-            const selectedGame = findGameById(gamesWithFavorites, gameId);
-            if (selectedGame) {
-              onToggleFavorite?.(selectedGame);
-            }
-          }}
-          className="w-full"
-        />
-      )}
+      <List
+        items={gamesWithFavorites}
+        onViewDetails={onViewDetails}
+        onToggleFavorite={(gameId) => {
+          const selectedGame = findGameById(gamesWithFavorites, gameId);
+          if (selectedGame) {
+            onToggleFavorite?.(selectedGame);
+          }
+        }}
+        emptyMessage={emptyMessage}
+        className="w-full"
+      />
 
       {shouldShowLoader(loading, games) && (
         <div className="w-full">

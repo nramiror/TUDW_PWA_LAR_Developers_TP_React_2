@@ -15,8 +15,5 @@ export const findGameById = (games, gameId) =>
 export const getEmptyStateMessage = (hasSearchQuery, searchTerm, t) =>
   hasSearchQuery ? t('home.noResultsForSearch', { search: searchTerm }) : t('home.noGames');
 
-/** Determina si debe mostrarse el mensaje de estado vacío */
-export const shouldShowEmptyMessage = (games, loading) => games.length === 0 && !loading;
-
 /** Determina si debe mostrarse el loader */
 export const shouldShowLoader = (loading, games) => loading && games.length > 0;
