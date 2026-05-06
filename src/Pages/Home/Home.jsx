@@ -6,6 +6,14 @@ import List from '../../Components/List/List';
 import Title from '../../Components/Title/Title';
 import { useInfiniteScroll } from '../../customHooks/useInfiniteScroll';
 import { getBoardGames } from '../../services/boardgames';
+import {
+  createFavoriteIdSet,
+  enrichGamesWithFavorites,
+  findGameById,
+  getEmptyStateMessage,
+  shouldShowEmptyMessage,
+  shouldShowLoader,
+} from '../../utils/homeUtils';
 
 const Home = ({
   searchQuery = '',
@@ -37,19 +45,17 @@ const Home = ({
   }, [games, onSyncFavoriteGames]);
 
   const favoriteIdSet = useMemo(
-    () => new Set(favoriteIds.map((id) => String(id))),
+    () => createFavoriteIdSet(favoriteIds),
     [favoriteIds],
   );
 
   const gamesWithFavorites = useMemo(
-    () => games.map((game) => ({ ...game, isFavorite: favoriteIdSet.has(String(game.id)) })),
+    () => enrichGamesWithFavorites(games, favoriteIdSet),
     [games, favoriteIdSet],
   );
 
-  const showMessage = gamesWithFavorites.length === 0 && !loading;
-  const emptyMessage = search
-    ? t('home.noResultsForSearch', { search })
-    : t('home.noGames');
+  const showMessage = shouldShowEmptyMessage(gamesWithFavorites, loading);
+  const emptyMessage = getEmptyStateMessage(!!search, search, t);
   const alertMessage = <Alert type="info" message={emptyMessage} />;
 
   return (
@@ -72,7 +78,7 @@ const Home = ({
           items={gamesWithFavorites}
           onViewDetails={onViewDetails}
           onToggleFavorite={(gameId) => {
-            const selectedGame = gamesWithFavorites.find((game) => String(game.id) === String(gameId));
+            const selectedGame = findGameById(gamesWithFavorites, gameId);
             if (selectedGame) {
               onToggleFavorite?.(selectedGame);
             }
@@ -81,11 +87,11 @@ const Home = ({
         />
       )}
 
-      {loading && games.length > 0 ? (
+      {shouldShowLoader(loading, games) && (
         <div className="w-full">
-          <Loader message={loaderMessage}/>
+          <Loader message={loaderMessage} />
         </div>
-      ) : null}
+      )}
 
       <div ref={observerTarget} className="h-1 w-full" aria-hidden="true" />
     </div>
