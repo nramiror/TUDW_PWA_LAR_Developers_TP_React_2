@@ -2,7 +2,7 @@
 
 # REACT GAMES - Tu Ludoteca Digital
 
-# Programación Web Avanzada (TUDW)
+## Programación Web Avanzada (TUDW)
 
 - **Trabajo Práctico** REACT Parte II: Desarrollo de una Aplicación con Múltiples Páginas
 
