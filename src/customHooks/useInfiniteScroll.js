@@ -13,6 +13,7 @@ export const useInfiniteScroll = (
 
   const requestIdRef = useRef(0);
   const controllerRef = useRef(null);
+  const isFirstLoadRef = useRef(true);
 
   // Cargar datos
   const loadItems = useCallback(async (pageNum, searchQuery) => {
@@ -44,6 +45,11 @@ export const useInfiniteScroll = (
 
       // Concatenar con datos anteriores o reemplazar si es primera página
       setItems(prev => (pageNum === 1 ? data : [...prev, ...data]));
+      
+      // Marcar que la primera carga está completa
+      if (pageNum === 1) {
+        isFirstLoadRef.current = false;
+      }
     } catch (error) {
       // Ignorar aborts silenciosamente
       if (error.name === 'AbortError') return;
@@ -63,6 +69,7 @@ export const useInfiniteScroll = (
 
   // Cargar primera página cuando cambia search
   useEffect(() => {
+    isFirstLoadRef.current = true;
     setPage(1);
     setItems([]);
     loadItems(1, search);
@@ -72,7 +79,7 @@ export const useInfiniteScroll = (
   useEffect(() => {
     const observer = new IntersectionObserver(
       entries => {
-        if (entries[0].isIntersecting && !loading && hasMore) {
+        if (entries[0].isIntersecting && !loading && hasMore && !isFirstLoadRef.current) {
           setPage(prev => prev + 1);
         }
       },
@@ -91,9 +98,10 @@ export const useInfiniteScroll = (
     if (page > 1) {
       loadItems(page, search);
     }
-  }, [page, search, loadItems]);
+  }, [page, search]);
 
   const resetScroll = useCallback(() => {
+    isFirstLoadRef.current = true;
     setPage(1);
     setItems([]);
     setHasMore(true);

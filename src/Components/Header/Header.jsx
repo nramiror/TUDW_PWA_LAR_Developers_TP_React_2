@@ -4,22 +4,31 @@ import { Link } from 'react-router-dom';
 import SearchBox from '../SearchBox/SearchBox';
 import { useTranslation } from 'react-i18next';
 
+const headerStyles = {
+  container: 'fixed top-0 left-0 right-0 z-50 w-full h-20 px-4 flex items-center justify-between border-b border-primary/30 bg-linear-to-l from-brand-light to-brand-bg shadow-[0_1px_12px_rgba(15,23,42,0.06)] sm:px-8 lg:px-24',
+  logo: 'flex-shrink-0',
+  logoImg: 'h-16 w-auto object-contain md:h-20',
+  searchContainer: 'flex-grow max-w-md mx-8',
+  rightSection: 'flex items-center gap-6',
+  nav: 'flex items-center',
+};
+
 const Header = ({ onSearchChange, languageOptions, activeLanguage, onChangeLanguage }) => {
   const { t } = useTranslation();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full h-20 px-4 flex items-center justify-between border-b border-primary/30 bg-linear-to-l from-brand-light to-brand-bg shadow-[0_1px_12px_rgba(15,23,42,0.06)] sm:px-8 lg:px-24">
-      <div className="flex-shrink-0">
+    <header className={headerStyles.container}>
+      <div className={headerStyles.logo}>
         <Link to="/" aria-label={t('header.logoAriaLabel')}>
           <img 
             src="/LogoReactGamesCompleto.png" 
             alt={t('header.logoAlt')} 
-            className="h-16 w-auto object-contain md:h-20"
+            className={headerStyles.logoImg}
           />
         </Link>
       </div>
 
-      <div className="flex-grow max-w-md mx-8">
+      <div className={headerStyles.searchContainer}>
         <SearchBox
           onSearchChange={onSearchChange}
           placeholder={t('header.search.placeholder')}
@@ -28,9 +37,9 @@ const Header = ({ onSearchChange, languageOptions, activeLanguage, onChangeLangu
         />
       </div>
 
-      <div className="flex items-center gap-6">
-        <nav aria-label={t('header.favoritesAriaLabel')}>
-        <FavIcon variant="nav" to="/favorites" ariaLabel={t('header.favoritesAriaLabel')} /> 
+      <div className={headerStyles.rightSection}>
+        <nav aria-label={t('header.favoritesAriaLabel')} className={headerStyles.nav}>
+          <FavIcon variant="nav" to="/favorites" ariaLabel={t('header.favoritesAriaLabel')} /> 
         </nav>
 
         <LanguageToggle
@@ -38,9 +47,7 @@ const Header = ({ onSearchChange, languageOptions, activeLanguage, onChangeLangu
           activeLanguage={activeLanguage}
           onChangeLanguage={onChangeLanguage}
         />
-
       </div>
-
     </header>
   );
 };
