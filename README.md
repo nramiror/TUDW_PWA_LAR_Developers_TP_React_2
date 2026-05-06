@@ -72,7 +72,7 @@ NotFound.
 **Carpetas por funcionalidad:**
 - `src/Pages/` : vistas principales (`Home`, `Favorites`, `ItemDetail`, `NotFound`)
 - `src/Components/` : componentes reutilizables (Header, Footer, List, SearchBox, Card, Button, etc.)
-- `src/services/boardgames.js` : llamadas a la API simulada y lógica de datos
+- `src/services/boardgames.js` : llamadas a la API remota (MockAPI) y lógica de datos
 - `src/customHooks/` : hooks personalizados (`useFavoriteGames`, `useInfiniteScroll`, `useLanguagePreference`, `useLocalStorage`)
 - `src/locales/` : archivos de traducción (español e inglés)
   - `es/Translation.json` : textos en español
