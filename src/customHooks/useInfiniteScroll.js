@@ -98,7 +98,7 @@ export const useInfiniteScroll = (
     if (page > 1) {
       loadItems(page, search);
     }
-  }, [page, search]);
+  }, [page, search, loadItems]);
 
   const resetScroll = useCallback(() => {
     isFirstLoadRef.current = true;
