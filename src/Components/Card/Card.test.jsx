@@ -1,5 +1,6 @@
 // Card renderiza la información principal y valida interacciones de ver detalle y favoritos.
 
+import '../../i18n';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -50,7 +51,7 @@ describe('Card component', () => {
       />,
     );
 
-    const favoriteButton = screen.getByRole('button', { name: 'card.favorite.add' });
+    const favoriteButton = screen.getByRole('button', { name: 'Agregar a favoritos' });
     await user.click(favoriteButton);
 
     expect(onToggleFavorite).toHaveBeenCalledTimes(1);
