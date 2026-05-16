@@ -2,12 +2,12 @@
 //Si no hay items, muestra un alert.
 //Recibe por props: items, onViewDetails, onToggleFavorite, emptyMessage y className.
 
-import { describe, it, vi, expect } from "vitest";
+import { describe, it, vi, expect, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
+import i18next from 'i18next';
 import List from "./List";
-import '../../i18n';
 
 
 describe("List component", () => {
@@ -15,6 +15,11 @@ describe("List component", () => {
         { id: 1, name: "Item 1", image: "image1.jpg", category: "Category 1", isFavorite: false },
         { id: 2, name: "Item 2", image: "image2.jpg", category: "Category 2", isFavorite: true },
     ];
+
+    beforeEach(() => {
+        localStorage.clear();
+    });
+
     it("renders the correct number of items based on the items prop", () => {
         render(
             <MemoryRouter>
@@ -46,8 +51,10 @@ describe("List component", () => {
                 <List items={items} onToggleFavorite={mockOnToggleFavorite} />
             </MemoryRouter>
         );
-        const favoriteButtons = screen.getAllByRole('button', { name: /Agregar a favoritos|Quitar de favoritos/i });
-        await user.click(favoriteButtons[0]);
+        
+        const allButtons = screen.getAllByRole('button');
+        const favoriteButton = allButtons.find(btn => btn.getAttribute('aria-pressed') === 'false');
+        await user.click(favoriteButton);
         expect(mockOnToggleFavorite).toHaveBeenCalledWith(items[0].id);
     });
 
@@ -68,9 +75,8 @@ describe("List component", () => {
                 <List items={[]} />
             </MemoryRouter>
         );
-        const alert = screen.getByText(/No hay juegos para mostrar/i);
+        const emptyMessageText = i18next.t('list.empty');
+        const alert = screen.getByText(emptyMessageText);
         expect(alert).toBeInTheDocument();
     });
-
-
 });
