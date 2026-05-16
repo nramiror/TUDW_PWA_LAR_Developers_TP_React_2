@@ -19,14 +19,20 @@ describe('Footer component', () => {
   it('renders the social navigation with an accessible label', () => {
     render(<Footer />);
 
-    expect(screen.getByRole('navigation', { name: 'Redes sociales' })).toBeInTheDocument();
+    const socialNavigation = screen.getByRole('navigation', { name: 'Redes sociales' });
+
+    expect(socialNavigation).toBeInTheDocument();
   });
 
   it('renders the social links with their correct accessible names and URLs', () => {
     render(<Footer />);
 
-    expect(screen.getByRole('link', { name: 'Facebook' })).toHaveAttribute('href', 'https://www.facebook.com');
-    expect(screen.getByRole('link', { name: 'Instagram' })).toHaveAttribute('href', 'https://www.instagram.com');
-    expect(screen.getByRole('link', { name: 'X' })).toHaveAttribute('href', 'https://x.com');
+    const facebookLink = screen.getByRole('link', { name: 'Facebook' });
+    const instagramLink = screen.getByRole('link', { name: 'Instagram' });
+    const xLink = screen.getByRole('link', { name: 'X' });
+
+    expect(facebookLink).toHaveAttribute('href', 'https://www.facebook.com');
+    expect(instagramLink).toHaveAttribute('href', 'https://www.instagram.com');
+    expect(xLink).toHaveAttribute('href', 'https://x.com');
   });
 });
