@@ -6,9 +6,20 @@ import { describe, it, vi, expect, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
-import i18next from 'i18next';
 import List from "./List";
 
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key) => {
+      const keys = {
+        'list.empty': 'No hay juegos para mostrar',
+        'card.favorite.add': 'Agregar a favoritos',
+        'card.favorite.remove': 'Quitar de favoritos'
+      };
+      return keys[key] || key;
+    }
+  })
+}));
 
 describe("List component", () => {
     const items = [
@@ -38,7 +49,7 @@ describe("List component", () => {
                 <List items={items} onViewDetails={mockOnViewDetails} />
             </MemoryRouter>
         );
-        const cardButtons = screen.getAllByRole('button', { name: /Item \d/ });
+        const cardButtons = screen.getAllByRole('button', { name: /Item 1/ });
         await user.click(cardButtons[0]);
         expect(mockOnViewDetails).toHaveBeenCalledWith(items[0]);
     });
@@ -52,9 +63,8 @@ describe("List component", () => {
             </MemoryRouter>
         );
         
-        const allButtons = screen.getAllByRole('button');
-        const favoriteButton = allButtons.find(btn => btn.getAttribute('aria-pressed') === 'false');
-        await user.click(favoriteButton);
+        const favoriteButtons = screen.getAllByRole('button', { name: /favoritos/i });
+        await user.click(favoriteButtons[0]);
         expect(mockOnToggleFavorite).toHaveBeenCalledWith(items[0].id);
     });
 
@@ -75,8 +85,8 @@ describe("List component", () => {
                 <List items={[]} />
             </MemoryRouter>
         );
-        const emptyMessageText = i18next.t('list.empty');
-        const alert = screen.getByText(emptyMessageText);
+
+        const alert = screen.getByText(/No hay juegos para mostrar/i);
         expect(alert).toBeInTheDocument();
     });
 });
