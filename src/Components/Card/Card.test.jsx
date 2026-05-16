@@ -16,9 +16,13 @@ describe('Card component', () => {
       />,
     );
 
-    expect(screen.getByText('Catan')).toBeInTheDocument();
-    expect(screen.getByText('Strategy')).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: 'Catan' })).toBeInTheDocument();
+    const title = screen.getByText('Catan');
+    const category = screen.getByText('Strategy');
+    const image = screen.getByRole('img', { name: 'Catan' });
+
+    expect(title).toBeInTheDocument();
+    expect(category).toBeInTheDocument();
+    expect(image).toBeInTheDocument();
   });
 
   it('calls onViewDetails when the card is clicked', async () => {
