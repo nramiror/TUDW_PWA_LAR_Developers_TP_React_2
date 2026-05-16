@@ -2,7 +2,7 @@
 //LanguageToggle es un button group que se comporta como un toggle, es decir, solo puede haber un idioma activo a la vez.
 //El estilo permite visualizar cual es el idioma activo.
 
-import { describe, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import LanguageToggle from "./LanguageToggle";
 import userEvent from "@testing-library/user-event";
