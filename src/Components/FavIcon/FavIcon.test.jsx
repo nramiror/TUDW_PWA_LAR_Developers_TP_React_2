@@ -4,7 +4,7 @@
 //Si es boton de acción, al hacer click se ejecuta la función onClick que se le pasa por props.
 
 import { render, screen } from "@testing-library/react";
-import { describe, it } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import FavIcon from "./FavIcon";
 import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
