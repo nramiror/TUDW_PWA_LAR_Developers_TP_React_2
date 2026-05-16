@@ -1,5 +1,7 @@
 //FavIcon muestra el boton de favoritos.
 //Segun su variante puede ser un boton de navegacion o un boton de accion para agregar o eliminar favoritos.
+//Si es boton de acción cambia su apariencia según si fav es true o false.
+//Si es boton de acción, al hacer click se ejecuta la función onClick que se le pasa por props.
 
 import { render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
