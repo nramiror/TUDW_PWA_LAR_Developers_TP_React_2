@@ -11,7 +11,7 @@ import {
   findGameById,
   getEmptyStateMessage,
   shouldShowLoader,
-} from '../../utils/homeUtils';
+} from '../../utils/home/homeUtils';
 
 const Home = ({
   searchQuery = '',
