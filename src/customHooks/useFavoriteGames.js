@@ -10,7 +10,7 @@ import {
   toggleGameInFavorites,
   syncFavoritesWithVisible,
   findFavoriteGameById,
-} from '../utils/favoriteUtils';
+} from '../utils/favorites/favoriteUtils';
 
 export const useFavoriteGames = (searchQuery = '') => {
   const [favoriteGames, setFavoriteGames] = useLocalStorage('favoriteGames', []);

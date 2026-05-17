@@ -8,7 +8,7 @@ import {
   hasDifferences,
   syncFavoritesWithVisible,
   findFavoriteGameById,
-} from './favoriteUtils';
+} from './favorites/favoriteUtils';
 
 describe('favoriteUtils', () => {
   it('isValidGame detects valid games', () => {
