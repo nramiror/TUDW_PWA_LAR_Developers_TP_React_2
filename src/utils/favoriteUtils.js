@@ -1,7 +1,7 @@
 import { createIdSetFromObjects } from './idUtils';
 
 /** Valida si un juego es válido */
-export const isValidGame = (game) => game && game.id !== undefined && game.id !== null;
+export const isValidGame = (game) => Boolean(game && game.id !== undefined && game.id !== null);
 
 /** Crea un Set de IDs de favoritos como strings */
 export const createFavoriteIdSet = (favoriteGames) => createIdSetFromObjects(favoriteGames);
