@@ -5,7 +5,7 @@ import {
   findGameById,
   getEmptyStateMessage,
   shouldShowLoader,
-} from './home/homeUtils';
+} from './homeUtils';
 
 describe('homeUtils', () => {
   it('createFavoriteIdSet creates a string set from mixed id types', () => {
