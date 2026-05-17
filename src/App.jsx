@@ -10,7 +10,7 @@ import ItemDetail from './Pages/ItemDetail/ItemDetail';
 import NotFound from './Pages/NotFound/NotFound';
 import { useFavoriteGames } from './customHooks/useFavoriteGames';
 import { useLanguagePreference } from './customHooks/useLanguagePreference';
-import { handleSearchQueryChange, navigateToGameDetail } from './utils/searchNavigation';
+import { handleSearchQueryChange, navigateToGameDetail } from './utils/searchNavigation/searchNavigation';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
