@@ -42,6 +42,11 @@ describe('useInfiniteScroll', () => {
 
     await waitFor(() => {
       expect(fetchFunction).toHaveBeenCalledTimes(1);
+      expect(result.current.items).toEqual([
+        { id: 1, name: 'Catan' },
+        { id: 2, name: 'Azul' },
+      ]);
+      expect(result.current.loading).toBe(false);
     });
 
     expect(fetchFunction.mock.calls[0][0]).toBe(1);
