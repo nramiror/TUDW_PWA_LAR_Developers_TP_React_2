@@ -1,4 +1,4 @@
-import { createIdSetFromArray } from '../idUtils';
+import { createIdSetFromArray } from '../id/idUtils';
 
 /** Crea un Set de IDs de favoritos como strings */
 export const createFavoriteIdSet = (favoriteIds) => createIdSetFromArray(favoriteIds);
