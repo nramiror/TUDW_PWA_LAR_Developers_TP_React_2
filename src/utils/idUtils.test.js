@@ -18,10 +18,10 @@ describe('idUtils', () => {
     expect(set.size).toBe(2);
   });
 
-  it('setToArray converts Set to Array while keeping values as strings', () => {
-    const set = new Set(['a', 'b']);
+  it('setToArray converts Set to Array while preserving values', () => {
+    const set = new Set(['a', 2, true]);
     const arr = setToArray(set);
     expect(Array.isArray(arr)).toBe(true);
-    expect(arr).toEqual(['a', 'b']);
+    expect(arr).toEqual(['a', 2, true]);
   });
 });
