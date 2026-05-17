@@ -8,7 +8,7 @@ import {
 } from './homeUtils';
 
 describe('homeUtils', () => {
-  it('createFavoriteIdSet delegates to idUtils and creates a string set', () => {
+  it('createFavoriteIdSet creates a string set from mixed id types', () => {
     const set = createFavoriteIdSet([1, '2']);
     expect(set.has('1')).toBe(true);
     expect(set.has('2')).toBe(true);
