@@ -8,13 +8,13 @@ describe('searchNavigation', () => {
     expect(navigate).toHaveBeenCalledWith('/', { replace: true });
   });
 
-  it('handleSearchQueryChange no navigates if there is no change', () => {
+  it('handleSearchQueryChange does not navigate if there is no change', () => {
     const navigate = vi.fn();
     handleSearchQueryChange('/boardgames', 'a', 'a', navigate);
     expect(navigate).not.toHaveBeenCalled();
   });
 
-  it('navigateToGameDetail no navigates with undefined/null', () => {
+  it('navigateToGameDetail does not navigate with undefined/null', () => {
     const navigate = vi.fn();
     navigateToGameDetail(undefined, navigate);
     navigateToGameDetail(null, navigate);
