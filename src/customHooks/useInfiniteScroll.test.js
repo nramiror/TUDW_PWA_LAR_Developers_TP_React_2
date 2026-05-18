@@ -20,7 +20,7 @@ class IntersectionObserverMock {
   }
 }
 
-global.IntersectionObserver = IntersectionObserverMock;
+globalThis.IntersectionObserver = IntersectionObserverMock;
 if (typeof window !== 'undefined') {
   window.IntersectionObserver = IntersectionObserverMock;
 }
