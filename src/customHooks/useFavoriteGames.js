@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 import { matchesInitialLetters } from '../services/boardgames';
-import { setToArray } from '../utils/idUtils';
+import { setToArray } from '../utils/id/idUtils';
 import {
   isValidGame,
   createFavoriteIdSet,
@@ -10,7 +10,7 @@ import {
   toggleGameInFavorites,
   syncFavoritesWithVisible,
   findFavoriteGameById,
-} from '../utils/favoriteUtils';
+} from '../utils/favorites/favoriteUtils';
 
 export const useFavoriteGames = (searchQuery = '') => {
   const [favoriteGames, setFavoriteGames] = useLocalStorage('favoriteGames', []);

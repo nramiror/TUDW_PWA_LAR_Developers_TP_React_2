@@ -34,3 +34,9 @@ dist-ssr
 .vite
 .vite/
 .vite/**
+
+# Coverage reports
+/coverage
+/coverage/
+coverage/**
+.nyc_output
