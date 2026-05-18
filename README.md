@@ -53,7 +53,7 @@ npm run build
 
 ## Testing
 
-Los tests están desarrollados con **Vitest** y **React Testing Library**.
+Los tests están desarrollados con **Vitest** y **React Testing Library**. Para ver además el reporte de cobertura usamos el comando de coverage de Vitest.
 
 ### Ejecutar tests
 
@@ -69,6 +69,12 @@ npm test
 npm run test:run
 ```
 
+**Ejecutar tests con coverage:**
+
+```
+npm run coverage
+```
+
 ### Cobertura de tests
 
 El proyecto incluye tests para:
@@ -76,8 +82,8 @@ El proyecto incluye tests para:
 - **Custom Hooks** (useInfiniteScroll, useFavoriteGames, useLanguagePreference, useLocalStorage)
 - **Utilidades** (favoriteUtils, homeUtils, idUtils, searchNavigation)
 
-**Estado actual:** 
-![Testing](public/Testing.png)
+**Reporte actual:**
+![Testing](public/TestingCov.png)
 
 ## Capturas de pantalla
 Home.
