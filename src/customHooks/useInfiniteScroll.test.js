@@ -2,33 +2,37 @@ import { act, renderHook, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useInfiniteScroll } from './useInfiniteScroll';
 
-describe('useInfiniteScroll', () => {
-  let intersectionCallback;
-  let observeMock;
-  let disconnectMock;
-  let originalGlobalIntersectionObserver;
-  let originalWindowIntersectionObserver;
+let intersectionCallback;
+let observeMock;
+let disconnectMock;
 
+class IntersectionObserverMock {
+  constructor(callback) {
+    intersectionCallback = callback;
+  }
+
+  observe() {
+    observeMock();
+  }
+
+  disconnect() {
+    disconnectMock();
+  }
+}
+
+global.IntersectionObserver = IntersectionObserverMock;
+if (typeof window !== 'undefined') {
+  window.IntersectionObserver = IntersectionObserverMock;
+}
+
+describe('useInfiniteScroll', () => {
   beforeEach(() => {
     observeMock = vi.fn();
     disconnectMock = vi.fn();
-    originalGlobalIntersectionObserver = globalThis.IntersectionObserver;
-    originalWindowIntersectionObserver = window.IntersectionObserver;
-
-    function IntersectionObserverMock(callback) {
-      intersectionCallback = callback;
-    }
-
-    IntersectionObserverMock.prototype.observe = observeMock;
-    IntersectionObserverMock.prototype.disconnect = disconnectMock;
-
-    globalThis.IntersectionObserver = IntersectionObserverMock;
-    window.IntersectionObserver = IntersectionObserverMock;
   });
 
   afterEach(() => {
-    globalThis.IntersectionObserver = originalGlobalIntersectionObserver;
-    window.IntersectionObserver = originalWindowIntersectionObserver;
+    intersectionCallback = null;
   });
 
   it('loads first page on mount and exposes initial state', async () => {
@@ -85,7 +89,7 @@ describe('useInfiniteScroll', () => {
     });
 
     await waitFor(() => {
-      expect(fetchFunction).toHaveBeenCalledTimes(2);
+      expect(result.current.items).toHaveLength(3);
     });
 
     expect(fetchFunction.mock.calls[1][0]).toBe(2);
@@ -117,7 +121,7 @@ describe('useInfiniteScroll', () => {
     });
 
     await waitFor(() => {
-      expect(result.current.page).toBe(2);
+      expect(result.current.items).toHaveLength(3);
     });
 
     expect(result.current.hasMore).toBe(false);
