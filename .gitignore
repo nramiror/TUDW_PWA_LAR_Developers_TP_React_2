@@ -34,3 +34,5 @@ dist-ssr
 .vite
 .vite/
 .vite/**
+coverage
+coverage/
