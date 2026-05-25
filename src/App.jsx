@@ -82,7 +82,7 @@ function App() {
               />
             )}
           />
-          <Route path="/boardgames" element={<ItemDetail />} />
+          <Route path="/boardgames/:id" element={<ItemDetail />} />
           <Route path="/not-found" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
 
