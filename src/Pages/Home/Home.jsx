@@ -5,13 +5,14 @@ import List from '../../Components/List/List';
 import Title from '../../Components/Title/Title';
 import { useInfiniteScroll } from '../../customHooks/useInfiniteScroll';
 import { getBoardGames } from '../../services/boardgames';
+
 import {
   createFavoriteIdSet,
   enrichGamesWithFavorites,
   findGameById,
   getEmptyStateMessage,
   shouldShowLoader,
-} from '../../utils/homeUtils';
+} from '../../utils/home/homeUtils';
 
 const Home = ({
   searchQuery = '',

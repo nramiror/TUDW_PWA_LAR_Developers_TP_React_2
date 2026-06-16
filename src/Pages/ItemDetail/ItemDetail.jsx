@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Navigate, useLocation, useSearchParams } from 'react-router-dom';
+import { Navigate, useLocation, useParams } from 'react-router-dom';
 import Card from '../../Components/Card/Card';
 import Loader from '../../Components/Loader/Loader';
 import Alert from '../../Components/Alert/Alert';
@@ -17,17 +17,20 @@ const ItemDetail = ({
   loaderWrapperClassName = defaultStyles.loaderWrapper,
   cardWrapperClassName = defaultStyles.cardWrapper,
 }) => {
-  const [searchParams] = useSearchParams();
-  const id = searchParams.get('id');
+  const { id } = useParams();
   const location = useLocation();
-  const { t } = useTranslation();
-  const initialItem = location.state?.item && String(location.state.item.id) === String(id)
-    ? location.state.item
-    : null;
-  const [item, setItem] = useState(initialItem);
-  const [loading, setLoading] = useState(!initialItem);
+  
+  // 1. Obtenemos el idioma actual (ej: 'es' o 'en') de i18next
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
+  // Quitamos la optimización estática de initialItem para asegurarnos 
+  // de que si cambia el idioma, siempre fuerce una nueva petición limpia.
+  const [item, setItem] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [fetchErrorMessage, setFetchErrorMessage] = useState('');
+
   const formatFieldLabel = (key) => {
     const normalizedKey = key.replace(/[_\s-]/g, '').toLowerCase();
 
@@ -59,7 +62,7 @@ const ItemDetail = ({
       return JSON.stringify(value);
     }
 
-    if (typeof value === 'boolean') {
+    if (value === typeof 'boolean') {
       return value ? t('itemDetail.values.yes') : t('itemDetail.values.no');
     }
 
@@ -67,18 +70,8 @@ const ItemDetail = ({
   };
 
   const loadingMessage = t('itemDetail.loading');
-  const errorMessage = t('itemDetail.errorFetch');
-  const notFoundMessage = t('itemDetail.errorNotFound');
 
   useEffect(() => {
-    const stateItem = location.state?.item;
-    if (stateItem && String(stateItem.id) === String(id)) {
-      setItem(stateItem);
-      setLoading(false);
-      setError(false);
-      return;
-    }
-
     let isMounted = true;
 
     const loadItem = async () => {
@@ -86,7 +79,10 @@ const ItemDetail = ({
       setError(false);
 
       try {
-        const game = await getBoardGameById(id);
+        // 2. Pasamos el idioma actual al servicio de la API
+        // Si i18n te devuelve 'en', y tu base de datos usa 'eng', podés mapearlo acá: currentLanguage === 'en' ? 'eng' : 'es'
+        const apiLanguage = currentLanguage === 'en' ? 'eng' : currentLanguage;
+        const game = await getBoardGameById(id, apiLanguage);
 
         if (isMounted) {
           setItem(game);
@@ -108,7 +104,8 @@ const ItemDetail = ({
     return () => {
       isMounted = false;
     };
-  }, [id, location.state]);
+    // 3. ¡Clave! Sumamos 'currentLanguage' a las dependencias del useEffect
+  }, [id, currentLanguage]); 
 
   const detailEntries = useMemo(() => {
     if (!item) {
@@ -116,7 +113,18 @@ const ItemDetail = ({
     }
 
     return Object.entries(item)
-      .filter(([key]) => key !== 'id' && key !== 'image' && key !== 'isFavorite' && key !== 'name')
+      // 4. Excluimos 'translation' y los metadatos técnicos del backend para que no se listen como strings planos
+      .filter(([key]) => 
+        key !== 'id' && 
+        key !== 'image' && 
+        key !== 'isFavorite' && 
+        key !== 'name' && 
+        key !== 'translation' && 
+        key !== 'createdAt' && 
+        key !== 'updatedAt' && 
+        key !== 'deletedAt' &&
+        key !== 'imageURL'
+      )
       .map(([key, value]) => [formatFieldLabel(key), formatFieldValue(value)]);
   }, [item, t]);
 
@@ -142,12 +150,11 @@ const ItemDetail = ({
         <Card
           variant="detail"
           image={item.image}
-          title={item.name || item.title || 'Detalle del juego'}
+          title={item.name || 'Detalle del juego'}
           category={item.category}
           detailEntries={detailEntries}
         />
       </div>
-
     </div>
   );
 };

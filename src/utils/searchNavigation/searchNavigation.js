@@ -5,7 +5,7 @@ export const handleSearchQueryChange = (
   currentSearchQuery,
   navigate,
 ) => {
-  const isDetailRoute = currentPathname === '/boardgames';
+  const isDetailRoute = currentPathname.startsWith('/boardgames');
   const isNotFoundRoute = currentPathname === '/not-found';
   const searchChanged = previousSearchQuery !== currentSearchQuery;
 
@@ -21,9 +21,9 @@ export const navigateToGameDetail = (gameOrId, navigate) => {
   }
 
   if (typeof gameOrId === 'object') {
-    navigate(`/boardgames?id=${gameOrId.id}`, { state: { item: gameOrId } });
+    navigate(`/boardgames/${gameOrId.id}`, { state: { item: gameOrId } });
     return;
   }
 
-  navigate(`/boardgames?id=${gameOrId}`);
+  navigate(`/boardgames/${gameOrId}`);
 };

@@ -51,6 +51,40 @@ npm run dev
 npm run build
 ```
 
+## Testing
+
+Los tests están desarrollados con **Vitest** y **React Testing Library**. Para ver además el reporte de cobertura usamos el comando de coverage de Vitest.
+
+### Ejecutar tests
+
+**Modo watch** (se ejecutan automáticamente cuando cambias archivos):
+
+```
+npm test
+```
+
+**Ejecutar tests una sola vez:**
+
+```
+npm run test:run
+```
+
+**Ejecutar tests con coverage:**
+
+```
+npm run coverage
+```
+
+### Cobertura de tests
+
+El proyecto incluye tests para:
+- **Componentes** (Header, Footer, Card, Button, Alert, etc.)
+- **Custom Hooks** (useInfiniteScroll, useFavoriteGames, useLanguagePreference, useLocalStorage)
+- **Utilidades** (favoriteUtils, homeUtils, idUtils, searchNavigation)
+
+**Reporte actual:**
+![Testing](public/TestingCov.png)
+
 ## Capturas de pantalla
 Home.
 ![Home](public/Home.png)
@@ -72,7 +106,7 @@ NotFound.
 **Carpetas por funcionalidad:**
 - `src/Pages/` : vistas principales (`Home`, `Favorites`, `ItemDetail`, `NotFound`)
 - `src/Components/` : componentes reutilizables (Header, Footer, List, SearchBox, Card, Button, etc.)
-- `src/services/boardgames.js` : llamadas a la API simulada y lógica de datos
+- `src/services/boardgames.js` : llamadas a la API remota (MockAPI) y lógica de datos
 - `src/customHooks/` : hooks personalizados (`useFavoriteGames`, `useInfiniteScroll`, `useLanguagePreference`, `useLocalStorage`)
 - `src/locales/` : archivos de traducción (español e inglés)
   - `es/Translation.json` : textos en español
