@@ -83,11 +83,13 @@ export const getBoardGameById = async (id, language = "es") => {
   const params = new URLSearchParams({ language });
   
   const res = await fetch(`${BASE_URL}/boardgames/${id}?${params}`);
+  
+  if (!res.ok) {
+    throw new Error(`Error ${res.status}: Resource not found`);
+  }
+
   const responseBody = await res.json();
-
-  console.log("Respuesta:", responseBody);
-
-  const gameData = responseBody.data || responseBody;
+  const gameData = responseBody.data || {};
 
   return normalizeGame(gameData);
 };
