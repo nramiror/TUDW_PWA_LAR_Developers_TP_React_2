@@ -5,6 +5,7 @@ import List from '../../Components/List/List';
 import Title from '../../Components/Title/Title';
 import { useInfiniteScroll } from '../../customHooks/useInfiniteScroll';
 import { getBoardGames } from '../../services/boardgames';
+
 import {
   createFavoriteIdSet,
   enrichGamesWithFavorites,

@@ -1,4 +1,4 @@
-const BASE_URL = "https://69f34338bd2396bf530fa33e.mockapi.io/api/v1/boardgames";
+const BASE_URL = "https://tudw-pwa-lar-developers-react-games.vercel.app/api";
 
 const fetchJson = async (url) => {
   const res = await fetch(url);
@@ -57,7 +57,8 @@ export const getBoardGames = async (page = 1, search = "", limit = 5, signal) =>
     params.set('search', normalizedSearch);
   }
 
-  const res = await fetch(`${BASE_URL}?${params.toString()}`, signal ? { signal } : undefined);
+  const res = await fetch(`${BASE_URL}/boardgames`);
+  console.log('Fetch URL:', `${BASE_URL}/boardgames`);
   const games = await res.json();
 
   return games
@@ -66,13 +67,13 @@ export const getBoardGames = async (page = 1, search = "", limit = 5, signal) =>
 };
 
 export const getBoardGameById = async (id) => {
-  const game = await fetchJson(`${BASE_URL}/${id}`);
+  const game = await fetchJson(`${BASE_URL}/boardgames/${id}`);
 
   return normalizeGame(game);
 };
 
 export const getBoardGameName = async (query) => {
-  const games = await fetchJson(`${BASE_URL}?search=${query}`);
+  const games = await fetchJson(`${BASE_URL}/boardgames?search=${query}`);
 
   return games.map(normalizeGame);
 };
