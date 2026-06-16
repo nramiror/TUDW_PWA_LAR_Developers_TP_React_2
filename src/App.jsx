@@ -1,6 +1,6 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Footer from './Components/Footer/Footer';
 import Header from './Components/Header/Header';
@@ -11,10 +11,15 @@ import NotFound from './Pages/NotFound/NotFound';
 import { useFavoriteGames } from './customHooks/useFavoriteGames';
 import { useLanguagePreference } from './customHooks/useLanguagePreference';
 import { handleSearchQueryChange, navigateToGameDetail } from './utils/searchNavigation/searchNavigation';
+import { useLocalStorage } from './customHooks/useLocalStorage';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const { t } = useTranslation();
+
+  const [userSession] = useLocalStorage('userSession', null);
+  const isLoggedIn = !!userSession;
+
   const {
     favoriteIds,
     filteredFavoritesWithFlag,
@@ -74,13 +79,13 @@ function App() {
           />
           <Route
             path="/favorites"
-            element={(
+            element={isLoggedIn ?
               <Favorites
                 games={filteredFavoritesWithFlag}
                 onViewDetails={handleViewDetails}
                 onToggleFavorite={handleToggleFavoriteById}
-              />
-            )}
+              /> : <Navigate to="/" replace />
+            }
           />
           <Route path="/boardgames/:id" element={<ItemDetail />} />
           <Route path="/not-found" element={<NotFound />} />
