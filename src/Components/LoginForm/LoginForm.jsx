@@ -21,16 +21,10 @@ const LoginForm = ({ onSuccess }) => {
       return;
     }
 
-    try {
-      // --- CONEXIÓN AL BACKEND ---
-      // Acá es donde más adelante le pegaremos a tu API de Express
-      // Ejemplo: const response = await fetch('/api/auth/login', { ... })
-      
-      console.log('Sending credentials to backend:', { email, password });
+   try {
       
       await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      if (onSuccess) onSuccess();
+      if (onSuccess) onSuccess(email);
 
     } catch (err) {
       setError(t('login.errors.invalidCredentials', 'Invalid email or password'));
