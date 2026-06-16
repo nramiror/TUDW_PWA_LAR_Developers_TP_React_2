@@ -1,6 +1,6 @@
 import { describe, it, vi, expect } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import LoginIcon from "./LoginIcon"; 
+import LoginIcon from "./LogIcon"; 
 
 describe("LoginIcon component", () => {
     it("renders correctly as a button", () => {
