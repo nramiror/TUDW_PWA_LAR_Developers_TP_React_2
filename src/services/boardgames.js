@@ -27,11 +27,17 @@ const normalizeCategory = (category) => {
   return category ?? '';
 };
 
-const normalizeGame = (game) => ({
-  ...game,
-  name: game.name,
-  category: normalizeCategory(game.category),
-});
+
+const normalizeGame = (game) => {
+  const translation = game.translation || {};
+  return {
+    ...game,
+    name: translation.name || "Nombre no disponible",
+    image: game.imageURL || game.image, 
+    category: normalizeCategory(translation.category),
+    description: translation.description || "", // Traemos también la descripción traducida
+  };
+};
 
 export const matchesInitialLetters = (game, query) => {
   const normalizedQuery = query.trim().toLowerCase();
@@ -40,36 +46,52 @@ export const matchesInitialLetters = (game, query) => {
     return true;
   }
 
+  const translation = game.translation || {};
+  const name = translation.name || "";
+  const category = normalizeCategory(translation.category) || "";
+
   return (
-    game.name?.toLowerCase().startsWith(normalizedQuery) ||
-    normalizeCategory(game.category).toLowerCase().startsWith(normalizedQuery)
+    name.toLowerCase().startsWith(normalizedQuery) ||
+    category.toLowerCase().startsWith(normalizedQuery)
   );
 };
 
-export const getBoardGames = async (page = 1, search = "", limit = 5, signal) => {
+export const getBoardGames = async (page = 1, search = "", limit = 5, language = "es", signal) => {
   const normalizedSearch = search.trim();
   const params = new URLSearchParams({
     page: String(page),
     limit: String(limit),
+    language: language, 
   });
 
   if (normalizedSearch) {
     params.set('search', normalizedSearch);
   }
 
-  const res = await fetch(`${BASE_URL}/boardgames`);
-  console.log('Fetch URL:', `${BASE_URL}/boardgames`);
-  const games = await res.json();
+  const res = await fetch(`${BASE_URL}/boardgames?${params}`, { signal });
+  console.log('Fetch URL:', `${BASE_URL}/boardgames?${params}`);
+  const responseBody = await res.json();
 
-  return games
+  const gamesArray = responseBody.data || [];
+
+  return gamesArray
     .filter((game) => matchesInitialLetters(game, normalizedSearch))
     .map(normalizeGame);
 };
 
-export const getBoardGameById = async (id) => {
-  const game = await fetchJson(`${BASE_URL}/boardgames/${id}`);
+export const getBoardGameById = async (id, language = "es") => {
+  const params = new URLSearchParams({ language });
+  
+  const res = await fetch(`${BASE_URL}/boardgames/${id}?${params}`);
+  
+  if (!res.ok) {
+    throw new Error(`Error ${res.status}: Resource not found`);
+  }
 
-  return normalizeGame(game);
+  const responseBody = await res.json();
+  const gameData = responseBody.data || {};
+
+  return normalizeGame(gameData);
 };
 
 export const getBoardGameName = async (query) => {
