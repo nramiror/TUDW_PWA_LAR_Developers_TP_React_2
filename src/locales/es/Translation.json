@@ -11,7 +11,9 @@
 		"language": {
 			"es": "Cambiar idioma a Español",
 			"en": "Cambiar idioma a English"
-		}
+		},
+		"loginAriaLabel": "Iniciar sesión",
+		"logoutAriaLabel": "Cerrar sesión"
 	},
 	"footer": {
 		"copyright": "Copyright © 2026 ReactGames LAR Developers",
