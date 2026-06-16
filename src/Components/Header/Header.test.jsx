@@ -32,12 +32,13 @@ describe('Header component', () => {
     const homeLink = screen.getByRole('link', { name: 'Ir al inicio' });
     const logo = screen.getByRole('img', { name: 'Logo de ReactGames' });
     const searchInput = screen.getByRole('textbox', { name: 'Buscar juegos' });
-    const favoritesLink = screen.getByRole('link', { name: 'Ir a favoritos' });
+    const favoritesLink = screen.queryByRole('link', { name: /favoritos/i });
+    expect(favoritesLink).not.toBeInTheDocument();
 
     expect(homeLink).toBeInTheDocument();
     expect(logo).toBeInTheDocument();
     expect(searchInput).toBeInTheDocument();
-    expect(favoritesLink).toBeInTheDocument();
+    expect(favoritesLink).not.toBeInTheDocument();
   });
 
   it('calls onSearchChange when the user writes in the search box', async () => {
