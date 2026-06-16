@@ -4,7 +4,16 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // Fuerza a Vite a tratar todo como una Single Page Application redireccionando al index.html
+  appType: 'spa', 
+  
   plugins: [react(), tailwindcss()],
+  
+  server: {
+    port: 5173,
+    strictPort: true, // Evita que si el puerto se ocupa te mande a otro ramdom (ej: 5174) rompiendo la sesión de cookies/CORS
+  },
+
   test: {
     environment: 'jsdom',
     setupFiles: './src/utils/setupTests.js',
