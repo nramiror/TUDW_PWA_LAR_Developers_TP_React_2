@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import Header from './Header';
 
+
 const renderHeader = (props = {}) => {
   const defaultProps = {
     onSearchChange: vi.fn(),
