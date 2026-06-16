@@ -79,10 +79,17 @@ export const getBoardGames = async (page = 1, search = "", limit = 5, language =
     .map(normalizeGame);
 };
 
-export const getBoardGameById = async (id) => {
-  const game = await fetchJson(`${BASE_URL}/boardgames/${id}`);
+export const getBoardGameById = async (id, language = "es") => {
+  const params = new URLSearchParams({ language });
+  
+  const res = await fetch(`${BASE_URL}/boardgames/${id}?${params}`);
+  const responseBody = await res.json();
 
-  return normalizeGame(game);
+  console.log("Respuesta:", responseBody);
+
+  const gameData = responseBody.data || responseBody;
+
+  return normalizeGame(gameData);
 };
 
 export const getBoardGameName = async (query) => {
