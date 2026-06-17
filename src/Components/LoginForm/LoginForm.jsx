@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../Button/Button';
 import { useTranslation } from 'react-i18next';
+import { loginUser } from '../../services/user';
 
 const LoginForm = ({ onSuccess }) => {
   const { t } = useTranslation();
@@ -22,12 +23,18 @@ const LoginForm = ({ onSuccess }) => {
     }
 
    try {
-      
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      if (onSuccess) onSuccess(email);
+    
+      const data = await loginUser(email, password);
+
+      if (data.success) {
+        if (onSuccess) onSuccess(email);
+      } else {
+        setError(data.message || t('login.errors.invalidCredentials', 'Invalid email or password'));
+      }
 
     } catch (err) {
-      setError(t('login.errors.invalidCredentials', 'Invalid email or password'));
+      console.error("Error conectando al servicio:", err);
+      setError(t('login.errors.connection', 'Error conectando al servidor'));
     } finally {
       setIsLoading(false);
     }

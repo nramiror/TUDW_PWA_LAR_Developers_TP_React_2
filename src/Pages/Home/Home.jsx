@@ -20,6 +20,7 @@ const Home = ({
   onToggleFavorite,
   favoriteIds = [],
   onSyncFavoriteGames,
+  userSession,
 }) => {
   const {
     items: games,
@@ -69,6 +70,7 @@ const Home = ({
       <List
         items={gamesWithFavorites}
         onViewDetails={onViewDetails}
+        userSession={userSession}
         onToggleFavorite={(gameId) => {
           const selectedGame = findGameById(gamesWithFavorites, gameId);
           if (selectedGame) {

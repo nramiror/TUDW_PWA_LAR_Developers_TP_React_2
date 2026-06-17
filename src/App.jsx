@@ -17,7 +17,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const { t } = useTranslation();
 
-  const [userSession] = useLocalStorage('userSession', null);
+  const [userSession, setUserSession] = useLocalStorage('userSession', null);
   const isLoggedIn = !!userSession;
 
   const {
@@ -62,6 +62,8 @@ function App() {
         languageOptions={languageOptions}
         activeLanguage={currentLanguage}
         onChangeLanguage={changeLanguage}
+        userSession={userSession}
+        setUserSession={setUserSession}
       />
       <main className="flex w-full flex-1 items-start justify-center pt-20">
         <Routes>
@@ -74,6 +76,8 @@ function App() {
                 onViewDetails={handleViewDetails}
                 onToggleFavorite={handleToggleFavorite}
                 onSyncFavoriteGames={syncFavoriteGames}
+                userSession={userSession} 
+                setUserSession={setUserSession}
               />
             )}
           />
