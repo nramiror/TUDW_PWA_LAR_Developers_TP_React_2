@@ -18,9 +18,9 @@ const headerStyles = {
   nav: 'flex items-center',
 };
 
-const Header = ({ onSearchChange, languageOptions, activeLanguage, onChangeLanguage }) => {
+const Header = ({ onSearchChange, languageOptions, activeLanguage, onChangeLanguage, userSession, setUserSession }) => {
   const { t } = useTranslation();
-  const [userSession, setUserSession] = useLocalStorage('userSession', null);
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isLoggedIn = !!userSession;
 
@@ -76,7 +76,7 @@ const Header = ({ onSearchChange, languageOptions, activeLanguage, onChangeLangu
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div className="text-center">
-          <LoginForm onLoginSuccess={handleLoginSuccess} />
+          <LoginForm onSuccess={handleLoginSuccess} />
         </div>
       </Modal>
 

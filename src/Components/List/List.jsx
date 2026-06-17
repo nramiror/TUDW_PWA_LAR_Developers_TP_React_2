@@ -5,6 +5,7 @@ import Alert from '../Alert/Alert';
 function List({
   items = [],
   onViewDetails,
+  userSession,
   onToggleFavorite,
   emptyMessage,
   className = '',
@@ -31,6 +32,7 @@ function List({
             isFavorite={item.isFavorite}
             onViewDetails={() => onViewDetails?.(item)}
             onToggleFavorite={() => onToggleFavorite?.(item.id)}
+            userSession={userSession}
           />
         </li>
       ))}
