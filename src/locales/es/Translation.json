@@ -11,6 +11,24 @@
 		"language": {
 			"es": "Cambiar idioma a Español",
 			"en": "Cambiar idioma a English"
+		},
+		"loginAriaLabel": "Iniciar sesión",
+		"logoutAriaLabel": "Cerrar sesión"
+	},
+	"login": {
+		"title": "¡Qué bueno verte de nuevo!",
+		"subtitle": "Ingresá tus credenciales para acceder a tu cuenta",
+		"fields": {
+			"email": "Correo Electrónico",
+			"password": "Contraseña"
+		},
+		"buttons": {
+			"submit": "Ingresar",
+			"loading": "Conectando..."
+		},
+		"errors": {
+			"emptyFields": "Todos los campos son obligatorios",
+			"invalidCredentials": "Email o contraseña incorrectos"
 		}
 	},
 	"footer": {

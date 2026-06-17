@@ -11,6 +11,24 @@
 		"language": {
 			"es": "Switch language to Spanish",
 			"en": "Switch language to English"
+		},
+		"loginAriaLabel": "Sign in",
+		"logoutAriaLabel": "Sign out"
+	},
+	"login": {
+		"title": "Welcome Back",
+		"subtitle": "Enter your credentials to access your account",
+		"fields": {
+			"email": "Email Address",
+			"password": "Password"
+		},
+		"buttons": {
+			"submit": "Sign In",
+			"loading": "Connecting..."
+		},
+		"errors": {
+			"emptyFields": "All fields are required",
+			"invalidCredentials": "Invalid email or password"
 		}
 	},
 	"footer": {

@@ -5,6 +5,7 @@ import List from '../../Components/List/List';
 import Title from '../../Components/Title/Title';
 import { useInfiniteScroll } from '../../customHooks/useInfiniteScroll';
 import { getBoardGames } from '../../services/boardgames';
+
 import {
   createFavoriteIdSet,
   enrichGamesWithFavorites,
@@ -19,6 +20,7 @@ const Home = ({
   onToggleFavorite,
   favoriteIds = [],
   onSyncFavoriteGames,
+  userSession,
 }) => {
   const {
     items: games,
@@ -68,6 +70,7 @@ const Home = ({
       <List
         items={gamesWithFavorites}
         onViewDetails={onViewDetails}
+        userSession={userSession}
         onToggleFavorite={(gameId) => {
           const selectedGame = findGameById(gamesWithFavorites, gameId);
           if (selectedGame) {

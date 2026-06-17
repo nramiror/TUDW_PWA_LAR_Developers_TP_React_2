@@ -13,6 +13,7 @@ function Card({
   onToggleFavorite,
   isFavorite = false,
   isDetail = false,
+  userSession,
 }) {
   const { t } = useTranslation();
   const resolvedVariant = isDetail ? 'detail' : variant;
@@ -23,6 +24,7 @@ function Card({
   const noImageLabel = t('card.noImage');
   const noCategoryLabel = t('card.noCategory');
   const favoriteAriaLabel = isFavorite ? t('card.favorite.remove') : t('card.favorite.add');
+  
 
   const cardClasses = [
     'flex h-full w-full flex-col overflow-hidden rounded-md border border-primary/20 bg-white max-w-[200px] mx-auto',
@@ -127,12 +129,14 @@ function Card({
 
           {typeof onToggleFavorite === 'function' ? (
             <div className="absolute right-2 top-2 z-10">
-              <FavIcon
-                variant="card"
-                isFavorite={isFavorite}
-                onClick={onToggleFavorite}
-                ariaLabel={favoriteAriaLabel}
-              />
+              {userSession && (
+                <FavIcon
+                  variant="card"
+                  isFavorite={isFavorite}
+                  onClick={onToggleFavorite}
+                  ariaLabel={favoriteAriaLabel}
+                />
+              )}
             </div>
           ) : null}
         </>
