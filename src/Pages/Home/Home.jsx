@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import Loader from '../../Components/Loader/Loader';
 import List from '../../Components/List/List';
@@ -22,6 +22,16 @@ const Home = ({
   onSyncFavoriteGames,
   userSession,
 }) => {
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language || 'es';
+  
+  const fetchGamesWithLanguage = useCallback(
+    (page, searchTerm, limit, signal) => {
+      return getBoardGames(page, searchTerm, limit, currentLanguage, signal);
+    },
+    [currentLanguage]
+  );
+
   const {
     items: games,
     loading,
@@ -29,9 +39,8 @@ const Home = ({
     observerTarget,
     search,
     setSearch,
-  } = useInfiniteScroll(getBoardGames, { pageSize: 5 });
+  } = useInfiniteScroll(fetchGamesWithLanguage, { pageSize: 15 });
 
-  const { t } = useTranslation();
   const homeTitle = t('home.title');
   const homeDescription = t('home.description');
   const loaderMessage = t('home.loading');

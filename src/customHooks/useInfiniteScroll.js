@@ -70,6 +70,7 @@ export const useInfiniteScroll = (
     isFirstLoadRef.current = true;
     setPage(1);
     setItems([]);
+    setHasMore(true);
     loadItems(1, search);
   }, [search, loadItems]);
 
@@ -94,7 +95,7 @@ export const useInfiniteScroll = (
     if (page > 1) {
       loadItems(page, search);
     }
-  }, [page, search, loadItems]);
+  }, [page]);
 
   const resetScroll = useCallback(() => {
     isFirstLoadRef.current = true;

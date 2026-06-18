@@ -19,7 +19,7 @@ const fetchJson = async (url) => {
   return res.json();
 };
 
-const normalizeCategory = (category) => {
+export const normalizeCategory = (category) => {
   if (Array.isArray(category)) {
     return category.join(', ');
   }
@@ -28,7 +28,7 @@ const normalizeCategory = (category) => {
 };
 
 
-const normalizeGame = (game) => {
+export const normalizeGame = (game) => {
   const translation = game.translation || {};
   return {
     ...game,

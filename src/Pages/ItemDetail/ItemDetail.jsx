@@ -20,12 +20,9 @@ const ItemDetail = ({
   const { id } = useParams();
   const location = useLocation();
   
-  // 1. Obtenemos el idioma actual (ej: 'es' o 'en') de i18next
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
-  // Quitamos la optimización estática de initialItem para asegurarnos 
-  // de que si cambia el idioma, siempre fuerce una nueva petición limpia.
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
