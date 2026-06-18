@@ -3,7 +3,7 @@ import List from '../../Components/List/List';
 import Alert from '../../Components/Alert/Alert';
 import Title from '../../Components/Title/Title';
 
-const Favorites = ({ games = [], onViewDetails, onToggleFavorite }) => {
+const Favorites = ({ games = [], onViewDetails, onToggleFavorite, userSession }) => {
   const { t } = useTranslation();
   const favoritesTitle = t('favorites.title');
   const favoritesDescription = t('favorites.description');
@@ -26,6 +26,7 @@ const Favorites = ({ games = [], onViewDetails, onToggleFavorite }) => {
       ) : (
         <List
           items={games}
+          userSession={userSession}
           onViewDetails={onViewDetails}
           onToggleFavorite={onToggleFavorite}
           className="w-full"

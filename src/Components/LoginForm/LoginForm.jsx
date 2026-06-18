@@ -22,12 +22,14 @@ const LoginForm = ({ onSuccess }) => {
       return;
     }
 
-   try {
-    
+    try {
       const data = await loginUser(email, password);
 
       if (data.success) {
-        if (onSuccess) onSuccess(email);
+        
+        const userData = data.user || data.data || data;
+
+        if (onSuccess) onSuccess(userData); 
       } else {
         setError(data.message || t('login.errors.invalidCredentials', 'Invalid email or password'));
       }
@@ -42,7 +44,7 @@ const LoginForm = ({ onSuccess }) => {
 
   return (
     <div className="flex flex-col gap-4 text-center">
-      {}
+      { }
       <h2 className="font-instrument text-2xl font-bold text-secondary">
         {t('login.title', 'Welcome Back')}
       </h2>
@@ -50,23 +52,23 @@ const LoginForm = ({ onSuccess }) => {
         {t('login.subtitle', 'Enter your credentials to access your account')}
       </p>
 
-      {}
+      { }
       {error && (
         <div className="rounded-[var(--radius-border)] bg-red-500/10 border border-red-500/20 p-3 text-sm text-red-600 font-medium">
           {error}
         </div>
       )}
 
-      {}
+      { }
       <form className="mt-2 flex flex-col gap-4 text-left" onSubmit={handleSubmit}>
-        
-        {}
+
+        { }
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-bold text-secondary/80">
             {t('login.fields.email', 'Email Address')}
           </label>
-          <input 
-            type="email" 
+          <input
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full rounded-[var(--radius-border)] border border-primary/30 bg-white/50 px-4 py-2.5 text-secondary shadow-xs transition-colors focus:border-secondary focus:bg-white focus:outline-hidden"
@@ -75,13 +77,13 @@ const LoginForm = ({ onSuccess }) => {
           />
         </div>
 
-        {}
+        { }
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-bold text-secondary/80">
             {t('login.fields.password', 'Password')}
           </label>
-          <input 
-            type="password" 
+          <input
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full rounded-[var(--radius-border)] border border-primary/30 bg-white/50 px-4 py-2.5 text-secondary shadow-xs transition-colors focus:border-secondary focus:bg-white focus:outline-hidden"
@@ -90,13 +92,13 @@ const LoginForm = ({ onSuccess }) => {
           />
         </div>
 
-        {}
-        <Button 
-          type="submit" 
-          variant="primary" 
-          fullWidth={true} 
+        { }
+        <Button
+          type="submit"
+          variant="primary"
+          fullWidth={true}
           disabled={isLoading}
-          text={isLoading ? t('login.buttons.loading', 'Connecting...') : t('login.buttons.submit', 'Sign In')} 
+          text={isLoading ? t('login.buttons.loading', 'Connecting...') : t('login.buttons.submit', 'Sign In')}
           className="mt-2"
         />
       </form>
