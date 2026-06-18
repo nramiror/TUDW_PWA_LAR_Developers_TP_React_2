@@ -20,13 +20,7 @@ function App() {
   const [userSession, setUserSession] = useLocalStorage('userSession', null);
   const isLoggedIn = !!userSession;
 
-  const {
-    favoriteIds,
-    filteredFavoritesWithFlag,
-    handleToggleFavorite,
-    handleToggleFavoriteById,
-    syncFavoriteGames,
-  } = useFavoriteGames(searchQuery);
+ 
   const {
     currentLanguage,
     changeLanguage,
@@ -34,6 +28,14 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const previousSearchQueryRef = useRef(searchQuery);
+
+   const {
+    favoriteIds,
+    filteredFavoritesWithFlag,
+    handleToggleFavorite,
+    handleToggleFavoriteById,
+    syncFavoriteGames,
+  } = useFavoriteGames(searchQuery, currentLanguage, userSession);
 
   useEffect(() => {
     handleSearchQueryChange(
@@ -86,6 +88,7 @@ function App() {
             element={isLoggedIn ?
               <Favorites
                 games={filteredFavoritesWithFlag}
+                userSession={userSession}
                 onViewDetails={handleViewDetails}
                 onToggleFavorite={handleToggleFavoriteById}
               /> : <Navigate to="/" replace />

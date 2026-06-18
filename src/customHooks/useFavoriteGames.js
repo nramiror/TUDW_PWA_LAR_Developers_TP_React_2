@@ -1,19 +1,38 @@
-import { useCallback, useMemo } from 'react';
-import { useLocalStorage } from './useLocalStorage';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { matchesInitialLetters } from '../services/boardgames';
+import { getFavoritesFromDB, addFavoriteToDB, removeFavoriteFromDB } from '../services/favorites';
 import { setToArray } from '../utils/id/idUtils';
 import {
   isValidGame,
   createFavoriteIdSet,
   addFavoriteFlag,
   filterGamesBySearch,
-  toggleGameInFavorites,
-  syncFavoritesWithVisible,
-  findFavoriteGameById,
 } from '../utils/favorites/favoriteUtils';
 
-export const useFavoriteGames = (searchQuery = '') => {
-  const [favoriteGames, setFavoriteGames] = useLocalStorage('favoriteGames', []);
+
+export const useFavoriteGames = (searchQuery = '', currentLanguage = 'es', userSession = null) => {
+ 
+  const [favoriteGames, setFavoriteGames] = useState([]);
+  
+ 
+  useEffect(() => {
+    if (!userSession) {
+      setFavoriteGames([]);
+      return;
+    }
+
+    const fetchFavorites = async () => {
+      try {
+        const apiLanguage = currentLanguage === 'en' ? 'eng' : currentLanguage;
+        const data = await getFavoritesFromDB(apiLanguage, userSession);
+        setFavoriteGames(data);
+      } catch (error) {
+        console.error("Error al cargar favoritos desde la base de datos:", error);
+      }
+    };
+
+    fetchFavorites();
+  }, [currentLanguage, userSession]);
 
   const favoriteIdSet = useMemo(
     () => createFavoriteIdSet(favoriteGames),
@@ -25,23 +44,41 @@ export const useFavoriteGames = (searchQuery = '') => {
     [favoriteIdSet],
   );
 
-  const handleToggleFavorite = useCallback((game) => {
-    if (!isValidGame(game)) {
+ const handleToggleFavorite = useCallback(async (game) => {
+    if (!isValidGame(game) || !userSession) {
       return;
     }
-
-    setFavoriteGames((prevFavorites) => toggleGameInFavorites(game, prevFavorites));
-  }, [setFavoriteGames]);
-
-  const syncFavoriteGames = useCallback((visibleGames) => {
-    if (!Array.isArray(visibleGames) || visibleGames.length === 0) {
-      return;
-    }
+    const existingFavorite = favoriteGames.find((g) => g.id === game.id);
+    const isAlreadyFavorite = !!existingFavorite;
 
     setFavoriteGames((prevFavorites) =>
-      syncFavoritesWithVisible(visibleGames, prevFavorites),
+      isAlreadyFavorite
+        ? prevFavorites.filter((g) => g.id !== game.id)
+        : [...prevFavorites, game]
     );
-  }, [setFavoriteGames]);
+
+    try {
+      if (isAlreadyFavorite) {
+        await removeFavoriteFromDB(existingFavorite.favoriteId);
+      } else {
+        const response = await addFavoriteToDB(game.id, userSession);
+        setFavoriteGames((prevFavorites) =>
+          prevFavorites.map((g) =>
+            g.id === game.id ? { ...g, favoriteId: response.data?.id } : g
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error al actualizar la base de datos. Revirtiendo cambio...", error);
+      setFavoriteGames((prevFavorites) =>
+        isAlreadyFavorite
+          ? [...prevFavorites, game]
+          : prevFavorites.filter((g) => g.id !== game.id)
+      );
+    }
+  }, [favoriteGames, userSession]);
+
+ 
 
   const favoritesWithFlag = useMemo(
     () => addFavoriteFlag(favoriteGames),
@@ -54,7 +91,7 @@ export const useFavoriteGames = (searchQuery = '') => {
   );
 
   const handleToggleFavoriteById = useCallback((gameId) => {
-    const game = findFavoriteGameById(favoriteGames, gameId);
+    const game = favoriteGames.find((g) => g.id === gameId);
     if (game) {
       handleToggleFavorite(game);
     }
@@ -67,6 +104,5 @@ export const useFavoriteGames = (searchQuery = '') => {
     filteredFavoritesWithFlag,
     handleToggleFavorite,
     handleToggleFavoriteById,
-    syncFavoriteGames,
   };
 };
