@@ -18,6 +18,10 @@ export const fetchWithAuth = async (url, options = {}) => {
 
   if (response.status === 401) {
     console.error("Token expirado o inválido. El usuario debería desloguearse.");
+    localStorage.removeItem('boardgames_accessToken');
+    localStorage.removeItem('boardgames_user'); 
+    
+    window.location.href = '/';
   }
 
   return response;
