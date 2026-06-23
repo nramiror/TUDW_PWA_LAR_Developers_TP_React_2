@@ -9,7 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 import { fetchWithAuth } from '../../utils/fetchInterceptor';
 import Modal from '../../Components/Modal/Modal'; 
 import Button from '../../Components/Button/Button';
-// import Form from '../../Components/Form/Form';
+import Form from '../../Components/Form/Form';
 
 const defaultStyles = {
   loaderWrapper: 'mx-auto flex w-full max-w-7xl justify-center px-4 pb-10 pt-8 sm:px-8 lg:px-24',
@@ -209,20 +209,16 @@ const confirmDelete = async () => {
 
       {/* Modal de Edición */}
       <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-        <div className="p-4">
-          <h3 className="text-xl font-bold text-secondary mb-4">Editar Juego</h3>
-          
-          {/* 
-            <Form 
-              initialData={item} 
-              onClose={() => setIsEditModalOpen(false)}
-              onSuccess={() => {
-                setIsEditModalOpen(false);
-                window.location.reload(); 
-              }} 
-            />
-          */}
-          <p className="text-gray-500 italic">El componente Form se cargará aquí.</p>
+        <div className="p-2">
+          <Form 
+            initialData={item} 
+            onCancel={() => setIsEditModalOpen(false)}
+            onSave={async (formData) => {
+              console.log("Datos actualizados listos para mandar con PUT/PATCH:", formData);
+              // Aquí luego se conectará la lógica de actualización del backend
+              setIsEditModalOpen(false);
+            }} 
+          />
         </div>
       </Modal>
 
