@@ -79,6 +79,16 @@
 			"no": "No",
 			"noData": "No data"
 		},
+		"deleteModal": {
+			"title": "Confirm deletion?",
+			"warning": "You are about to delete \"{{itemName}}\". Are you sure?",
+			"cancel": "Cancel",
+			"confirm": "Yes, delete"
+		},
+		"adminButtons": {
+			"edit": "Edit",
+			"delete": "Delete"
+		},
 		"loading": "Loading details...",
 		"errorFetch": "We couldn't load the game details.",
 		"errorNotFound": "We couldn't find the requested game."
