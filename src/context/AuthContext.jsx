@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
+import Loader from '../Components/Loader/Loader';
 
 const AuthContext = createContext();
 
@@ -34,6 +35,10 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('boardgames_accessToken');
     localStorage.removeItem('boardgames_user');
   };
+
+  if (isLoading) {
+    return <Loader />; 
+  }
 
   return (
     <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>

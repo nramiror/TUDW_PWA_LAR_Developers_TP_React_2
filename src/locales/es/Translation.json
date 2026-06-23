@@ -79,6 +79,16 @@
 			"no": "No",
 			"noData": "Sin dato"
 		},
+		"deleteModal": {
+			"title": "¿Confirmar borrado?",
+			"warning": "Estás a punto de borrar \"{{itemName}}\". ¿Estás seguro?",
+			"cancel": "Cancelar",
+			"confirm": "Sí, borrar"
+		},
+		"adminButtons": {
+			"edit": "Editar",
+			"delete": "Borrar"
+		},
 		"loading": "Cargando detalle...",
 		"errorFetch": "No pudimos cargar el detalle del juego.",
 		"errorNotFound": "No encontramos el juego solicitado."
