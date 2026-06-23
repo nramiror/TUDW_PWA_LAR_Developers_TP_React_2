@@ -1,4 +1,5 @@
 import { normalizeGame } from './boardgames';
+import { fetchWithAuth } from '../utils/fetchInterceptor';
 
 const BASE_URL = "https://tudw-pwa-lar-developers-react-games.vercel.app/api";
 
@@ -32,7 +33,7 @@ export const getFavoritesFromDB = async (language = "es", userSession) => {
     ...(userId ? { userId } : {}) 
   });
   
-  const res = await fetch(`${BASE_URL}/favorites?${params}`);
+  const res = await fetchWithAuth(`${BASE_URL}/favorites?${params}`);
   await handleFetchError(res);
   
   const responseBody = await res.json();
@@ -55,11 +56,8 @@ export const getFavoritesFromDB = async (language = "es", userSession) => {
 export const addFavoriteToDB = async (gameId, userSession) => {
   const userId = getUserId(userSession);
 
-  const res = await fetch(`${BASE_URL}/favorites`, {
+  const res = await fetchWithAuth(`${BASE_URL}/favorites`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify({ 
       boardgameId: gameId, 
       userId: userId 
@@ -72,7 +70,7 @@ export const addFavoriteToDB = async (gameId, userSession) => {
 
 
 export const removeFavoriteFromDB = async (favoriteId) => {
-  const res = await fetch(`${BASE_URL}/favorites/${favoriteId}`, {
+  const res = await fetchWithAuth(`${BASE_URL}/favorites/${favoriteId}`, {
     method: 'DELETE',
   });
 

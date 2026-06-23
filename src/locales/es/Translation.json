@@ -16,8 +16,8 @@
 		"logoutAriaLabel": "Cerrar sesión"
 	},
 	"login": {
-		"title": "¡Qué bueno verte de nuevo!",
-		"subtitle": "Ingresá tus credenciales para acceder a tu cuenta",
+		"title": "¡Tu juego favorito está acá!",
+		"subtitle": "Iniciá sesión o registrate para encontrarlo.",
 		"fields": {
 			"email": "Correo Electrónico",
 			"password": "Contraseña"

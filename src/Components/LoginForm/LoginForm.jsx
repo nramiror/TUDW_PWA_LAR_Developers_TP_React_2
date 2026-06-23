@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import Button from '../Button/Button';
 import { useTranslation } from 'react-i18next';
-import { loginUser } from '../../services/user';
+import { loginUser, registerUser } from '../../services/user';
+import { useAuth } from '../../context/AuthContext';
 
 const LoginForm = ({ onSuccess }) => {
   const { t } = useTranslation();
+  const { login } = useAuth();
 
+  const [isLoginView, setIsLoginView] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -23,17 +27,31 @@ const LoginForm = ({ onSuccess }) => {
     }
 
     try {
-      const data = await loginUser(email, password);
+      if (isLoginView) {
 
-      if (data.success) {
-        
-        const userData = data.user || data.data || data;
+        const data = await loginUser(email, password);
 
-        if (onSuccess) onSuccess(userData); 
+        if (data.success || data.accessToken) {
+          const userData = data.user || data.data || data;
+          const token = data.accessToken || data.token;
+
+          login(userData, token);
+
+          if (onSuccess) onSuccess();
+        } else {
+          setError(data.message || t('login.errors.invalidCredentials', 'Invalid email or password'));
+        }
       } else {
-        setError(data.message || t('login.errors.invalidCredentials', 'Invalid email or password'));
-      }
+        const data = await registerUser(email, password);
 
+        if (data.success || data.user) {
+          setSuccessMsg('¡Cuenta creada con éxito! Por favor, iniciá sesión.');
+          setIsLoginView(true);
+          setPassword('');
+        } else {
+          setError(data.message || 'Error al crear la cuenta');
+        }
+      }
     } catch (err) {
       console.error("Error conectando al servicio:", err);
       setError(t('login.errors.connection', 'Error conectando al servidor'));
@@ -98,10 +116,25 @@ const LoginForm = ({ onSuccess }) => {
           variant="primary"
           fullWidth={true}
           disabled={isLoading}
-          text={isLoading ? t('login.buttons.loading', 'Connecting...') : t('login.buttons.submit', 'Sign In')}
+          text={isLoading
+            ? t('login.buttons.loading', 'Connecting...')
+            : (isLoginView ? 'Iniciar Sesión' : 'Registrarse')}
           className="mt-2"
         />
       </form>
+      <Button
+        type="button"
+        onClick={() => {
+          setIsLoginView(!isLoginView);
+          setError('');
+          setSuccessMsg('');
+        }}
+        className="mt-2 w-full rounded-[var(--radius-border)] border border-secondary bg-transparent px-4 py-2.5 text-sm font-bold text-secondary transition-colors hover:bg-secondary hover:text-white"
+      >
+        {isLoginView
+          ? "Si no tenés cuenta, registrate acá"
+          : "¿Ya tenés cuenta? Iniciá sesión"}
+      </Button>
     </div>
   );
 };

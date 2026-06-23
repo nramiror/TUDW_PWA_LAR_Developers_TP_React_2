@@ -16,8 +16,8 @@
 		"logoutAriaLabel": "Sign out"
 	},
 	"login": {
-		"title": "Welcome Back",
-		"subtitle": "Enter your credentials to access your account",
+		"title": "Your favorite game is here!",
+		"subtitle": "Log in or register to find it.",
 		"fields": {
 			"email": "Email Address",
 			"password": "Password"
