@@ -92,5 +92,19 @@
 		"loading": "Cargando detalle...",
 		"errorFetch": "No pudimos cargar el detalle del juego.",
 		"errorNotFound": "No encontramos el juego solicitado."
+	},
+	"form": {
+		"titleNew": "NUEVO JUEGO DE MESA",
+		"titleEdit": "EDITAR JUEGO DE MESA",
+		"labelName": "Nombre del Juego",
+		"labelImage": "Imagen (URL)",
+		"labelCategory": "Categorías",
+		"labelDescription": "Descripción / Reseña",
+		"placeholderName": "Ej: Catan o Carcassonne",
+		"placeholderImage": "https://link-de-la-portada.jpg",
+		"placeholderCategory": "Ej: Estrategia, Familiar, Dados",
+		"placeholderDescription": "Escribí una breve descripción del juego de mesa...",
+		"btnCancel": "Cancelar",
+		"btnSave": "Guardar Juego"
 	}
 }
