@@ -82,5 +82,19 @@
 		"loading": "Loading details...",
 		"errorFetch": "We couldn't load the game details.",
 		"errorNotFound": "We couldn't find the requested game."
+	},
+	"form": {
+		"titleNew": "NEW BOARD GAME",
+		"titleEdit": "EDIT BOARD GAME",
+		"labelName": "Board Game Name",
+		"labelImage": "Image (URL)",
+		"labelCategory": "Categories",
+		"labelDescription": "Description / Review",
+		"placeholderName": "E.g., Catan or Carcassonne",
+		"placeholderImage": "https://link-to-cover.jpg",
+		"placeholderCategory": "E.g., Strategy, Family, Dice",
+		"placeholderDescription": "Write a short description of the board game...",
+		"btnCancel": "Cancel",
+		"btnSave": "Save Game"
 	}
 }
