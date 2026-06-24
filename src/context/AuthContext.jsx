@@ -6,7 +6,6 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
-  
   const [isLoading, setIsLoading] = useState(true); 
 
   useEffect(() => {
@@ -20,11 +19,13 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(false); 
   }, []);
 
-  const login = (userData, accessToken) => {
+  
+  const login = (userData, accessToken, refreshToken) => {
     setUser(userData);
     setToken(accessToken);
     
     localStorage.setItem('boardgames_accessToken', accessToken);
+    localStorage.setItem('boardgames_refreshToken', refreshToken); 
     localStorage.setItem('boardgames_user', JSON.stringify(userData));
   };
 
@@ -33,8 +34,9 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     
     localStorage.removeItem('boardgames_accessToken');
+    localStorage.removeItem('boardgames_refreshToken');
     localStorage.removeItem('boardgames_user');
-  };
+  }; 
 
   if (isLoading) {
     return <Loader />; 
@@ -45,7 +47,7 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
+}; 
 
 export const useAuth = () => {
   return useContext(AuthContext);

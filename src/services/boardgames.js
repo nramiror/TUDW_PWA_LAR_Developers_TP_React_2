@@ -1,5 +1,6 @@
 import { fetchWithAuth } from '../utils/fetchInterceptor';
-const BASE_URL = "https://tudw-pwa-lar-developers-react-games.vercel.app/api";
+//const BASE_URL = "https://tudw-pwa-lar-developers-react-games.vercel.app/api";
+const BASE_URL = "http://localhost:3001/api";
 
 const fetchJson = async (url) => {
   const res = await fetch(url);
@@ -128,7 +129,25 @@ export const updateBoardGameInDB = async (id, gameData) => {
   });
   
   if (!response.ok) {
-    throw new Error("Error al actualizar el juego");
+    
+    let errorDetail = "Error desconocido";
+    try {
+      const errorResponse = await response.json();
+
+      errorDetail = errorResponse.message || errorResponse.error || JSON.stringify(errorResponse);
+    } catch (e) {
+      console.error("No se pudo leer el JSON del error");
+    }
+    throw new Error(`Error del backend: ${errorDetail}`);
   }
+  
+  return response.json();
+};
+
+export const createBoardGameInDB = async (gameData) => {
+  const response = await fetchWithAuth(`${BASE_URL}/boardgames`, {
+    method: 'POST',
+    body: JSON.stringify(gameData)
+  });
   return response.json();
 };

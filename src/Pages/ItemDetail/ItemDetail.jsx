@@ -4,10 +4,10 @@ import { Navigate, useLocation, useParams, useNavigate } from 'react-router-dom'
 import Card from '../../Components/Card/Card';
 import Loader from '../../Components/Loader/Loader';
 import Alert from '../../Components/Alert/Alert';
-import { getBoardGameById, deleteBoardGameFromDB } from '../../services/boardgames';
+import { getBoardGameById, deleteBoardGameFromDB, updateBoardGameInDB } from '../../services/boardgames';
 import { useAuth } from '../../context/AuthContext';
 import { fetchWithAuth } from '../../utils/fetchInterceptor';
-import Modal from '../../Components/Modal/Modal'; 
+import Modal from '../../Components/Modal/Modal';
 import Button from '../../Components/Button/Button';
 import Form from '../../Components/Form/Form';
 
@@ -26,7 +26,7 @@ const ItemDetail = ({
   const location = useLocation();
   const navigate = useNavigate();
 
-  
+
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
@@ -41,6 +41,34 @@ const ItemDetail = ({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const handleUpdateGame = async (formData) => {
+    try {
+
+      const categoriasArray = formData.category
+        ? formData.category.split(',').map(cat => cat.trim()).filter(cat => cat !== '')
+        : [];
+
+      const payload = {
+        imageURL: formData.imageURL, 
+
+        translations: [
+          {
+            language: "es",
+            name: formData.name,
+            description: formData.description,
+            category: categoriasArray 
+          }
+        ]
+      };
+      const result = await updateBoardGameInDB(item.id, payload);
+
+      setIsEditModalOpen(false);
+
+    } catch (error) {
+      console.error("Error al intentar guardar la edición:", error);
+    }
+  };
 
   const formatFieldLabel = (key) => {
     const normalizedKey = key.replace(/[_\s-]/g, '').toLowerCase();
@@ -113,25 +141,25 @@ const ItemDetail = ({
     return () => {
       isMounted = false;
     };
-    
-  }, [id, currentLanguage]); 
+
+  }, [id, currentLanguage]);
 
   const detailEntries = useMemo(() => {
     if (!item) return [];
     return Object.entries(item)
-      .filter(([key]) => 
+      .filter(([key]) =>
         !['id', 'image', 'isFavorite', 'name', 'translation', 'createdAt', 'updatedAt', 'deletedAt', 'imageURL'].includes(key)
       )
       .map(([key, value]) => [formatFieldLabel(key), formatFieldValue(value)]);
   }, [item, t]);
 
-const confirmDelete = async () => {
-   setIsDeleting(true);
+  const confirmDelete = async () => {
+    setIsDeleting(true);
     try {
-      await deleteBoardGameFromDB(id); 
-      
+      await deleteBoardGameFromDB(id);
+
       setIsDeleteModalOpen(false);
-      navigate('/'); 
+      navigate('/');
     } catch (err) {
       console.error("Error al borrar:", err);
     } finally {
@@ -154,17 +182,17 @@ const confirmDelete = async () => {
 
   return (
     <div className={containerClassName}>
-      
+
       {isAdmin && (
         <div className="mb-4 flex w-full max-w-5xl mx-auto justify-end gap-3 z-20 relative">
-          <Button 
+          <Button
             onClick={() => setIsEditModalOpen(true)}
             className="flex h-10 w-10 items-center justify-center rounded-full border-none bg-transparent !p-0 text-secondary !shadow-none transition-colors hover:bg-secondary hover:text-white focus:outline-none"
             title={t('itemDetail.adminButtons.edit')}
           >
             <span className="material-symbols-rounded text-[22px] leading-none select-none transform translate-y-[2px]">edit</span>
           </Button>
-          <Button 
+          <Button
             onClick={() => setIsDeleteModalOpen(true)}
             className="flex h-10 w-10 items-center justify-center rounded-full border-none bg-transparent !p-0 text-red-500 !shadow-none transition-colors hover:bg-red-500 hover:text-white focus:outline-none"
             title={t('itemDetail.adminButtons.delete')}
@@ -191,7 +219,7 @@ const confirmDelete = async () => {
             {t('itemDetail.deleteModal.warning', { itemName: item.name })}
           </p>
           <div className="flex justify-center gap-4">
-            <Button 
+            <Button
               onClick={() => setIsDeleteModalOpen(false)}
               className="px-6 py-2 rounded-[var(--radius-border)] border border-primary text-secondary font-bold hover:bg-gray-100 transition-colors"
             >
@@ -207,17 +235,12 @@ const confirmDelete = async () => {
         </div>
       </Modal>
 
-      {/* Modal de Edición */}
       <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-        <div className="p-2">
-          <Form 
-            initialData={item} 
+        <div className="p-6 max-w-4xl w-full text-left bg-[var(--color-brand-bg)] rounded-xl">
+          <Form
+            initialData={item}
             onCancel={() => setIsEditModalOpen(false)}
-            onSave={async (formData) => {
-              console.log("Datos actualizados listos para mandar con PUT/PATCH:", formData);
-              // Aquí luego se conectará la lógica de actualización del backend
-              setIsEditModalOpen(false);
-            }} 
+            onSave={handleUpdateGame}
           />
         </div>
       </Modal>

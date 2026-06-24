@@ -24,11 +24,17 @@
 		},
 		"buttons": {
 			"submit": "Sign In",
-			"loading": "Connecting..."
+			"loading": "Connecting...",
+			"submitLogin": "Log In",
+			"submitRegister": "Sign Up",
+			"switchToRegister": "Don't have an account? Sign up here",
+			"switchToLogin": "Already have an account? Log in"
 		},
 		"errors": {
 			"emptyFields": "All fields are required",
-			"invalidCredentials": "Invalid email or password"
+			"invalidCredentials": "Invalid email or password",
+			"connection": "Error connecting to server",
+			"registerError": "Error creating account"
 		}
 	},
 	"footer": {

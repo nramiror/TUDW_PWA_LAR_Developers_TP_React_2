@@ -32,7 +32,25 @@ const Form = ({ initialData, onSave, onCancel }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSave(formData);
+
+        const categoriasArray = formData.category
+            .split(',')
+            .map(cat => cat.trim())
+            .filter(cat => cat !== '');
+
+        const payload = {
+            imageURL: formData.imageURL,
+            translations: [
+                {
+                    language: 'es', 
+                    name: formData.name,
+                    description: formData.description,
+                    category: categoriasArray 
+                }
+            ]
+        };
+
+        onSave(payload);
     };
 
     return (

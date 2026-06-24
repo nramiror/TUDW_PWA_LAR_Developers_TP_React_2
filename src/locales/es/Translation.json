@@ -24,11 +24,17 @@
 		},
 		"buttons": {
 			"submit": "Ingresar",
-			"loading": "Conectando..."
+			"loading": "Conectando...",
+			"submitLogin": "Iniciar Sesión",
+			"submitRegister": "Registrarse",
+			"switchToRegister": "Si no tenés cuenta, registrate acá",
+			"switchToLogin": "¿Ya tenés cuenta? Iniciá sesión"
 		},
 		"errors": {
 			"emptyFields": "Todos los campos son obligatorios",
-			"invalidCredentials": "Email o contraseña incorrectos"
+			"invalidCredentials": "Email o contraseña incorrectos",
+			"connection": "Error conectando al servidor",
+			"registerError": "Error al crear la cuenta"
 		}
 	},
 	"footer": {

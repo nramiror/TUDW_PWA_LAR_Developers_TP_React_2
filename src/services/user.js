@@ -1,15 +1,16 @@
-const BASE_URL = "https://tudw-pwa-lar-developers-react-games.vercel.app/api/auth/";
+//const BASE_URL = "https://tudw-pwa-lar-developers-react-games.vercel.app/api/auth/";
+const BASE_URL = "http://localhost:3001/api/auth/";
 
 export const loginUser = async (email, password) => {
   const response = await fetch(`${BASE_URL}login`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   });
 
-  return await response.json();
+  const data = await response.json();
+  
+  return data;
 };
 
 export const registerUser = async (email, password) => {

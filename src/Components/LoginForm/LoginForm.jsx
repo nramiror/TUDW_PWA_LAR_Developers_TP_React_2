@@ -29,30 +29,35 @@ const LoginForm = ({ onSuccess }) => {
     try {
       if (isLoginView) {
 
-        const data = await loginUser(email, password);
-
-        if (data.success || data.accessToken) {
-          const userData = data.user || data.data || data;
-          const token = data.accessToken || data.token;
-
-          login(userData, token);
+        const response = await loginUser(email, password);
+       
+        const payload = response.data || response;
+       
+        if (response.success || payload.accessToken) {
+          const userData = payload.user || payload.data.user || payload;
+          const token = payload.accessToken || playload.data.token || payload.token;
+          const refreshToken = payload.refreshToken || payload.data.refresh || payload.data.refreshToken;
+          
+          login(userData, token, refreshToken);
 
           if (onSuccess) onSuccess();
         } else {
-          setError(data.message || t('login.errors.invalidCredentials', 'Invalid email or password'));
+          setError(response.message || payload?.message || t('login.errors.invalidCredentials', 'Invalid email or password'));
         }
       } else {
-        const data = await registerUser(email, password);
+        const response = await registerUser(email, password);
+        const payload = response.data || response;
 
-        if (data.success || data.user) {
+        if (response.success || payload.user) {
           setSuccessMsg('¡Cuenta creada con éxito! Por favor, iniciá sesión.');
           setIsLoginView(true);
           setPassword('');
         } else {
-          setError(data.message || 'Error al crear la cuenta');
+          setError(response.message || payload?.message || 'Error al crear la cuenta');
         }
       }
     } catch (err) {
+      console.error("--- ERROR EN CATCH ---", err);
       console.error("Error conectando al servicio:", err);
       setError(t('login.errors.connection', 'Error conectando al servidor'));
     } finally {
@@ -118,7 +123,7 @@ const LoginForm = ({ onSuccess }) => {
           disabled={isLoading}
           text={isLoading
             ? t('login.buttons.loading', 'Connecting...')
-            : (isLoginView ? 'Iniciar Sesión' : 'Registrarse')}
+            : (isLoginView ? t('login.buttons.submitLogin') : t('login.buttons.submitRegister'))}
           className="mt-2"
         />
       </form>
@@ -132,8 +137,8 @@ const LoginForm = ({ onSuccess }) => {
         className="mt-2 w-full rounded-[var(--radius-border)] border border-secondary bg-transparent px-4 py-2.5 text-sm font-bold text-secondary transition-colors hover:bg-secondary hover:text-white"
       >
         {isLoginView
-          ? "Si no tenés cuenta, registrate acá"
-          : "¿Ya tenés cuenta? Iniciá sesión"}
+          ? t('login.buttons.switchToRegister')
+          : t('login.buttons.switchToLogin')}
       </Button>
     </div>
   );

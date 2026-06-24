@@ -1,7 +1,8 @@
 import { normalizeGame } from './boardgames';
 import { fetchWithAuth } from '../utils/fetchInterceptor';
 
-const BASE_URL = "https://tudw-pwa-lar-developers-react-games.vercel.app/api";
+//const BASE_URL = "https://tudw-pwa-lar-developers-react-games.vercel.app/api";
+const BASE_URL = "http://localhost:3001/api";
 
 const getUserId = (userSession) => {
   if (!userSession) return null;

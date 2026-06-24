@@ -1,6 +1,7 @@
+const BASE_URL = "http://localhost:3001/api";
+
 export const fetchWithAuth = async (url, options = {}) => {
-  
-  const token = localStorage.getItem('boardgames_accessToken');
+  let token = localStorage.getItem('boardgames_accessToken');
 
   const headers = {
     'Content-Type': 'application/json',
@@ -11,17 +12,39 @@ export const fetchWithAuth = async (url, options = {}) => {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(url, {
-    ...options,
-    headers,
-  });
+  let response = await fetch(url, { ...options, headers });
 
-  if (response.status === 401) {
-    console.error("Token expirado o inválido. El usuario debería desloguearse.");
-    localStorage.removeItem('boardgames_accessToken');
-    localStorage.removeItem('boardgames_user'); 
+  if (response.status === 401 || response.status === 403) {
+    console.warn("Token expirado, intentando refrescar...");
+
+    try {
+      const storedRefreshToken = localStorage.getItem('boardgames_refreshToken');
     
-    window.location.href = '/';
+      const refreshResponse = await fetch(`${BASE_URL}/auth/refresh`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          refreshToken: storedRefreshToken 
+        })
+      });
+      const refreshData = await refreshResponse.json();
+
+      if (refreshResponse.ok) {
+        const accessToken = refreshData.data.accessToken || refreshData.accessToken;
+        
+        localStorage.setItem('boardgames_accessToken', accessToken);
+        
+        headers['Authorization'] = `Bearer ${accessToken}`;
+        return await fetch(url, { ...options, headers });
+      } else {
+        throw new Error("No se pudo refrescar el token");
+      }
+    } catch (error) {
+      console.error("Sesión finalizada, redirigiendo al login...");
+      localStorage.clear();
+      window.location.href = '/';
+      return response; 
+    }
   }
 
   return response;
