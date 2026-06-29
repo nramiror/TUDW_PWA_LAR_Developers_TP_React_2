@@ -8,7 +8,9 @@ export default defineConfig({
   appType: 'spa', 
   
   plugins: [react(), tailwindcss()],
-  
+  build: {
+    target: 'esnext' // Asegúrate de que apunte a una versión moderna
+  },
   server: {
     port: 5173,
     strictPort: true, // Evita que si el puerto se ocupa te mande a otro ramdom (ej: 5174) rompiendo la sesión de cookies/CORS
