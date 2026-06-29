@@ -10,7 +10,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: './',
   build: {
-    target: 'esnext' // Asegúrate de que apunte a una versión moderna
+    target: 'esnext', // Asegúrate de que apunte a una versión moderna
+    outDir: 'dist'
   },
   server: {
     port: 5173,
