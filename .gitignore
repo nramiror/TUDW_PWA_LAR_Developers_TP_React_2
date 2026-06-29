@@ -41,3 +41,6 @@ dist-ssr
 /coverage/
 coverage/**
 .nyc_output
+
+# Environment files
+.env

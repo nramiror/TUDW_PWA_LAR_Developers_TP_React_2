@@ -16,19 +16,25 @@
 		"logoutAriaLabel": "Cerrar sesión"
 	},
 	"login": {
-		"title": "¡Qué bueno verte de nuevo!",
-		"subtitle": "Ingresá tus credenciales para acceder a tu cuenta",
+		"title": "¡Tu juego favorito está acá!",
+		"subtitle": "Iniciá sesión o registrate para encontrarlo.",
 		"fields": {
 			"email": "Correo Electrónico",
 			"password": "Contraseña"
 		},
 		"buttons": {
 			"submit": "Ingresar",
-			"loading": "Conectando..."
+			"loading": "Conectando...",
+			"submitLogin": "Iniciar Sesión",
+			"submitRegister": "Registrarse",
+			"switchToRegister": "Si no tenés cuenta, registrate acá",
+			"switchToLogin": "¿Ya tenés cuenta? Iniciá sesión"
 		},
 		"errors": {
 			"emptyFields": "Todos los campos son obligatorios",
-			"invalidCredentials": "Email o contraseña incorrectos"
+			"invalidCredentials": "Email o contraseña incorrectos",
+			"connection": "Error conectando al servidor",
+			"registerError": "Error al crear la cuenta"
 		}
 	},
 	"footer": {
@@ -79,8 +85,32 @@
 			"no": "No",
 			"noData": "Sin dato"
 		},
+		"deleteModal": {
+			"title": "¿Confirmar borrado?",
+			"warning": "Estás a punto de borrar \"{{itemName}}\". ¿Estás seguro?",
+			"cancel": "Cancelar",
+			"confirm": "Sí, borrar"
+		},
+		"adminButtons": {
+			"edit": "Editar",
+			"delete": "Borrar"
+		},
 		"loading": "Cargando detalle...",
 		"errorFetch": "No pudimos cargar el detalle del juego.",
 		"errorNotFound": "No encontramos el juego solicitado."
+	},
+	"form": {
+		"titleNew": "NUEVO JUEGO DE MESA",
+		"titleEdit": "EDITAR JUEGO DE MESA",
+		"labelName": "Nombre del Juego",
+		"labelImage": "Imagen (URL)",
+		"labelCategory": "Categorías",
+		"labelDescription": "Descripción / Reseña",
+		"placeholderName": "Ej: Catan o Carcassonne",
+		"placeholderImage": "https://link-de-la-portada.jpg",
+		"placeholderCategory": "Ej: Estrategia, Familiar, Dados",
+		"placeholderDescription": "Escribí una breve descripción del juego de mesa...",
+		"btnCancel": "Cancelar",
+		"btnSave": "Guardar Juego"
 	}
 }

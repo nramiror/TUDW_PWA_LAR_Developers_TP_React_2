@@ -11,14 +11,14 @@ import NotFound from './Pages/NotFound/NotFound';
 import { useFavoriteGames } from './customHooks/useFavoriteGames';
 import { useLanguagePreference } from './customHooks/useLanguagePreference';
 import { handleSearchQueryChange, navigateToGameDetail } from './utils/searchNavigation/searchNavigation';
-import { useLocalStorage } from './customHooks/useLocalStorage';
+import { useAuth } from './context/AuthContext';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const { t } = useTranslation();
 
-  const [userSession, setUserSession] = useLocalStorage('userSession', null);
-  const isLoggedIn = !!userSession;
+  const { user } = useAuth();
+  const isLoggedIn = !!user;
 
  
   const {
@@ -35,7 +35,7 @@ function App() {
     handleToggleFavorite,
     handleToggleFavoriteById,
     syncFavoriteGames,
-  } = useFavoriteGames(searchQuery, currentLanguage, userSession);
+  } = useFavoriteGames(searchQuery, currentLanguage, user);
 
   useEffect(() => {
     handleSearchQueryChange(
@@ -64,8 +64,6 @@ function App() {
         languageOptions={languageOptions}
         activeLanguage={currentLanguage}
         onChangeLanguage={changeLanguage}
-        userSession={userSession}
-        setUserSession={setUserSession}
       />
       <main className="flex w-full flex-1 items-start justify-center pt-20">
         <Routes>
@@ -78,8 +76,6 @@ function App() {
                 onViewDetails={handleViewDetails}
                 onToggleFavorite={handleToggleFavorite}
                 onSyncFavoriteGames={syncFavoriteGames}
-                userSession={userSession} 
-                setUserSession={setUserSession}
               />
             )}
           />
@@ -88,7 +84,7 @@ function App() {
             element={isLoggedIn ?
               <Favorites
                 games={filteredFavoritesWithFlag}
-                userSession={userSession}
+                userSession={user}
                 onViewDetails={handleViewDetails}
                 onToggleFavorite={handleToggleFavoriteById}
               /> : <Navigate to="/" replace />
