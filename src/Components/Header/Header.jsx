@@ -8,6 +8,7 @@ import Modal from '../Modal/Modal';
 import { useState } from 'react';
 import LoginForm from '../LoginForm/LoginForm';
 import { useLocalStorage } from '../../customHooks/useLocalStorage';
+import { useAuth } from '../../context/AuthContext';
 
 const headerStyles = {
   container: 'fixed top-0 left-0 right-0 z-50 w-full h-20 px-4 flex items-center justify-between border-b border-primary/30 bg-linear-to-l from-brand-light to-brand-bg shadow-[0_1px_12px_rgba(15,23,42,0.06)] sm:px-8 lg:px-24',
@@ -18,22 +19,21 @@ const headerStyles = {
   nav: 'flex items-center',
 };
 
-const Header = ({ onSearchChange, languageOptions, activeLanguage, onChangeLanguage, userSession, setUserSession }) => {
+const Header = ({ onSearchChange, languageOptions, activeLanguage, onChangeLanguage }) => {
   const { t } = useTranslation();
-  
+  const { user, logout } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const isLoggedIn = !!userSession;
+  const isLoggedIn = !!user;
 
   const handleAuthClick = () => {
     if (isLoggedIn) {
-      setUserSession(null);
+      logout();
     } else {
       setIsModalOpen(true);
     }
   };
 
-  const handleLoginSuccess = (emailUsuario) => {
-    setUserSession({ email: emailUsuario });
+  const handleLoginSuccess = () => {
     setIsModalOpen(false);
   };
 

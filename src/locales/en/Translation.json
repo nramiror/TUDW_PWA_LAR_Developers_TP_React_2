@@ -16,19 +16,25 @@
 		"logoutAriaLabel": "Sign out"
 	},
 	"login": {
-		"title": "Welcome Back",
-		"subtitle": "Enter your credentials to access your account",
+		"title": "Your favorite game is here!",
+		"subtitle": "Log in or register to find it.",
 		"fields": {
 			"email": "Email Address",
 			"password": "Password"
 		},
 		"buttons": {
 			"submit": "Sign In",
-			"loading": "Connecting..."
+			"loading": "Connecting...",
+			"submitLogin": "Log In",
+			"submitRegister": "Sign Up",
+			"switchToRegister": "Don't have an account? Sign up here",
+			"switchToLogin": "Already have an account? Log in"
 		},
 		"errors": {
 			"emptyFields": "All fields are required",
-			"invalidCredentials": "Invalid email or password"
+			"invalidCredentials": "Invalid email or password",
+			"connection": "Error connecting to server",
+			"registerError": "Error creating account"
 		}
 	},
 	"footer": {
@@ -79,8 +85,32 @@
 			"no": "No",
 			"noData": "No data"
 		},
+		"deleteModal": {
+			"title": "Confirm deletion?",
+			"warning": "You are about to delete \"{{itemName}}\". Are you sure?",
+			"cancel": "Cancel",
+			"confirm": "Yes, delete"
+		},
+		"adminButtons": {
+			"edit": "Edit",
+			"delete": "Delete"
+		},
 		"loading": "Loading details...",
 		"errorFetch": "We couldn't load the game details.",
 		"errorNotFound": "We couldn't find the requested game."
+	},
+	"form": {
+		"titleNew": "NEW BOARD GAME",
+		"titleEdit": "EDIT BOARD GAME",
+		"labelName": "Board Game Name",
+		"labelImage": "Image (URL)",
+		"labelCategory": "Categories",
+		"labelDescription": "Description / Review",
+		"placeholderName": "E.g., Catan or Carcassonne",
+		"placeholderImage": "https://link-to-cover.jpg",
+		"placeholderCategory": "E.g., Strategy, Family, Dice",
+		"placeholderDescription": "Write a short description of the board game...",
+		"btnCancel": "Cancel",
+		"btnSave": "Save Game"
 	}
 }

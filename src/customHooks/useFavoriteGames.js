@@ -8,23 +8,23 @@ import {
   addFavoriteFlag,
   filterGamesBySearch,
 } from '../utils/favorites/favoriteUtils';
+import { useAuth } from '../context/AuthContext';
 
 
-export const useFavoriteGames = (searchQuery = '', currentLanguage = 'es', userSession = null) => {
- 
-  const [favoriteGames, setFavoriteGames] = useState([]);
+export const useFavoriteGames = (searchQuery = '', currentLanguage = 'es') => {
   
+  const { user } = useAuth();
+  const [favoriteGames, setFavoriteGames] = useState([]);
  
   useEffect(() => {
-    if (!userSession) {
+    if (!user) {
       setFavoriteGames([]);
       return;
     }
-
     const fetchFavorites = async () => {
       try {
         const apiLanguage = currentLanguage === 'en' ? 'eng' : currentLanguage;
-        const data = await getFavoritesFromDB(apiLanguage, userSession);
+        const data = await getFavoritesFromDB(apiLanguage, user);
         setFavoriteGames(data);
       } catch (error) {
         console.error("Error al cargar favoritos desde la base de datos:", error);
@@ -32,7 +32,7 @@ export const useFavoriteGames = (searchQuery = '', currentLanguage = 'es', userS
     };
 
     fetchFavorites();
-  }, [currentLanguage, userSession]);
+  }, [currentLanguage, user]);
 
   const favoriteIdSet = useMemo(
     () => createFavoriteIdSet(favoriteGames),
@@ -45,7 +45,7 @@ export const useFavoriteGames = (searchQuery = '', currentLanguage = 'es', userS
   );
 
  const handleToggleFavorite = useCallback(async (game) => {
-    if (!isValidGame(game) || !userSession) {
+    if (!isValidGame(game) || !user) {
       return;
     }
     const existingFavorite = favoriteGames.find((g) => g.id === game.id);
@@ -61,7 +61,7 @@ export const useFavoriteGames = (searchQuery = '', currentLanguage = 'es', userS
       if (isAlreadyFavorite) {
         await removeFavoriteFromDB(existingFavorite.favoriteId);
       } else {
-        const response = await addFavoriteToDB(game.id, userSession);
+        const response = await addFavoriteToDB(game.id, user);
         setFavoriteGames((prevFavorites) =>
           prevFavorites.map((g) =>
             g.id === game.id ? { ...g, favoriteId: response.data?.id } : g
@@ -76,7 +76,7 @@ export const useFavoriteGames = (searchQuery = '', currentLanguage = 'es', userS
           : prevFavorites.filter((g) => g.id !== game.id)
       );
     }
-  }, [favoriteGames, userSession]);
+  }, [favoriteGames, user]);
 
  
 

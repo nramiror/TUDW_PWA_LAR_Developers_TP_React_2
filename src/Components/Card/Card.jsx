@@ -14,6 +14,8 @@ function Card({
   isFavorite = false,
   isDetail = false,
   userSession,
+  onEdit,
+  onDelete
 }) {
   const { t } = useTranslation();
   const resolvedVariant = isDetail ? 'detail' : variant;
@@ -74,7 +76,17 @@ function Card({
 
   const detailContent = (
     <div className="grid min-h-[300px] grid-cols-1 lg:grid-cols-[1.35fr_0.65fr]">
-      <div className="flex flex-col justify-start gap-4 p-5 sm:p-6 lg:p-8">
+      <div className="flex flex-col justify-start gap-4 p-5 sm:p-6 lg:p-8 relative">
+        {userSession?.role === 'ADMIN' && (
+           <div className="absolute top-4 right-4 flex gap-2">
+              <button onClick={onEdit} className="text-secondary hover:text-blue-600">
+                <span className="material-symbols-rounded">edit</span>
+              </button>
+              <button onClick={onDelete} className="text-red-500 hover:text-red-700">
+                <span className="material-symbols-rounded">delete</span>
+              </button>
+           </div>
+        )}
         <div className="space-y-2">
           <Title level={1} className="text-left">
             {cardTitle}
