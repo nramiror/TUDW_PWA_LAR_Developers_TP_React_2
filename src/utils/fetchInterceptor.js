@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3001/api";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const fetchWithAuth = async (url, options = {}) => {
   let token = localStorage.getItem('boardgames_accessToken');
