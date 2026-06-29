@@ -14,15 +14,15 @@
 
 ## Descripción
 
-Aplicación web desarrollada con React y Vite que permite buscar, explorar y marcar juegos de mesa como favoritos. Incluye soporte de idiomas (es/en), scroll infinito y detalle de ítems.
+Aplicación web desarrollada con React y Vite que permite buscar, explorar y gestionar juegos de mesa mediante una API propia. Incluye autenticación de usuarios (Login/Register), gestión de favoritos persistente en base de datos, soporte de idiomas (es/en), scroll infinito y funcionalidades administrativas (CRUD).
 
 ## Características principales
 
-- Búsqueda de juegos
-- Listado con scroll infinito
-- Favoritos persistentes en `localStorage`
-- Vista detallada de un juego
-- Selector de idioma (es / en)
+- **Autenticación y Seguridad:** Sistema de Login/Registro con JWT y patrón de *Silent Refresh*.
+- **Gestión de Favoritos:** Persistencia de juegos favoritos directamente en el backend.
+- **Funcionalidades Admin:** Creación, edición y eliminación de juegos de mesa (CRUD) mediante interfaz protegida.
+- **Internacionalización:** Selector de idioma dinámico (es/en) con i18next.
+- **Exploración:** Listado con scroll infinito y vista detallada de ítems.
 
 ## Instalación y ejecución (paso a paso)
 
@@ -32,23 +32,23 @@ Aplicación web desarrollada con React y Vite que permite buscar, explorar y mar
 git clone https://github.com/nramiror/TUDW_PWA_LAR_Developers_TP_React_2.git
 cd TUDW_PWA_LAR_Developers_TP_React_2
 ```
+2. Configurar variables de entorno:
 
-2. Instalar dependencias:
+```
+Crear un archivo `.env` en la raíz siguiendo el ejemplo `.env.example`:
+VITE_API_URL="https://api.tu-servidor.com"
+```
+
+3. Instalar dependencias:
 
 ```
 npm install
 ```
 
-3. Ejecutar en modo desarrollo (Vite):
+4. Ejecutar en modo desarrollo (Vite):
 
 ```
 npm run dev
-```
-
-4. Construir versión de producción:
-
-```
-npm run build
 ```
 
 ## Testing
@@ -102,20 +102,23 @@ NotFound.
 - `src/main.jsx` : punto de entrada de la aplicación
 - `src/index.css` : estilos globales de la aplicación
 - `src/i18n.js` : configuración de internacionalización con i18next
+- `src/context/AuthContext.jsx` : manejo de sesión de usuario.
+- `src/utils/fetchInterceptor.js` : gestión de requests autenticados.
 
 **Carpetas por funcionalidad:**
 - `src/Pages/` : vistas principales (`Home`, `Favorites`, `ItemDetail`, `NotFound`)
 - `src/Components/` : componentes reutilizables (Header, Footer, List, SearchBox, Card, Button, etc.)
-- `src/services/boardgames.js` : llamadas a la API remota (MockAPI) y lógica de datos
-- `src/customHooks/` : hooks personalizados (`useFavoriteGames`, `useInfiniteScroll`, `useLanguagePreference`, `useLocalStorage`)
+- `src/services/` : servicios de comunicación con el backend (boardgames, favorites, user)
+- `src/customHooks/` : hooks personalizados (`useFavoriteGames`, `useInfiniteScroll`, `useLanguagePreference`, `useLocalStorage`, `useBoardGameManager`)
+- `src/utils/` : utilidades compartidas (formatters, interceptors, setupTest, etc).
 - `src/locales/` : archivos de traducción (español e inglés)
   - `es/Translation.json` : textos en español
   - `en/Translation.json` : textos en inglés
 
 ## Tecnologías
 
-- React
-- Vite
-- i18next
-- localStorage para favoritos
+- **Frontend:** React, Vite, Tailwind CSS.
+- **Internacionalización:** i18next.
+- **Autenticación:** JWT (JSON Web Tokens) con persistencia de tokens en `localStorage` (para refresh sessions).
+- **Consumo API:** Fetch API con interceptores para cabeceras de autorización.
 
