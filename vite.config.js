@@ -8,6 +8,7 @@ export default defineConfig({
   appType: 'spa', 
   
   plugins: [react(), tailwindcss()],
+  base: './',
   build: {
     target: 'esnext' // Asegúrate de que apunte a una versión moderna
   },
