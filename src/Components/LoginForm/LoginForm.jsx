@@ -28,40 +28,35 @@ const LoginForm = ({ onSuccess }) => {
 
     try {
       if (isLoginView) {
-
         const response = await loginUser(email, password);
        
-        const payload = response.data || response;
-       
-        if (response.success || payload.accessToken) {
-          const userData = payload.user || payload.data.user || payload;
-          const token = payload.accessToken || playload.data.token || payload.token;
-          const refreshToken = payload.refreshToken || payload.data.refresh || payload.data.refreshToken;
+        if (response.data && response.data.accessToken) {
           
-          login(userData, token, refreshToken);
+          const { user, accessToken, refreshToken } = response.data;
+
+          login(user, accessToken, refreshToken);
 
           if (onSuccess) onSuccess();
         } else {
-          setError(response.message || payload?.message || t('login.errors.invalidCredentials', 'Invalid email or password'));
+          setError(response.message || t('login.errors.invalidCredentials', 'Invalid email or password'));
+          setIsLoading(false);
         }
+
       } else {
         const response = await registerUser(email, password);
-        const payload = response.data || response;
 
-        if (response.success || payload.user) {
+        if (response.data || (response.message && response.message.toLowerCase().includes("success"))) {
           setSuccessMsg('¡Cuenta creada con éxito! Por favor, iniciá sesión.');
           setIsLoginView(true);
           setPassword('');
         } else {
-          setError(response.message || payload?.message || 'Error al crear la cuenta');
+          setError(response.message || 'Error al crear la cuenta');
         }
+        setIsLoading(false);
       }
     } catch (err) {
-      console.error("--- ERROR EN CATCH ---", err);
       console.error("Error conectando al servicio:", err);
       setError(t('login.errors.connection', 'Error conectando al servidor'));
-    } finally {
-      setIsLoading(false);
     }
   };
 

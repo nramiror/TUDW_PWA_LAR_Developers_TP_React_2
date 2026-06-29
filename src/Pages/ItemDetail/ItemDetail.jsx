@@ -42,31 +42,18 @@ const ItemDetail = ({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const handleUpdateGame = async (formData) => {
+  const handleUpdateGame = async (payload) => {
     try {
-
-      const categoriasArray = formData.category
-        ? formData.category.split(',').map(cat => cat.trim()).filter(cat => cat !== '')
-        : [];
-
-      const payload = {
-        imageURL: formData.imageURL, 
-
-        translations: [
-          {
-            language: "es",
-            name: formData.name,
-            description: formData.description,
-            category: categoriasArray 
-          }
-        ]
-      };
       const result = await updateBoardGameInDB(item.id, payload);
 
-      setIsEditModalOpen(false);
-
+      if (result) {
+         setIsEditModalOpen(false);
+         console.log("¡Juego actualizado con éxito!");
+         
+      }
     } catch (error) {
       console.error("Error al intentar guardar la edición:", error);
+      alert("Hubo un error al actualizar el juego.");
     }
   };
 
