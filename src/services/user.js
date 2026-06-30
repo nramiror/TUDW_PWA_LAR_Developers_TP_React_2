@@ -1,4 +1,5 @@
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+//const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL = "https://tudw-pwa-lar-developers-react-games.vercel.app/api";
 
 export const loginUser = async (email, password) => {
   const response = await fetch(`${BASE_URL}/auth/login`, {
